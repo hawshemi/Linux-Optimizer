@@ -1,3 +1,3 @@
-# UbuntuOptimizer
+# Ubuntu Optimizer
 
 ### Coming Soon...
