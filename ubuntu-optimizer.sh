@@ -5,9 +5,9 @@
 echo 
 echo "This script will automatically Optimize your Ubuntu Server."
 echo "Root access is required." 
-echo "Source is @ https://github.com/hawshemi/" 
+echo "Source is @ https://github.com/hawshemi/ubuntu-optimizer" 
 echo 
-sleep 2
+sleep 1
 
 
 # Check Root User
@@ -31,29 +31,31 @@ check_ubuntu() {
 
 # Update & Upgrade & Remove & Clean
 complete_update() {
-  sudo apt update 
-  sleep 0.5
+  sudo apt update
   sudo apt -y upgrade
   sleep 0.5
   sudo apt -y dist-upgrade
-  sleep 0.5
   sudo apt -y autoremove
-  sleep 0.5
   sudo apt -y autoclean
-  sleep 1
+  sudo apt -y clean
 }
 
 
 ## Install useful packages
 installations() {
   sudo apt -y install software-properties-common apt-transport-https snap snapd iptables lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion
-  sudo apt -y install curl git unzip ufw wget preload locales nano vim python3 jq qrencode socat busybox net-tools
+  sudo apt -y install curl git unzip ufw wget preload locales nano vim python3 jq qrencode socat busybox net-tools haveged htop
   sleep 0.5
 
   # Snap Install & Refresh
   sudo snap install core
   sudo snap refresh core
-  sleep 1
+}
+
+
+# Enable packages at server boot
+enable_packages() {
+  sudo systemctl enable preload haveged snapd cron
 }
 
 
@@ -71,7 +73,6 @@ swap_maker() {
   sudo mkswap $SWAP_PATH                   # Setup swap         
   sudo swapon $SWAP_PATH                   # Enable swap
   echo "$SWAP_PATH   none    swap    sw    0   0" | sudo tee -a /etc/fstab # Add to fstab
-  sleep 1
 }
 
 
@@ -93,22 +94,19 @@ sysctl_optimizations() {
   echo 'net.core.rmem_max = 2097152' | tee -a $SYS_PATH
   echo 'net.core.wmem_default = 1048576' | tee -a $SYS_PATH
   echo 'net.core.wmem_max = 2097152' | tee -a $SYS_PATH
-
   echo 'net.core.netdev_max_backlog = 250000' | tee -a $SYS_PATH
   echo 'net.core.somaxconn = 3000' | tee -a $SYS_PATH
-
   echo 'net.ipv4.tcp_fastopen = 3' | tee -a $SYS_PATH
-
   echo 'net.ipv4.tcp_mtu_probing = 1' | tee -a $SYS_PATH
-
-  echo 'net.core.default_qdisc = fq' | tee -a $SYS_PATH
+  
+  # Use BBR
+  echo 'net.core.default_qdisc = fq' | tee -a $SYS_PATH 
   echo 'net.ipv4.tcp_congestion_control = bbr' | tee -a $SYS_PATH
-  sleep 0.5
 }
 
 
-## Firewall Optimizations
-firewall_optimizations() {
+## UFW Optimizations
+ufw_optimizations() {
   # Open default ports.
   sudo ufw allow 21
   sudo ufw allow 21/udp
@@ -118,10 +116,9 @@ firewall_optimizations() {
   sudo ufw allow 80/udp
   sudo ufw allow 443
   sudo ufw allow 443/udp
-
+  sleep 0.5
   # Change the UFW config to use System config.
   sed -i 's+/etc/ufw/sysctl.conf+/etc/sysctl.conf+gI' /etc/default/ufw
-  sleep 0.5
 }
 
 
@@ -139,8 +136,6 @@ limits_optimizations() {
 
   sudo sysctl -p
 
-  sleep 1
-
 }
 
 
@@ -148,9 +143,10 @@ check_if_running_as_root
 check_ubuntu
 complete_update
 installations
+enable_packages
 swap_maker
 sysctl_optimizations
-firewall_optimizations
+ufw_optimizations
 limits_optimizations
 
 
