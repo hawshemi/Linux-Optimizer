@@ -3,12 +3,28 @@
 
 # Intro
 echo 
-echo "This script will automatically Optimize the Server."
+echo "This script will automatically Optimize the Ubuntu Server."
 echo "Root access is required." 
 echo "Source is @ https://github.com/hawshemi/" 
 echo 
 sleep 2
 
+
+# Check Root User
+check_if_running_as_root() {
+  # If you want to run as another user, please modify $EUID to be owned by this user
+  if [[ "$EUID" -ne '0' ]]; then
+    echo "Error: You must run this script as root!"
+    exit 1
+  fi
+}
+
+# Detect if OS is Ubuntu
+ID= grep -ioP '^ID=\K.+' /etc/os-release
+if ! [[ $ID = "ubuntu" ]]; then
+    echo "Not Ubuntu"
+    exit 1
+fi
 
 # Update & Upgrade & Remove & Clean
 sudo apt update 
