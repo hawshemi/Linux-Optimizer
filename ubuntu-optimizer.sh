@@ -20,12 +20,11 @@ check_if_running_as_root() {
 }
 
 
-# Detect if OS is Ubuntu
-detect_ubuntu() {
-  ID= grep -ioP '^ID=\K.+' /etc/os-release
-  if ! [[ $ID = "ubuntu" ]]; then
-      echo "Not Ubuntu"
-      exit 1
+# Check if OS is Ubuntu
+check_ubuntu() {
+  if [[ $(lsb_release -si) != "Ubuntu" ]]; then
+    echo "Error: This script is only intended to run on Ubuntu." >&2
+    exit 1
   fi
 }
 
@@ -74,6 +73,7 @@ swap_maker() {
   echo "$SWAP_PATH   none    swap    sw    0   0" | sudo tee -a /etc/fstab # Add to fstab
   sleep 1
 }
+
 
 ## SYSCTL Optimization
 sysctl_optimizations() {
@@ -142,6 +142,16 @@ limits_optimizations() {
   sleep 1
 
 }
+
+
+check_if_running_as_root
+check_ubuntu
+complete_update
+installations
+swap_maker
+sysctl_optimizations
+firewall_optimizations
+limits_optimizations
 
 
 # Outro
