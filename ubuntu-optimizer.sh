@@ -3,10 +3,11 @@
 
 # Intro
 echo 
-echo "This script will automatically Optimize your Ubuntu Server."
-echo "Root access is required." 
-echo "Source is @ https://github.com/hawshemi/ubuntu-optimizer" 
+echo "$(tput setaf 2)----- This script will automatically Optimize your Ubuntu Server.$(tput sgr0)"
+echo "$(tput setaf 2)----- Root access is required.$(tput sgr0)" 
+echo "$(tput setaf 2)----- Source is @ https://github.com/hawshemi/ubuntu-optimizer$(tput sgr0)" 
 echo 
+
 sleep 1
 
 
@@ -14,7 +15,7 @@ sleep 1
 check_if_running_as_root() {
   # If you want to run as another user, please modify $EUID to be owned by this user
   if [[ "$EUID" -ne '0' ]]; then
-    echo "Error: You must run this script as root!"
+    echo "$(tput setaf 1)Error: You must run this script as root!$(tput sgr0)"
     exit 1
   fi
 }
@@ -23,7 +24,7 @@ check_if_running_as_root() {
 # Check if OS is Ubuntu
 check_ubuntu() {
   if [[ $(lsb_release -si) != "Ubuntu" ]]; then
-    echo "Error: This script is only intended to run on Ubuntu." >&2
+    echo "$(tput setaf 1)Error: This script is only intended to run on Ubuntu.$(tput sgr0)"
     exit 1
   fi
 }
@@ -170,9 +171,8 @@ sleep 1
 
 # Outro
 echo 
-echo 
-echo "Done! Server is Optimized."
-echo "Reboot in 5 seconds..."
+echo "$(tput setaf 2)----- Done! Server is Optimized.$(tput sgr0)"
+echo "$(tput setaf 3)----- Reboot in 5 seconds...$(tput sgr0)"
 sudo sleep 5 ; reboot
 echo 
 echo 
