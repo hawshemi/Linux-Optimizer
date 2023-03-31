@@ -1,6 +1,6 @@
 # Ubuntu Optimizer
 
-### Ubuntu Server Optinizer
+### Ubuntu Server Optimizer
 <br></br>
 ## How to run:
 ```
