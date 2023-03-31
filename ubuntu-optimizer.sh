@@ -43,7 +43,7 @@ complete_update() {
 
 ## Install useful packages
 installations() {
-  sudo apt -y install software-properties-common apt-transport-https snap snapd iptables lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion
+  sudo apt -y install software-properties-common apt-transport-https snapd snap iptables lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion
   sudo apt -y install curl git unzip ufw wget preload locales nano vim python3 jq qrencode socat busybox net-tools haveged htop
   sleep 0.5
 
@@ -94,11 +94,11 @@ sysctl_optimizations() {
   echo 'net.core.rmem_max = 2097152' | tee -a $SYS_PATH
   echo 'net.core.wmem_default = 1048576' | tee -a $SYS_PATH
   echo 'net.core.wmem_max = 2097152' | tee -a $SYS_PATH
-  echo 'net.core.netdev_max_backlog = 250000' | tee -a $SYS_PATH
-  echo 'net.core.somaxconn = 3000' | tee -a $SYS_PATH
+  echo 'net.core.netdev_max_backlog = 32768' | tee -a $SYS_PATH
+  echo 'net.core.somaxconn = 32768' | tee -a $SYS_PATH
   echo 'net.ipv4.tcp_fastopen = 3' | tee -a $SYS_PATH
   echo 'net.ipv4.tcp_mtu_probing = 1' | tee -a $SYS_PATH
-  
+
   # Use BBR
   echo 'net.core.default_qdisc = fq' | tee -a $SYS_PATH 
   echo 'net.ipv4.tcp_congestion_control = bbr' | tee -a $SYS_PATH
@@ -139,15 +139,33 @@ limits_optimizations() {
 }
 
 
+# RUN BABY, RUN
 check_if_running_as_root
+sleep 0.5
+
 check_ubuntu
+sleep 0.5
+
 complete_update
+sleep 0.5
+
 installations
+sleep 0.5
+
 enable_packages
+sleep 0.5
+
 swap_maker
+sleep 0.5
+
 sysctl_optimizations
+sleep 0.5
+
 ufw_optimizations
+sleep 0.5
+
 limits_optimizations
+sleep 1
 
 
 # Outro
