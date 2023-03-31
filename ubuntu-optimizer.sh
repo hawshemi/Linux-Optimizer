@@ -12,13 +12,13 @@ sleep 2
 
 # Update & Upgrade & Remove & Clean
 sudo apt update 
-sleep 1
+sleep 0.5
 sudo apt -y upgrade
-sleep 1
+sleep 0.5
 sudo apt -y dist-upgrade
-sleep 1
+sleep 0.5
 sudo apt -y autoremove
-sleep 1
+sleep 0.5
 sudo apt -y autoclean
 sleep 1
 
@@ -53,7 +53,6 @@ sleep 1
 ## SYSCTL Optimize
 # Paths
 SYS_PATH="/etc/sysctl.conf"
-UFW_PATH="/etc/default/ufw"
 LIM_PATH="/etc/security/limits.conf"
 
 # Optimize Swap Settings
@@ -113,7 +112,9 @@ sudo ufw allow 443/udp
 
 # Outro
 echo 
+echo 
 echo "Done! Server is Optimized."
 echo "Reboot in 5 seconds..."
-echo 
 sudo sleep 5 ; reboot
+echo 
+echo 
