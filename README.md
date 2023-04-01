@@ -27,9 +27,8 @@ sudo apt install -y curl
 ## Run
 
 ```
-curl -o ubuntu-optimizer.sh https://raw.githubusercontent.com/hawshemi/Ubuntu-Optimizer/main/ubuntu-optimizer.sh && bash ubuntu-optimizer.sh
+bash <(curl -s https://raw.githubusercontent.com/hawshemi/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
 ```
-
 ## Disclaimer
 This script is provided as-is, without any warranty or guarantee. Use it at your own risk.
 
