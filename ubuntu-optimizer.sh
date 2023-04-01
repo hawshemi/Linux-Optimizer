@@ -79,6 +79,47 @@ swap_maker() {
 }
 
 
+enable_ipv6_support() {
+    if [[ $(sysctl -a | grep 'disable_ipv6.*=.*1') || $(cat /etc/sysctl.{conf,d/*} | grep 'disable_ipv6.*=.*1') ]]; then
+        sed -i '/disable_ipv6/d' /etc/sysctl.{conf,d/*}
+        echo 'net.ipv6.conf.all.disable_ipv6 = 0' >/etc/sysctl.d/ipv6.conf
+        sysctl -w net.ipv6.conf.all.disable_ipv6=0
+    fi
+}
+
+
+# Remove Old SYSCTL Config
+remove_old_sysctl() {
+  sed -i '/fs.file-max/d' /etc/sysctl.conf
+	sed -i '/fs.inotify.max_user_instances/d' /etc/sysctl.conf
+
+	sed -i '/net.ipv4.tcp_syncookies/d' /etc/sysctl.conf
+	sed -i '/net.ipv4.tcp_fin_timeout/d' /etc/sysctl.conf
+	sed -i '/net.ipv4.tcp_tw_reuse/d' /etc/sysctl.conf
+	sed -i '/net.ipv4.ip_local_port_range/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_max_syn_backlog/d' /etc/sysctl.conf
+	sed -i '/net.ipv4.tcp_max_tw_buckets/d' /etc/sysctl.conf
+	sed -i '/net.ipv4.route.gc_timeout/d' /etc/sysctl.conf
+
+	sed -i '/net.ipv4.tcp_syn_retries/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_synack_retries/d' /etc/sysctl.conf
+	sed -i '/net.core.somaxconn/d' /etc/sysctl.conf
+	sed -i '/net.core.netdev_max_backlog/d' /etc/sysctl.conf
+	sed -i '/net.ipv4.tcp_timestamps/d' /etc/sysctl.conf
+	sed -i '/net.ipv4.tcp_max_orphans/d' /etc/sysctl.conf
+
+  sed -i '/soft/d' /etc/security/limits.conf
+  sed -i '/hard/d' /etc/security/limits.conf
+
+  sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_ecn/d' /etc/sysctl.conf
+
+  sed -i '/1000000/d' /etc/profile
+
+}
+
+
 ## SYSCTL Optimization
 sysctl_optimizations() {
   # Paths
@@ -91,20 +132,43 @@ sysctl_optimizations() {
   sleep 0.5
 
   # Optimize Network Settings
-  echo 'fs.file-max = 51200' | tee -a $SYS_PATH
+  echo 'fs.file-max = 1000000' | tee -a $SYS_PATH
 
   echo 'net.core.rmem_default = 1048576' | tee -a $SYS_PATH
   echo 'net.core.rmem_max = 2097152' | tee -a $SYS_PATH
   echo 'net.core.wmem_default = 1048576' | tee -a $SYS_PATH
   echo 'net.core.wmem_max = 2097152' | tee -a $SYS_PATH
-  echo 'net.core.netdev_max_backlog = 32768' | tee -a $SYS_PATH
+  echo 'net.core.netdev_max_backlog = 16384' | tee -a $SYS_PATH
   echo 'net.core.somaxconn = 32768' | tee -a $SYS_PATH
   echo 'net.ipv4.tcp_fastopen = 3' | tee -a $SYS_PATH
   echo 'net.ipv4.tcp_mtu_probing = 1' | tee -a $SYS_PATH
 
+  echo 'net.ipv4.tcp_retries2 = 8' | tee -a $SYS_PATH
+  echo 'net.ipv4.tcp_slow_start_after_idle = 0' | tee -a $SYS_PATH
+
+  echo 'net.ipv6.conf.all.disable_ipv6 = 0' | tee -a $SYS_PATH
+  echo 'net.ipv6.conf.default.disable_ipv6 = 0' | tee -a $SYS_PATH
+  echo 'net.ipv6.conf.all.forwarding = 1' | tee -a $SYS_PATH
+
   # Use BBR
   echo 'net.core.default_qdisc = fq' | tee -a $SYS_PATH 
   echo 'net.ipv4.tcp_congestion_control = bbr' | tee -a $SYS_PATH
+}
+
+
+# System Limits Optimizations
+limits_optimizations() {
+  echo '* soft     nproc          655350' | tee -a $LIM_PATH
+  echo '* hard     nproc          655350' | tee -a $LIM_PATH
+  echo '* soft     nofile         655350' | tee -a $LIM_PATH
+  echo '* hard     nofile         655350' | tee -a $LIM_PATH
+
+  echo 'root soft     nproc          655350' | tee -a $LIM_PATH
+  echo 'root hard     nproc          655350' | tee -a $LIM_PATH
+  echo 'root soft     nofile         655350' | tee -a $LIM_PATH
+  echo 'root hard     nofile         655350' | tee -a $LIM_PATH
+
+  sudo sysctl -p
 }
 
 
@@ -122,22 +186,6 @@ ufw_optimizations() {
   sleep 0.5
   # Change the UFW config to use System config.
   sed -i 's+/etc/ufw/sysctl.conf+/etc/sysctl.conf+gI' /etc/default/ufw
-}
-
-
-# System Limits Optimizations
-limits_optimizations() {
-  echo '* soft     nproc          655350' | tee -a $LIM_PATH
-  echo '* hard     nproc          655350' | tee -a $LIM_PATH
-  echo '* soft     nofile         655350' | tee -a $LIM_PATH
-  echo '* hard     nofile         655350' | tee -a $LIM_PATH
-
-  echo 'root soft     nproc          655350' | tee -a $LIM_PATH
-  echo 'root hard     nproc          655350' | tee -a $LIM_PATH
-  echo 'root soft     nofile         655350' | tee -a $LIM_PATH
-  echo 'root hard     nofile         655350' | tee -a $LIM_PATH
-
-  sudo sysctl -p
 }
 
 
@@ -160,14 +208,20 @@ sleep 0.5
 swap_maker
 sleep 0.5
 
-sysctl_optimizations
+enable_ipv6_support
 sleep 0.5
 
-ufw_optimizations
+remove_old_sysctl
+sleep 0.5
+
+sysctl_optimizations
 sleep 0.5
 
 limits_optimizations
 sleep 1
+
+ufw_optimizations
+sleep 0.5
 
 
 # Outro
