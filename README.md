@@ -25,6 +25,18 @@
 
     <br>
 8. Optimize ssh
+    - Back up the original sshd_config file
+    - Disable DNS lookups for connecting clients
+    - Enable compression for SSH connections
+    - Remove less efficient encryption ciphers
+    - Comment out or delete the lines that set MaxAuthTries and MaxSessions
+    - Enable TCP keep-alive messages
+    - Configure client keep-alive messages
+    - Allow agent forwarding
+    - Allow TCP forwarding
+    - Enable gateway ports
+    - Enable tunneling
+    - Restart the SSH service to apply the changes
 9. Optimize the System Limits.
     - `nproc`
     - `nofile`
