@@ -26,6 +26,8 @@
 
 9. Optimize `UFW` & Open Common Ports.
 
+<br>
+
 Reboot at the end.
 
 
