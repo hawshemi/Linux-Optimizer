@@ -16,7 +16,12 @@
 6. Clean the Old `SYSCTL` Settings.
 
 7. Optimize the `SYSCTL` Settings.
+    - SWAP
+    - Network
+    - BBR
+    - Kernel
 
+    <br>
 8. Optimize the System Limits.
 
 9. Optimize `UFW` & Open Common Ports.
