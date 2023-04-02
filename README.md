@@ -65,7 +65,7 @@ sudo apt install -y curl
 ## Run
 
 ```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
+bash <(curl -s https://raw.githubusercontent.com/samsesh/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
 ```
 
 <br>
