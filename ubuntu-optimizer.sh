@@ -180,6 +180,9 @@ update_sshd_conf() {
   echo "ClientAliveInterval 3000" >> /etc/ssh/sshd_config
   echo "ClientAliveCountMax 100" >> /etc/ssh/sshd_config
 
+  # Permit Root Login
+  echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
   # Allow agent forwarding
   echo "AllowAgentForwarding yes" >> /etc/ssh/sshd_config
 
