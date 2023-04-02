@@ -3,6 +3,8 @@
 ## This Bash script automates the optimization of your Ubuntu server.
 ### It performs the following tasks:
 
+<br>
+
 1. Update, Upgrade, and Clean the server.
 
 2. Install Useful Packages.
@@ -23,13 +25,17 @@
 
     <br>
 8. Optimize the System Limits.
-
+    - `nproc`
+    - `nofile`
+    
+    <br>
 9. Optimize `UFW` & Open Common Ports.
 
 <br>
 
 Reboot at the end.
 
+<br>
 
 ## Prerequisites
 - `Ubuntu` server `(16+)` with `root` access.
@@ -41,6 +47,7 @@ If your Ubuntu server does not have curl, install it first:
 sudo apt install -y curl
 ```
 
+<br>
 
 ## Run
 
@@ -48,9 +55,12 @@ sudo apt install -y curl
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
 ```
 
+<br>
+
 ## Disclaimer
 This script is provided as-is, without any warranty or guarantee. Use it at your own risk.
 
+<br>
 
 ## License
 This script is licensed under the MIT License.
