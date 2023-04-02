@@ -41,7 +41,7 @@ Reboot at the end.
 - `Ubuntu` server `(16+)` with `root` access.
 - `curl`
 
-If your Ubuntu server does not have curl, install it first:
+If your Ubuntu server does not have `curl`, install it first:
 
 ```
 sudo apt install -y curl
