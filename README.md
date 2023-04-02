@@ -8,19 +8,19 @@
 
 3. Enable Packages at Server Boot.
 
-4. Create & Enable `SWAP` File. (Default is 2Gb)
+4. Create & Enable `SWAP` File. (Default is `2Gb`)
 
-5. Enable IPv6 Support.
+5. Enable `IPv6` Support.
 
-7. Clean the Old SYSCTL Settings.
+6. Clean the Old `SYSCTL` Settings.
 
-6. Optimize the SYSCTL Settings.
+7. Optimize the `SYSCTL` Settings.
 
-7. Optimize the System Limits.
+8. Optimize the System Limits.
 
-8. Optimize `UFW` & Open Common Ports.
+9. Optimize `UFW` & Open Common Ports.
 
-9. Reboot at the end.
+Reboot at the end.
 
 
 ## Prerequisites
