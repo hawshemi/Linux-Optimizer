@@ -24,12 +24,13 @@
     - Kernel
 
     <br>
-8. Optimize the System Limits.
+8. Optimize ssh
+9. Optimize the System Limits.
     - `nproc`
     - `nofile`
     
     <br>
-9. Optimize `UFW` & Open Common Ports.
+10. Optimize `UFW` & Open Common Ports.
 
 <br>
 
