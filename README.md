@@ -1,6 +1,7 @@
 # Ubuntu Optimizer
 
-### This Bash script automates the optimization of your Ubuntu server. It performs the following tasks:
+## This Bash script automates the optimization of your Ubuntu server.
+### It performs the following tasks:
 
 1. Update, Upgrade, and Clean the server.
 
