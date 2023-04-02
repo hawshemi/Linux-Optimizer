@@ -91,22 +91,22 @@ enable_ipv6_support() {
 # Remove Old SYSCTL Config
 remove_old_sysctl() {
   sed -i '/fs.file-max/d' /etc/sysctl.conf
-	sed -i '/fs.inotify.max_user_instances/d' /etc/sysctl.conf
+  sed -i '/fs.inotify.max_user_instances/d' /etc/sysctl.conf
 
-	sed -i '/net.ipv4.tcp_syncookies/d' /etc/sysctl.conf
-	sed -i '/net.ipv4.tcp_fin_timeout/d' /etc/sysctl.conf
-	sed -i '/net.ipv4.tcp_tw_reuse/d' /etc/sysctl.conf
-	sed -i '/net.ipv4.ip_local_port_range/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_syncookies/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_fin_timeout/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_tw_reuse/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.ip_local_port_range/d' /etc/sysctl.conf
   sed -i '/net.ipv4.tcp_max_syn_backlog/d' /etc/sysctl.conf
-	sed -i '/net.ipv4.tcp_max_tw_buckets/d' /etc/sysctl.conf
-	sed -i '/net.ipv4.route.gc_timeout/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_max_tw_buckets/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.route.gc_timeout/d' /etc/sysctl.conf
 
-	sed -i '/net.ipv4.tcp_syn_retries/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_syn_retries/d' /etc/sysctl.conf
   sed -i '/net.ipv4.tcp_synack_retries/d' /etc/sysctl.conf
-	sed -i '/net.core.somaxconn/d' /etc/sysctl.conf
-	sed -i '/net.core.netdev_max_backlog/d' /etc/sysctl.conf
-	sed -i '/net.ipv4.tcp_timestamps/d' /etc/sysctl.conf
-	sed -i '/net.ipv4.tcp_max_orphans/d' /etc/sysctl.conf
+  sed -i '/net.core.somaxconn/d' /etc/sysctl.conf
+  sed -i '/net.core.netdev_max_backlog/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_timestamps/d' /etc/sysctl.conf
+  sed -i '/net.ipv4.tcp_max_orphans/d' /etc/sysctl.conf
 
   sed -i '/soft/d' /etc/security/limits.conf
   sed -i '/hard/d' /etc/security/limits.conf
