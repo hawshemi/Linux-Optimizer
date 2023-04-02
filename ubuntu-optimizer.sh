@@ -155,6 +155,48 @@ sysctl_optimizations() {
   echo 'net.ipv4.tcp_congestion_control = bbr' | tee -a $SYS_PATH
 }
 
+## Update SSH config
+update_sshd_conf() {
+  # Make a backup of the original sshd_config file
+  cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+
+  # Disable DNS lookups for connecting clients
+  sed -i 's/#UseDNS yes/UseDNS no/' /etc/ssh/sshd_config
+
+  # Enable compression for SSH connections
+  sed -i 's/#Compression no/Compression yes/' /etc/ssh/sshd_config
+
+  # Remove less efficient encryption ciphers
+  sed -i 's/Ciphers .*/Ciphers aes256-ctr,chacha20-poly1305@openssh.com/' /etc/ssh/sshd_config
+
+  # Comment out or delete the lines that set MaxAuthTries and MaxSessions
+  sed -i '/MaxAuthTries/d' /etc/ssh/sshd_config
+  sed -i '/MaxSessions/d' /etc/ssh/sshd_config
+
+  # Enable TCP keep-alive messages
+  echo "TCPKeepAlive yes" >> /etc/ssh/sshd_config
+
+  # Configure client keep-alive messages
+  echo "ClientAliveInterval 3000" >> /etc/ssh/sshd_config
+  echo "ClientAliveCountMax 100" >> /etc/ssh/sshd_config
+
+  # Allow agent forwarding
+  echo "AllowAgentForwarding yes" >> /etc/ssh/sshd_config
+
+  # Allow TCP forwarding
+  echo "AllowTcpForwarding yes" >> /etc/ssh/sshd_config
+
+  # Enable gateway ports
+  echo "GatewayPorts yes" >> /etc/ssh/sshd_config
+
+  # Enable tunneling
+  echo "PermitTunnel yes" >> /etc/ssh/sshd_config
+
+  # Restart the SSH service to apply the changes
+  service ssh restart
+
+  echo "SSH configuration changes applied successfully!"
+}
 
 # System Limits Optimizations
 limits_optimizations() {
@@ -188,7 +230,6 @@ ufw_optimizations() {
   sed -i 's+/etc/ufw/sysctl.conf+/etc/sysctl.conf+gI' /etc/default/ufw
 }
 
-
 # RUN BABY, RUN
 check_if_running_as_root
 sleep 0.5
@@ -215,6 +256,9 @@ remove_old_sysctl
 sleep 0.5
 
 sysctl_optimizations
+sleep 0.5
+
+update_sshd_conf
 sleep 0.5
 
 limits_optimizations
