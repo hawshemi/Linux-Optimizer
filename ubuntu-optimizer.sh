@@ -162,6 +162,9 @@ sysctl_optimizations() {
   echo 'net.ipv4.tcp_congestion_control = bbr' >> $SYS_PATH
 
   sysctl -p
+  echo 
+  echo $(tput setaf 2)Network Optimized.$(tput sgr0)
+  echo 
 }
 
 
@@ -241,6 +244,9 @@ limits_optimizations() {
   echo 'root hard     nofile         655350' >> $LIM_PATH
 
   sudo sysctl -p
+  echo 
+  echo $(tput setaf 2)System Limits Optimized.$(tput sgr0)
+  echo 
 }
 
 
@@ -260,6 +266,9 @@ ufw_optimizations() {
   sed -i 's+/etc/ufw/sysctl.conf+/etc/sysctl.conf+gI' /etc/default/ufw
   # Reload
   ufw reload
+  echo 
+  echo $(tput setaf 2)Firewall Optimized.$(tput sgr0)
+  echo 
 }
 
 
