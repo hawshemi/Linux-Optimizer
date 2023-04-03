@@ -3,7 +3,6 @@
 ## This Bash script automates the optimization of your Ubuntu server.
 ### It performs the following tasks:
 
-<br>
 
 1. Update, Upgrade, and Clean the server.
 
@@ -24,7 +23,7 @@
     - Kernel
 
     <br>
-8. Optimize ssh
+8. Optimize `SSH`
     - Back up the original sshd_config file
     - Disable DNS lookups for connecting clients
     - Enable compression for SSH connections
