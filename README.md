@@ -23,6 +23,7 @@
     - Kernel
 
     <br>
+
 8. Optimize `SSH`.
     - Back up the original sshd_config file
     - Disable DNS lookups for connecting clients
@@ -36,6 +37,7 @@
     - Enable gateway ports
     - Enable tunneling
     - Restart the SSH service to apply the changes
+    
 9. Optimize the System Limits.
     - `nproc`
     - `nofile`
