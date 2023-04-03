@@ -61,8 +61,12 @@ sudo apt install -y curl
 
 ## Run
 
+``` bash
+bash <(curl -s https://raw.githubusercontent.com/samsesh/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
 ```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
+> run with tmux 
+``` bash
+tmux new -s optimizer 'bash <(curl -s https://raw.githubusercontent.com/samsesh/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)'
 ```
 
 <br>

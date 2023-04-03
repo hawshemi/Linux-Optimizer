@@ -217,6 +217,9 @@ update_sshd_conf() {
   echo "ClientAliveInterval 3000" | tee -a $SSH_PATH
   echo "ClientAliveCountMax 100" | tee -a $SSH_PATH
 
+  # Permit Root Login
+  echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
   # Allow agent forwarding
   echo "AllowAgentForwarding yes" | tee -a $SSH_PATH
 
