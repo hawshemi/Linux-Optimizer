@@ -113,7 +113,7 @@ remove_old_sysctl() {
   sed -i '/net.ipv4.tcp_max_orphans/d' $SYS_PATH
   #IPv6
   sed -i '/net.ipv6.conf.all.disable_ipv6/d' $SYS_PATH
-  sed -i 'net.ipv6.conf.default.disable_ipv6/d' $SYS_PATH
+  sed -i '/net.ipv6.conf.default.disable_ipv6/d' $SYS_PATH
   sed -i '/net.ipv6.conf.all.forwarding/d' $SYS_PATH
   # System Limits.
   sed -i '/soft/d' $LIM_PATH
