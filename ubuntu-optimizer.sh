@@ -91,6 +91,13 @@ swap_maker() {
   
 }
 
+enable_ipv6_support() {
+    if [[ $(sysctl -a | grep 'disable_ipv6.*=.*1') || $(cat /etc/sysctl.{conf,d/*} | grep 'disable_ipv6.*=.*1') ]]; then
+        sed -i '/disable_ipv6/d' /etc/sysctl.{conf,d/*}
+        echo 'net.ipv6.conf.all.disable_ipv6 = 0' >/etc/sysctl.d/ipv6.conf
+        sysctl -w net.ipv6.conf.all.disable_ipv6=0
+    fi
+}
 
 # Remove Old SYSCTL Config to prevent duplicates.
 remove_old_sysctl() {
@@ -266,6 +273,7 @@ ufw_optimizations() {
   sed -i 's+/etc/ufw/sysctl.conf+/etc/sysctl.conf+gI' /etc/default/ufw
   # Reload
   ufw reload
+  ufw status
   echo 
   echo $(tput setaf 2)Firewall Optimized.$(tput sgr0)
   echo 
@@ -291,6 +299,9 @@ sleep 0.5
 swap_maker
 sleep 0.5
 
+enable_ipv6_support
+sleep 0.5
+
 remove_old_sysctl
 sleep 0.5
 
@@ -314,8 +325,8 @@ sleep 0.5
 echo 
 echo $(tput setaf 2)=========================$(tput sgr0)
 echo "$(tput setaf 2)----- Done! Server is Optimized.$(tput sgr0)"
-echo "$(tput setaf 3)----- Reboot in 5 seconds...$(tput sgr0)"
+echo "$(tput setaf 3)----- Reboot the system to apply one...$(tput sgr0)"
 echo $(tput setaf 2)=========================$(tput sgr0)
-sudo sleep 5 ; shutdown -r 0
+sudo sleep 5 ;
 echo 
 echo 
