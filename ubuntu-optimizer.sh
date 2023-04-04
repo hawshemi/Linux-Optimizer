@@ -42,6 +42,11 @@ check_ubuntu() {
 
 # Update & Upgrade & Remove & Clean
 complete_update() {
+  echo 
+  echo "$(tput setaf 3)----- Updating the System.$(tput sgr0)"
+  echo 
+  sleep 0.5
+
   sudo apt update
   sudo apt -y upgrade
   sleep 0.5
@@ -49,13 +54,19 @@ complete_update() {
   sudo apt -y autoremove
   sudo apt -y autoclean
   sudo apt -y clean
-
+  echo 
   echo "$(tput setaf 2)----- System Updated Successfully.$(tput sgr0)"
+  echo 
+  sleep 1
 }
 
 
 ## Install useful packages
 installations() {
+  echo 
+  echo "$(tput setaf 3)----- Installing Useful Packeges.$(tput sgr0)"
+  echo 
+  sleep 0.5
 
   # Purge firewalld to install UFW.
   sudo apt -y purge firewalld
@@ -68,7 +79,9 @@ installations() {
   # Snap Install & Refresh
   sudo snap install core
   sudo snap refresh core
+  echo 
   echo "$(tput setaf 2)----- Useful Packages Installed Succesfully.$(tput sgr0)"
+  echo 
 }
 
 
@@ -81,6 +94,10 @@ enable_packages() {
 
 ## Swap Maker
 swap_maker() {
+  echo 
+  echo "$(tput setaf 3)----- Making SWAP Space.$(tput sgr0)"
+  echo 
+  sleep 0.5
 
   # 2 GB Swap Size
   SWAP_SIZE=2G
@@ -146,6 +163,11 @@ remove_old_sysctl() {
 
 ## SYSCTL Optimization
 sysctl_optimizations() {
+  echo 
+  echo "$(tput setaf 3)----- Optimizing the Network.$(tput sgr0)"
+  echo 
+  sleep 0.5
+
   # Optimize Swap Settings
   echo 'vm.swappiness=10' >> $SYS_PATH
   echo 'vm.vfs_cache_pressure=50' >> $SYS_PATH
@@ -217,6 +239,11 @@ remove_old_ssh_conf() {
 
 ## Update SSH config
 update_sshd_conf() {
+  echo 
+  echo "$(tput setaf 3)----- Optimizing SSH.$(tput sgr0)"
+  echo 
+  sleep 0.5
+
   # Enable TCP keep-alive messages
   echo "TCPKeepAlive yes" | tee -a $SSH_PATH
 
@@ -250,6 +277,11 @@ update_sshd_conf() {
 
 # System Limits Optimizations
 limits_optimizations() {
+  echo
+  echo "$(tput setaf 3)----- Optimizing System Limits.$(tput sgr0)"
+  echo 
+  sleep 0.5
+
   echo '* soft     nproc          655350' >> $LIM_PATH
   echo '* hard     nproc          655350' >> $LIM_PATH
   echo '* soft     nofile         655350' >> $LIM_PATH
@@ -269,6 +301,11 @@ limits_optimizations() {
 
 ## UFW Optimizations
 ufw_optimizations() {
+  echo
+  echo "$(tput setaf 3)----- Optimizing UFW.$(tput sgr0)"
+  echo 
+  sleep 0.5
+  
   # Open default ports.
   sudo ufw allow 21
   sudo ufw allow 21/udp
