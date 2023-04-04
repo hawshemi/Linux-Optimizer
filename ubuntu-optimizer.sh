@@ -45,7 +45,7 @@ complete_update() {
   echo 
   echo "$(tput setaf 3)----- Updating the System.$(tput sgr0)"
   echo 
-  sleep 0.5
+  sleep 1
 
   sudo apt update
   sudo apt -y upgrade
@@ -66,7 +66,7 @@ installations() {
   echo 
   echo "$(tput setaf 3)----- Installing Useful Packeges.$(tput sgr0)"
   echo 
-  sleep 0.5
+  sleep 1
 
   # Purge firewalld to install UFW.
   sudo apt -y purge firewalld
@@ -82,13 +82,17 @@ installations() {
   echo 
   echo "$(tput setaf 2)----- Useful Packages Installed Succesfully.$(tput sgr0)"
   echo 
+  sleep 0.5
 }
 
 
 # Enable packages at server boot
 enable_packages() {
   sudo systemctl enable preload haveged snapd cron
+  echo 
   echo "$(tput setaf 2)----- Packages Enabled Succesfully.$(tput sgr0)"
+  echo
+  sleep 0.5
 }
 
 
@@ -97,7 +101,7 @@ swap_maker() {
   echo 
   echo "$(tput setaf 3)----- Making SWAP Space.$(tput sgr0)"
   echo 
-  sleep 0.5
+  sleep 1
 
   # 2 GB Swap Size
   SWAP_SIZE=2G
@@ -114,6 +118,7 @@ swap_maker() {
   echo 
   echo $(tput setaf 2)----- SWAP Created Successfully.$(tput sgr0)
   echo
+  sleep 0.5
   
 }
 
@@ -166,7 +171,7 @@ sysctl_optimizations() {
   echo 
   echo "$(tput setaf 3)----- Optimizing the Network.$(tput sgr0)"
   echo 
-  sleep 0.5
+  sleep 1
 
   # Optimize Swap Settings
   echo 'vm.swappiness=10' >> $SYS_PATH
@@ -200,6 +205,7 @@ sysctl_optimizations() {
   echo 
   echo $(tput setaf 2)----- Network is Optimized.$(tput sgr0)
   echo 
+  sleep 0.5
 }
 
 
@@ -209,7 +215,7 @@ remove_old_ssh_conf() {
   cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 
   echo 
-  echo "$(tput setaf 2)-----Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak$(tput sgr0)"
+  echo "$(tput setaf 2)----- Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak$(tput sgr0)"
   echo 
   sleep 1
   
@@ -242,7 +248,7 @@ update_sshd_conf() {
   echo 
   echo "$(tput setaf 3)----- Optimizing SSH.$(tput sgr0)"
   echo 
-  sleep 0.5
+  sleep 1
 
   # Enable TCP keep-alive messages
   echo "TCPKeepAlive yes" | tee -a $SSH_PATH
@@ -280,7 +286,7 @@ limits_optimizations() {
   echo
   echo "$(tput setaf 3)----- Optimizing System Limits.$(tput sgr0)"
   echo 
-  sleep 0.5
+  sleep 1
 
   echo '* soft     nproc          655350' >> $LIM_PATH
   echo '* hard     nproc          655350' >> $LIM_PATH
@@ -296,6 +302,7 @@ limits_optimizations() {
   echo 
   echo $(tput setaf 2)----- System Limits Optimized.$(tput sgr0)
   echo 
+  sleep 0.5
 }
 
 
@@ -304,8 +311,8 @@ ufw_optimizations() {
   echo
   echo "$(tput setaf 3)----- Optimizing UFW.$(tput sgr0)"
   echo 
-  sleep 0.5
-  
+  sleep 1
+
   # Open default ports.
   sudo ufw allow 21
   sudo ufw allow 21/udp
@@ -325,6 +332,7 @@ ufw_optimizations() {
   echo 
   echo $(tput setaf 2)----- Firewall is Optimized.$(tput sgr0)
   echo 
+  sleep 0.5
 }
 
 
@@ -373,5 +381,6 @@ echo "$(tput setaf 2)----- Done! Server is Optimized.$(tput sgr0)"
 echo "$(tput setaf 3)----- Reboot in 5 seconds...$(tput sgr0)"
 echo $(tput setaf 2)=========================$(tput sgr0)
 sudo sleep 5 ; shutdown -r 0
+echo 
 echo 
 echo 

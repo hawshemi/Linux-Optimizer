@@ -4,48 +4,62 @@
 ### It performs the following tasks:
 
 
-1. Update, Upgrade, and Clean the server.
+1. Update, Upgrade, and Clean the server:
+    - _Update_
+    - _Upgrade_
+    - _Dist-Upgrade_
+    - _AutoRemove_
+    - _AutoClean_
+    - _Clean_
 
-2. Install Useful Packages.
 
+2. Install Useful Packages:
+
+    _`software-properties-common`_ _`build-essential`_ _`apt-transport-https`_ _`snapd`_ _`snap`_ _`iptables`_ _`iptables-persistent`_ _`lsb-release`_ _`ca-certificates`_ _`ubuntu-keyring`_ _`gnupg2`_ _`apt-utils`_ _`cron`_ _`bash-completion`_ _`curl`_ _`git`_ _`unzip`_ _`ufw`_ _`wget`_ _`preload`_ _`locales`_ _`nano`_ _`vim`_ _`python3`_ _`jq`_ _`qrencode`_ _`socat`_ _`busybox`_ _`net-tools`_ _`haveged`_ _`htop`_ _`libssl-dev`_ _`libsqlite3-dev`_
+
+    
 3. Enable Packages at Server Boot.
 
-4. Create & Enable `SWAP` File. (Default is `2Gb`)
+
+4. Create & Enable `SWAP` File:
+    - Swap Path: `"/swapfile"`
+    - Swap Size: `2Gb`
+
 
 5. Enable `IPv6` Support.
 
-6. Clean the Old `SYSCTL` Settings.
 
-7. Optimize the `SYSCTL` Settings.
+6. Clean the Old `SYSCTL` Configs.
+
+
+7. Optimize the `SYSCTL` Configs.
     - SWAP
     - Network
     - BBR
     - Kernel
 
-    <br>
-8. Optimize `SSH`.
-    - Back up the original sshd_config file
-    - Disable DNS lookups for connecting clients
-    - Enable compression for SSH connections
-    - Remove less efficient encryption ciphers
-    - Enable and Configure TCP keep-alive messages
-    - Allow agent forwarding
-    - Allow TCP forwarding
-    - Enable gateway ports
-    - Enable tunneling
     
-9. Optimize the System Limits.
-    - `nproc`
-    - `nofile`
+8. Optimize `SSH`:
+    - Back up the original `sshd_config` file.
+    - Disable DNS lookups for connecting clients.
+    - Remove less efficient encryption ciphers.
+    - Enable and Configure TCP keep-alive messages.
+    - Allow agent & TCP forwarding.
+    - Enable gateway ports, Tunneling & Compression.
     
-    <br>
+
+9. Optimize the System Limits:
+    - Soft & Hard `nproc` limits.
+    - Soft & Hard `nofile` limits.
+    
+    
 10. Optimize `UFW` & Open Common Ports.
+    - Open Ports `21`, `22`, `80`, `443`.
+    - With `IPv6`, `TCP` & `UDP`.
 
-<br>
-
+    
 Reboot at the end.
 
-<br>
 
 ## Prerequisites
 - `Ubuntu` server `(16+)` with `root` access.
@@ -57,7 +71,6 @@ If your Ubuntu server does not have `curl`, install it first:
 sudo apt install -y curl
 ```
 
-<br>
 
 ## Run
 
@@ -65,12 +78,10 @@ sudo apt install -y curl
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
 ```
 
-<br>
 
 ## Disclaimer
 This script is provided as-is, without any warranty or guarantee. Use it at your own risk.
 
-<br>
 
 ## License
 This script is licensed under the MIT License.
