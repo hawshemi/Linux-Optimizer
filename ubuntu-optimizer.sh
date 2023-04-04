@@ -57,7 +57,8 @@ installations() {
   sudo apt -y purge firewalld
 
   # Install
-  sudo apt -y install software-properties-common apt-transport-https snapd snap iptables lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion curl git unzip ufw wget preload locales nano vim python3 jq qrencode socat busybox net-tools haveged htop
+  sudo apt -y install software-properties-common build-essential apt-transport-https snapd snap iptables iptables-persistent lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion 
+  sudo apt -y install curl git unzip ufw wget preload locales nano vim python3 jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev
   sleep 0.5
 
   # Snap Install & Refresh
