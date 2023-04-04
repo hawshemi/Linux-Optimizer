@@ -5,7 +5,7 @@
 echo 
 echo $(tput setaf 2)=======================================================$(tput sgr0)
 echo "$(tput setaf 2)----- This script will automatically Optimize your Ubuntu Server.$(tput sgr0)"
-echo "$(tput setaf 2)----- Root access is required.$(tput sgr0)" 
+echo "$(tput setaf 3)----- Root access is required.$(tput sgr0)" 
 echo "$(tput setaf 2)----- Source is @ https://github.com/hawshemi/ubuntu-optimizer$(tput sgr0)" 
 echo $(tput setaf 2)=======================================================$(tput sgr0)
 echo 
@@ -22,6 +22,7 @@ SSH_PATH="/etc/ssh/sshd_config"
 
 # Check Root User
 check_if_running_as_root() {
+
   # If you want to run as another user, please modify $EUID to be owned by this user
   if [[ "$EUID" -ne '0' ]]; then
     echo "$(tput setaf 1)Error: You must run this script as root!$(tput sgr0)"
@@ -48,11 +49,14 @@ complete_update() {
   sudo apt -y autoremove
   sudo apt -y autoclean
   sudo apt -y clean
+
+  echo "$(tput setaf 2)----- System Updated Successfully.$(tput sgr0)"
 }
 
 
 ## Install useful packages
 installations() {
+
   # Purge firewalld to install UFW.
   sudo apt -y purge firewalld
 
@@ -64,17 +68,20 @@ installations() {
   # Snap Install & Refresh
   sudo snap install core
   sudo snap refresh core
+  echo "$(tput setaf 2)----- Useful Packages Installed Succesfully.$(tput sgr0)"
 }
 
 
 # Enable packages at server boot
 enable_packages() {
   sudo systemctl enable preload haveged snapd cron
+  echo "$(tput setaf 2)----- Packages Enabled Succesfully.$(tput sgr0)"
 }
 
 
 ## Swap Maker
 swap_maker() {
+
   # 2 GB Swap Size
   SWAP_SIZE=2G
 
@@ -87,7 +94,8 @@ swap_maker() {
   sudo mkswap $SWAP_PATH                   # Setup swap         
   sudo swapon $SWAP_PATH                   # Enable swap
   echo "$SWAP_PATH   none    swap    sw    0   0" >> /etc/fstab # Add to fstab
-  echo $(tput setaf 2)SWAP Optimized.$(tput sgr0)
+  echo 
+  echo $(tput setaf 2)----- SWAP Created Successfully.$(tput sgr0)
   echo
   
 }
@@ -112,23 +120,27 @@ remove_old_sysctl() {
   sed -i '/net.core.netdev_max_backlog/d' $SYS_PATH
   sed -i '/net.ipv4.tcp_timestamps/d' $SYS_PATH
   sed -i '/net.ipv4.tcp_max_orphans/d' $SYS_PATH
+
   #IPv6
   sed -i '/net.ipv6.conf.all.disable_ipv6/d' $SYS_PATH
   sed -i '/net.ipv6.conf.default.disable_ipv6/d' $SYS_PATH
   sed -i '/net.ipv6.conf.all.forwarding/d' $SYS_PATH
   # System Limits.
+
   sed -i '/soft/d' $LIM_PATH
   sed -i '/hard/d' $LIM_PATH
+
   # BBR
   sed -i '/net.core.default_qdisc/d' $SYS_PATH
   sed -i '/net.ipv4.tcp_congestion_control/d' $SYS_PATH
   sed -i '/net.ipv4.tcp_ecn/d' $SYS_PATH
+
   # uLimit
   sed -i '/1000000/d' $PROF_PATH
+
   #SWAP
   sed -i '/vm.swappiness/d' $SYS_PATH
   sed -i '/vm.vfs_cache_pressure/d' $SYS_PATH
-
 }
 
 
@@ -164,7 +176,7 @@ sysctl_optimizations() {
 
   sysctl -p
   echo 
-  echo $(tput setaf 2)Network Optimized.$(tput sgr0)
+  echo $(tput setaf 2)----- Network is Optimized.$(tput sgr0)
   echo 
 }
 
@@ -175,7 +187,7 @@ remove_old_ssh_conf() {
   cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 
   echo 
-  echo "$(tput setaf 2)Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak$(tput sgr0)"
+  echo "$(tput setaf 2)-----Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak$(tput sgr0)"
   echo 
   sleep 1
   
@@ -195,6 +207,7 @@ remove_old_ssh_conf() {
   sed -i '/ClientAliveInterval/d' $SSH_PATH
   sed -i '/ClientAliveCountMax/d' $SSH_PATH
   sed -i '/AllowAgentForwarding/d' $SSH_PATH
+  sed -i '/PermitRootLogin/d' $SSH_PATH
   sed -i '/AllowTcpForwarding/d' $SSH_PATH
   sed -i '/GatewayPorts/d' $SSH_PATH
   sed -i '/PermitTunnel/d' $SSH_PATH
@@ -214,6 +227,9 @@ update_sshd_conf() {
   # Allow agent forwarding
   echo "AllowAgentForwarding yes" | tee -a $SSH_PATH
 
+  #Permit Root Login
+  echo "PermitRootLogin yes" | tee -a $SSH_PATH
+
   # Allow TCP forwarding
   echo "AllowTcpForwarding yes" | tee -a $SSH_PATH
 
@@ -227,7 +243,7 @@ update_sshd_conf() {
   service ssh restart
 
   echo 
-  echo $(tput setaf 2)SSH Optimized Successfully!$(tput sgr0)
+  echo $(tput setaf 2)----- SSH is Optimized.$(tput sgr0)
   echo 
 }
 
@@ -246,7 +262,7 @@ limits_optimizations() {
 
   sudo sysctl -p
   echo 
-  echo $(tput setaf 2)System Limits Optimized.$(tput sgr0)
+  echo $(tput setaf 2)----- System Limits Optimized.$(tput sgr0)
   echo 
 }
 
@@ -263,12 +279,14 @@ ufw_optimizations() {
   sudo ufw allow 443
   sudo ufw allow 443/udp
   sleep 0.5
+
   # Change the UFW config to use System config.
   sed -i 's+/etc/ufw/sysctl.conf+/etc/sysctl.conf+gI' /etc/default/ufw
-  # Reload
+
+  # Reload if running
   ufw reload
   echo 
-  echo $(tput setaf 2)Firewall Optimized.$(tput sgr0)
+  echo $(tput setaf 2)----- Firewall is Optimized.$(tput sgr0)
   echo 
 }
 
