@@ -142,6 +142,7 @@ remove_old_sysctl() {
   sed -i '/net.core.netdev_max_backlog/d' $SYS_PATH
   sed -i '/net.ipv4.tcp_timestamps/d' $SYS_PATH
   sed -i '/net.ipv4.tcp_max_orphans/d' $SYS_PATH
+  sed -i '/net.ipv4.ip_forward/d' $SYS_PATH
 
   #IPv6
   sed -i '/net.ipv6.conf.all.disable_ipv6/d' $SYS_PATH
@@ -192,6 +193,7 @@ sysctl_optimizations() {
 
   echo 'net.ipv4.tcp_retries2 = 8' >> $SYS_PATH
   echo 'net.ipv4.tcp_slow_start_after_idle = 0' >> $SYS_PATH
+  echo 'net.ipv4.ip_forward = 1' | tee -a $SYS_PATH
 
   echo 'net.ipv6.conf.all.disable_ipv6 = 0' >> $SYS_PATH
   echo 'net.ipv6.conf.default.disable_ipv6 = 0' >> $SYS_PATH
