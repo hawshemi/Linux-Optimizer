@@ -72,14 +72,10 @@ installations() {
   sudo apt -y purge firewalld
 
   # Install
-  sudo apt -y install software-properties-common build-essential apt-transport-https snapd snap iptables iptables-persistent lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion 
-  sudo apt -y install curl git unzip ufw wget preload locales nano vim python3 jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev zip unzip
+  sudo apt -y install software-properties-common build-essential apt-transport-https iptables iptables-persistent lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion 
+  sudo apt -y install curl git zip unzip ufw wget preload locales nano vim python3 jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev
   sleep 0.5
 
-  # Snap Install & Refresh
-  sudo snap install core
-  sudo snap refresh core
-  echo 
   echo "$(tput setaf 2)----- Useful Packages Installed Succesfully.$(tput sgr0)"
   echo 
   sleep 0.5
@@ -88,7 +84,7 @@ installations() {
 
 # Enable packages at server boot
 enable_packages() {
-  sudo systemctl enable preload haveged snapd cron
+  sudo systemctl enable preload haveged cron
   echo 
   echo "$(tput setaf 2)----- Packages Enabled Succesfully.$(tput sgr0)"
   echo
