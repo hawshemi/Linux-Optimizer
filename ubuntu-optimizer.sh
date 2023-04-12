@@ -95,7 +95,7 @@ installations() {
 
   # Install
   sudo apt -y install software-properties-common build-essential apt-transport-https iptables iptables-persistent lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion 
-  sudo apt -y install curl git zip unzip ufw wget preload locales nano vim python3 jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev
+  sudo apt -y install curl git zip unzip ufw wget preload locales nano vim python3 python3-pip jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev
   sleep 0.5
   echo 
   echo "$(tput setaf 2)----- Useful Packages Installed Succesfully.$(tput sgr0)"
