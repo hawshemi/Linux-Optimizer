@@ -4,6 +4,15 @@
 ### It performs the following tasks:
 
 
+0. Fix & Optimize System `DNS` Settings:
+
+    Clean the `/etc/resolv.conf` and Add:
+    - _`1.1.1.1`_
+    - _`1.0.0.1`_
+    - _`8.8.8.8`_
+    - _`8.8.4.4`_
+
+
 1. Update, Upgrade, and Clean the server:
     - _Update_
     - _Upgrade_
@@ -15,7 +24,7 @@
 
 2. Install Useful Packages:
 
-    _`software-properties-common`_ _`build-essential`_ _`apt-transport-https`_ _`iptables`_ _`iptables-persistent`_ _`lsb-release`_ _`ca-certificates`_ _`ubuntu-keyring`_ _`gnupg2`_ _`apt-utils`_ _`cron`_ _`bash-completion`_ _`curl`_ _`git`_ _`unzip`_ _`ufw`_ _`wget`_ _`preload`_ _`locales`_ _`nano`_ _`vim`_ _`python3`_ _`jq`_ _`qrencode`_ _`socat`_ _`busybox`_ _`net-tools`_ _`haveged`_ _`htop`_ _`libssl-dev`_ _`libsqlite3-dev`_ _`zip`_
+    _`software-properties-common`_ _`build-essential`_ _`apt-transport-https`_ _`iptables`_ _`iptables-persistent`_ _`lsb-release`_ _`ca-certificates`_ _`ubuntu-keyring`_ _`gnupg2`_ _`apt-utils`_ _`cron`_ _`bash-completion`_ _`curl`_ _`git`_ _`zip`_ _`unzip`_ _`ufw`_ _`wget`_ _`preload`_ _`locales`_ _`nano`_ _`vim`_ _`python3`_ _`jq`_ _`qrencode`_ _`socat`_ _`busybox`_ _`net-tools`_ _`haveged`_ _`htop`_ _`libssl-dev`_ _`libsqlite3-dev`_ 
 
     
 3. Enable Packages at Server Boot.
@@ -33,10 +42,10 @@
 
 
 7. Optimize the `SYSCTL` Configs.
-    - SWAP
-    - Network
-    - BBR
-    - Kernel
+    - Optimize `SWAP`.
+    - Optimize Network Settings.
+    - Activate `BBR`.
+    - Optimize the Kernel.
 
     
 8. Optimize `SSH`:
