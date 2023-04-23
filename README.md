@@ -70,7 +70,7 @@ Reboot at the end.
 ## Run
 ### Ubuntu:
 ```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
+bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/ubuntu-optimizer.sh)
 ```
 
 ### Debian:
