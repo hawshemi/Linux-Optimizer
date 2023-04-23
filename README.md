@@ -73,6 +73,21 @@ Reboot at the end.
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
 ```
 
+### Debian:
+```
+Coming Soon...
+```
+
+### CentOS:
+```
+Coming Soon...
+```
+
+### Fedora:
+```
+Coming Soon...
+```
+
 
 ## Disclaimer
 This script is provided as-is, without any warranty or guarantee. Use it at your own risk.
