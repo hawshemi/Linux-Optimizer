@@ -1,6 +1,6 @@
-# Ubuntu Optimizer
+# Linux Optimizer
 
-## This Bash script automates the optimization of your Ubuntu server.
+## This Bash script automates the optimization of your Linux server.
 ### It performs the following tasks:
 
 
@@ -67,19 +67,8 @@
 Reboot at the end.
 
 
-## Prerequisites
-- `Ubuntu` server `(16+)` with `root` access.
-- `curl`
-
-If your Ubuntu server does not have `curl`, install it first:
-
-```
-sudo apt install -y curl
-```
-
-
 ## Run
-
+### Ubuntu:
 ```
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
 ```
