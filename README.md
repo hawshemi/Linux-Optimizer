@@ -68,7 +68,7 @@ Reboot at the end.
 
 
 ## Run
-### Ubuntu:
+### Ubuntu (16+):
 ```
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/ubuntu-optimizer.sh)
 ```
