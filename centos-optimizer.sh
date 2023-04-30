@@ -4,8 +4,8 @@
 # Intro
 echo 
 echo $(tput setaf 2)=======================================================$(tput sgr0)
-echo "$(tput setaf 2)----- This script will automatically Optimize your Ubuntu Server.$(tput sgr0)"
-echo "$(tput setaf 2)----- Tested on Ubuntu 16+ LTS.$(tput sgr0)"
+echo "$(tput setaf 2)----- This script will automatically Optimize your CentOS Server.$(tput sgr0)"
+echo "$(tput setaf 2)----- Tested on CentOS 8+.$(tput sgr0)"
 echo "$(tput setaf 3)----- Root access is required.$(tput sgr0)" 
 echo "$(tput setaf 2)----- Source is @ https://github.com/hawshemi/linux-optimizer$(tput sgr0)" 
 echo $(tput setaf 2)=======================================================$(tput sgr0)
@@ -33,10 +33,10 @@ check_if_running_as_root() {
 }
 
 
-# Check if OS is Ubuntu
-check_ubuntu() {
-  if [[ $(lsb_release -si) != "Ubuntu" ]]; then
-    echo "$(tput setaf 1)Error: This script is only intended to run on Ubuntu.$(tput sgr0)"
+# Check if OS is CentOS
+check_centos() {
+  if [[ $(cat /etc/*-release | grep -E "^ID=" | awk -F'=' '{print $2}' | tr -d '"') != "centos" ]]; then
+    echo "$(tput setaf 1)Error: This script is only intended to run on CentOS.$(tput sgr0)"
     exit 1
   fi
 }
@@ -70,13 +70,11 @@ complete_update() {
   echo 
   sleep 1
 
-  sudo apt update
-  sudo apt -y upgrade
+  sudo yum -y update
+  sudo yum -y upgrade
   sleep 0.5
-  sudo apt -y dist-upgrade
-  sudo apt -y autoremove
-  sudo apt -y autoclean
-  sudo apt -y clean
+  sudo yum -y autoremove
+  sudo yum -y clean all
   echo 
   echo "$(tput setaf 2)----- System Updated Successfully.$(tput sgr0)"
   echo 
@@ -92,12 +90,12 @@ installations() {
   sleep 1
 
   # Purge firewalld to install UFW.
-  sudo apt -y purge firewalld
+  sudo yum -y remove firewalld
 
   # Install
-  sudo apt -y install software-properties-common build-essential apt-transport-https iptables iptables-persistent lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion 
-  sudo apt -y install curl git zip unzip ufw wget preload locales nano vim python3 python3-pip jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev dialog
-  sudo apt -y install binutils make automake autoconf libtool
+  sudo yum -y install epel-release iptables ca-certificates gnupg2 bash-completion 
+  sudo yum -y install ufw curl git zip unzip wget nano vim python3 python3-pip jq haveged socat net-tools dialog htop
+  sudo yum -y install binutils make automake autoconf libtool
   sleep 0.5
   echo 
   echo "$(tput setaf 2)----- Useful Packages Installed Succesfully.$(tput sgr0)"
@@ -108,7 +106,7 @@ installations() {
 
 # Enable packages at server boot
 enable_packages() {
-  sudo systemctl enable preload haveged cron
+  sudo systemctl enable haveged
   echo 
   echo "$(tput setaf 2)----- Packages Enabled Succesfully.$(tput sgr0)"
   echo
@@ -295,7 +293,7 @@ update_sshd_conf() {
   echo "PermitTunnel yes" | tee -a $SSH_PATH
 
   # Restart the SSH service to apply the changes
-  service ssh restart
+  systemctl restart sshd
 
   echo 
   echo $(tput setaf 2)----- SSH is Optimized.$(tput sgr0)
@@ -335,6 +333,9 @@ ufw_optimizations() {
   echo 
   sleep 1
 
+  # Disable UFW
+  sudo ufw disable
+
   # Open default ports.
   sudo ufw allow 21
   sudo ufw allow 21/udp
@@ -362,7 +363,7 @@ ufw_optimizations() {
 check_if_running_as_root
 sleep 0.5
 
-check_ubuntu
+check_centos
 sleep 0.5
 
 fix_dns

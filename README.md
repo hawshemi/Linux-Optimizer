@@ -68,7 +68,7 @@ Reboot at the end.
 
 
 ## Run
-### Ubuntu (16+):
+### Ubuntu (16+ LTS):
 ```
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/ubuntu-optimizer.sh)
 ```
@@ -78,9 +78,9 @@ bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/u
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/debian-optimizer.sh)
 ```
 
-### CentOS:
+### CentOS (8+ Stream):
 ```
-Coming Soon...
+bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/centos-optimizer.sh)
 ```
 
 ### Fedora:
