@@ -80,7 +80,7 @@ bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/d
 
 ### CentOS:
 ```
-Coming Soon...
+bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/centos-optimizer.sh)
 ```
 
 ### Fedora:
