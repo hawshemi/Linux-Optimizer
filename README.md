@@ -73,7 +73,7 @@ Reboot at the end.
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/ubuntu-optimizer.sh)
 ```
 
-### Debian:
+### Debian (11+):
 ```
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/debian-optimizer.sh)
 ```
