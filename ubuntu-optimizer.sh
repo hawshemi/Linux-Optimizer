@@ -5,6 +5,7 @@
 echo 
 echo $(tput setaf 2)=======================================================$(tput sgr0)
 echo "$(tput setaf 2)----- This script will automatically Optimize your Ubuntu Server.$(tput sgr0)"
+echo "$(tput setaf 2)----- Tested on Ubuntu 16+ LTS.$(tput sgr0)"
 echo "$(tput setaf 3)----- Root access is required.$(tput sgr0)" 
 echo "$(tput setaf 2)----- Source is @ https://github.com/hawshemi/linux-optimizer$(tput sgr0)" 
 echo $(tput setaf 2)=======================================================$(tput sgr0)
