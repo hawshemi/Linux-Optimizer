@@ -78,7 +78,7 @@ bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/u
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/debian-optimizer.sh)
 ```
 
-### CentOS:
+### CentOS (8+):
 ```
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/centos-optimizer.sh)
 ```
