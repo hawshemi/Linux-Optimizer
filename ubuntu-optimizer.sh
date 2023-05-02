@@ -51,7 +51,7 @@ set_timezone() {
   timedatectl set-timezone Asia/Tehran
 
   echo 
-  echo "$(tput setaf 3)----- TimeZone set to Asia/Tehran.$(tput sgr0)"
+  echo "$(tput setaf 2)----- TimeZone set to Asia/Tehran.$(tput sgr0)"
   echo
   sleep 0.5
 }
