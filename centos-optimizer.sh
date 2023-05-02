@@ -85,11 +85,16 @@ complete_update() {
   echo 
   sleep 1
 
-  sudo yum -y update
-  sudo yum -y upgrade
+  sudo dnf -y update
+  sudo dnf -y upgrade
   sleep 0.5
-  sudo yum -y autoremove
-  sudo yum -y clean all
+  sudo dnf -y autoremove
+  sudo dnf -y clean all
+
+  sudo dnf -y update
+  sudo dnf -y upgrade
+  sudo dnf -y autoremove
+  
   echo 
   echo "$(tput setaf 2)----- System Updated Successfully.$(tput sgr0)"
   echo 
@@ -105,12 +110,12 @@ installations() {
   sleep 1
 
   # Purge firewalld to install UFW.
-  sudo yum -y remove firewalld
+  sudo dnf -y remove firewalld
 
   # Install
-  sudo yum -y install epel-release iptables ca-certificates gnupg2 bash-completion 
-  sudo yum -y install ufw curl git zip unzip wget nano vim python3 python3-pip jq haveged socat net-tools dialog htop
-  sudo yum -y install binutils make automake autoconf libtool
+  sudo dnf -y install epel-release iptables ca-certificates gnupg2 bash-completion 
+  sudo dnf -y install ufw curl git zip unzip wget nano vim python3 python3-pip jq haveged socat net-tools dialog htop
+  sudo dnf -y install binutils make automake autoconf libtool
   sleep 0.5
   echo 
   echo "$(tput setaf 2)----- Useful Packages Installed Succesfully.$(tput sgr0)"
