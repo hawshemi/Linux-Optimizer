@@ -42,6 +42,21 @@ check_centos() {
 }
 
 
+set_timezone() {
+  echo 
+  echo "$(tput setaf 3)----- Setting TimeZone to Asia/Tehran.$(tput sgr0)"
+  echo
+  sleep 0.5
+
+  timedatectl set-timezone Asia/Tehran
+
+  echo 
+  echo "$(tput setaf 2)----- TimeZone set to Asia/Tehran.$(tput sgr0)"
+  echo
+  sleep 0.5
+}
+
+
 # Fix DNS
 fix_dns() {
   echo 
@@ -364,6 +379,9 @@ check_if_running_as_root
 sleep 0.5
 
 check_centos
+sleep 0.5
+
+set_timezone
 sleep 0.5
 
 fix_dns
