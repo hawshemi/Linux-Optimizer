@@ -4,8 +4,8 @@
 # Intro
 echo 
 echo $(tput setaf 2)=======================================================$(tput sgr0)
-echo "$(tput setaf 2)----- This script will automatically Optimize your CentOS Server.$(tput sgr0)"
-echo "$(tput setaf 2)----- Tested on CentOS 8+.$(tput sgr0)"
+echo "$(tput setaf 2)----- This script will automatically Optimize your Fedora Server.$(tput sgr0)"
+echo "$(tput setaf 2)----- Tested on Fedora 37+.$(tput sgr0)"
 echo "$(tput setaf 3)----- Root access is required.$(tput sgr0)" 
 echo "$(tput setaf 2)----- Source is @ https://github.com/hawshemi/linux-optimizer$(tput sgr0)" 
 echo $(tput setaf 2)=======================================================$(tput sgr0)
@@ -32,10 +32,10 @@ check_if_running_as_root() {
 }
 
 
-# Check if OS is CentOS
-check_centos() {
-  if [[ $(cat /etc/*-release | grep -E "^ID=" | awk -F'=' '{print $2}' | tr -d '"') != "centos" ]]; then
-    echo "$(tput setaf 1)Error: This script is only intended to run on CentOS.$(tput sgr0)"
+# Check if OS is fedora
+check_fedora() {
+  if [[ $(cat /etc/*-release | grep -E "^ID=" | awk -F'=' '{print $2}' | tr -d '"') != "fedora" ]]; then
+    echo "$(tput setaf 1)Error: This script is only intended to run on fedora.$(tput sgr0)"
     exit 1
   fi
 }
@@ -91,9 +91,9 @@ installations() {
   sudo dnf -y remove firewalld
 
   # Install
-  sudo dnf -y install epel-release iptables iptables-services ca-certificates gnupg2 bash-completion 
+  sudo dnf -y install iptables iptables-services ca-certificates gnupg2 bash-completion 
   sudo dnf -y install ufw curl git zip unzip wget nano vim python3 python3-pip jq qrencode haveged socat net-tools dialog htop
-  sudo dnf -y install binutils make automake autoconf libtool
+  sudo dnf -y install binutils PackageKit make automake autoconf libtool
   sleep 0.5
   echo 
   echo "$(tput setaf 2)----- Useful Packages Installed Succesfully.$(tput sgr0)"
@@ -361,7 +361,7 @@ ufw_optimizations() {
 check_if_running_as_root
 sleep 0.5
 
-check_centos
+check_fedora
 sleep 0.5
 
 set_timezone

@@ -19,7 +19,6 @@ SYS_PATH="/etc/sysctl.conf"
 LIM_PATH="/etc/security/limits.conf"
 PROF_PATH="/etc/profile"
 SSH_PATH="/etc/ssh/sshd_config"
-DNS_PATH="/etc/resolv.conf"
 
 
 # Check Root User
@@ -57,27 +56,6 @@ set_timezone() {
 }
 
 
-# Fix DNS
-fix_dns() {
-  echo 
-  echo "$(tput setaf 3)----- Optimizing System DNS Settings.$(tput sgr0)"
-  echo 
-  sleep 1
-
-  sed -i '/nameserver/d' $DNS_PATH
-
-  echo 'nameserver 1.1.1.1' >> $DNS_PATH
-  echo 'nameserver 1.0.0.1' >> $DNS_PATH
-  echo 'nameserver 8.8.8.8' >> $DNS_PATH
-  echo 'nameserver 8.8.4.4' >> $DNS_PATH
-  
-  echo 
-  echo "$(tput setaf 2)----- System DNS Optimized.$(tput sgr0)"
-  echo
-  sleep 1
-}
-
-
 # Update & Upgrade & Remove & Clean
 complete_update() {
   echo 
@@ -112,7 +90,7 @@ installations() {
   # Install
   sudo apt -y install software-properties-common build-essential apt-transport-https iptables iptables-persistent lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion 
   sudo apt -y install curl git zip unzip ufw wget preload locales nano vim python3 python3-pip jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev dialog
-  sudo apt -y install binutils make automake autoconf libtool
+  sudo apt -y install binutils binutils-common binutils-x86-64-linux-gnu packagekit make automake autoconf libtool
   sleep 0.5
   echo 
   echo "$(tput setaf 2)----- Useful Packages Installed Succesfully.$(tput sgr0)"
@@ -381,9 +359,6 @@ check_ubuntu
 sleep 0.5
 
 set_timezone
-sleep 0.5
-
-fix_dns
 sleep 0.5
 
 complete_update
