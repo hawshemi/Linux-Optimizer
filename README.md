@@ -88,7 +88,7 @@ bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/c
 
 ### Fedora:
 ```
-Coming Soon...
+bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/fedora-optimizer.sh)
 ```
 
 
