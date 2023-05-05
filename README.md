@@ -65,6 +65,7 @@ Reboot at the end.
 
 
 ## Run
+
 ### Ubuntu (16+ LTS), Debian (11+), CentOS (8+ Stream), Fedora (37+):
 ```
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-optimizer.sh)
