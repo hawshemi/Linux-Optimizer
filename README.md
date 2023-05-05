@@ -65,27 +65,14 @@ Reboot at the end.
 
 
 ## Run
-### Ubuntu (16+ LTS):
+### Ubuntu (16+ LTS), Debian (11+), CentOS (8+ Stream), Fedora (37+):
 ```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/ubuntu-optimizer.sh)
+bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-optimizer.sh)
 ```
-
-### Debian (11+):
+> run with tmux 
+``` bash
+tmux new -s optimizer 'bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-optimizer.sh)'
 ```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/debian-optimizer.sh)
-```
-
-### CentOS (8+ Stream):
-```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/centos-optimizer.sh)
-```
-
-### Fedora (37+):
-```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/fedora-optimizer.sh)
-```
-
-
 ## Disclaimer
 This script is provided as-is, without any warranty or guarantee. Use it at your own risk.
 
