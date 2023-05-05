@@ -4,8 +4,8 @@
 # Intro
 echo 
 echo $(tput setaf 2)=======================================================$(tput sgr0)
-echo "$(tput setaf 2)----- This script will automatically Optimize your Ubuntu Server.$(tput sgr0)"
-echo "$(tput setaf 2)----- Tested on Ubuntu 16+ LTS.$(tput sgr0)"
+echo "$(tput setaf 2)----- This script will automatically Optimize your Debian Server.$(tput sgr0)"
+echo "$(tput setaf 2)----- Tested on Debian 11+.$(tput sgr0)"
 echo "$(tput setaf 3)----- Root access is required.$(tput sgr0)" 
 echo "$(tput setaf 2)----- Source is @ https://github.com/hawshemi/linux-optimizer$(tput sgr0)" 
 echo $(tput setaf 2)=======================================================$(tput sgr0)
@@ -32,10 +32,10 @@ check_if_running_as_root() {
 }
 
 
-# Check if OS is Ubuntu
-check_ubuntu() {
-  if [[ $(lsb_release -si) != "Ubuntu" ]]; then
-    echo "$(tput setaf 1)Error: This script is only intended to run on Ubuntu.$(tput sgr0)"
+# Check if OS is Debian
+check_debian() {
+  if [[ $(lsb_release -si) != "Debian" ]]; then
+    echo "$(tput setaf 1)Error: This script is only intended to run on Debian.$(tput sgr0)"
     exit 1
   fi
 }
@@ -88,7 +88,7 @@ installations() {
   sudo apt -y purge firewalld
 
   # Install
-  sudo apt -y install software-properties-common build-essential apt-transport-https iptables iptables-persistent lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion 
+  sudo apt -y install software-properties-common build-essential apt-transport-https iptables iptables-persistent lsb-release ca-certificates debian-keyring gnupg2 apt-utils cron bash-completion 
   sudo apt -y install curl git zip unzip ufw wget preload locales nano vim python3 python3-pip jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev dialog
   sudo apt -y install binutils binutils-common binutils-x86-64-linux-gnu packagekit make automake autoconf libtool
   sleep 0.5
@@ -355,7 +355,7 @@ ufw_optimizations() {
 check_if_running_as_root
 sleep 0.5
 
-check_ubuntu
+check_debian
 sleep 0.5
 
 set_timezone
