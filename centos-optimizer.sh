@@ -19,7 +19,6 @@ SYS_PATH="/etc/sysctl.conf"
 LIM_PATH="/etc/security/limits.conf"
 PROF_PATH="/etc/profile"
 SSH_PATH="/etc/ssh/sshd_config"
-DNS_PATH="/etc/resolv.conf"
 
 
 # Check Root User
@@ -54,27 +53,6 @@ set_timezone() {
   echo "$(tput setaf 2)----- TimeZone set to Asia/Tehran.$(tput sgr0)"
   echo
   sleep 0.5
-}
-
-
-# Fix DNS
-fix_dns() {
-  echo 
-  echo "$(tput setaf 3)----- Optimizing System DNS Settings.$(tput sgr0)"
-  echo 
-  sleep 1
-
-  sed -i '/nameserver/d' $DNS_PATH
-
-  echo 'nameserver 1.1.1.1' >> $DNS_PATH
-  echo 'nameserver 1.0.0.1' >> $DNS_PATH
-  echo 'nameserver 8.8.8.8' >> $DNS_PATH
-  echo 'nameserver 8.8.4.4' >> $DNS_PATH
-  
-  echo 
-  echo "$(tput setaf 2)----- System DNS Optimized.$(tput sgr0)"
-  echo
-  sleep 1
 }
 
 
@@ -387,9 +365,6 @@ check_centos
 sleep 0.5
 
 set_timezone
-sleep 0.5
-
-fix_dns
 sleep 0.5
 
 complete_update
