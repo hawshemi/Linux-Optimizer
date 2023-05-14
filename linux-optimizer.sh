@@ -6,7 +6,7 @@ if [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "Ubuntu" ]]; then
     OS="ubuntu"
 elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "Debian GNU/Linux" ]]; then
     OS="centos"
-elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "CentOS Linux" ]]; then
+elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "CentOS Stream" ]]; then
     OS="debian"
 elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "Fedora Linux" ]]; then
     OS="fedora"
