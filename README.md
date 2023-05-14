@@ -68,11 +68,11 @@ Reboot at the end.
 
 ### Install `curl`
 
-Ubuntu & Debian:
+- Ubuntu & Debian:
 ```
 sudo apt install -y curl
 ```
-CentOS & Fedora:
+- CentOS & Fedora:
 ```
 sudo dnf install -y curl
 ```
