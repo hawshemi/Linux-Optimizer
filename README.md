@@ -64,27 +64,24 @@
 Reboot at the end.
 
 
+## Prerequisite
+
+### Install `curl`
+
+- Ubuntu & Debian:
+```
+sudo apt install -y curl
+```
+- CentOS & Fedora:
+```
+sudo dnf install -y curl
+```
+
+
 ## Run
-### Ubuntu (16+ LTS):
 ```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/ubuntu-optimizer.sh)
+bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-optimizer.sh)
 ```
-
-### Debian (11+):
-```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/debian-optimizer.sh)
-```
-
-### CentOS (8+ Stream):
-```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/centos-optimizer.sh)
-```
-
-### Fedora (37+):
-```
-bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/fedora-optimizer.sh)
-```
-
 
 ## Disclaimer
 This script is provided as-is, without any warranty or guarantee. Use it at your own risk.
