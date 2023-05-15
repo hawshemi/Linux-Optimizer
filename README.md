@@ -79,6 +79,7 @@ sudo dnf install -y curl
 
 
 ## Run
+**Tested on:** Ubuntu 16+, Debian 11+, CentOS 8+, Fedora 37+
 ```
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-optimizer.sh)
 ```
