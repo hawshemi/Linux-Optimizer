@@ -1,24 +1,46 @@
-#!/bin/sh
+#!/bin/bash
+
+
+# Green, Yellow & Red Messages.
+green_msg() {
+    tput setaf 2
+    echo "[*] ----- $1"
+    tput sgr0
+}
+
+yellow_msg() {
+    tput setaf 3
+    echo "[*] ----- $1"
+    tput sgr0
+}
+
+red_msg() {
+    tput setaf 1
+    echo "[*] ----- $1"
+    tput sgr0
+}
 
 
 # Intro
 echo 
-echo $(tput setaf 2)=======================================================$(tput sgr0)
-echo "$(tput setaf 2)----- This script will automatically Optimize your Debian Server.$(tput sgr0)"
-echo "$(tput setaf 2)----- Tested on Debian 11+.$(tput sgr0)"
-echo "$(tput setaf 3)----- Root access is required.$(tput sgr0)" 
-echo "$(tput setaf 2)----- Source is @ https://github.com/hawshemi/linux-optimizer$(tput sgr0)" 
-echo $(tput setaf 2)=======================================================$(tput sgr0)
+green_msg '======================================================='
+green_msg 'This script will automatically Optimize your Debian Server.'
+green_msg 'Tested on Debian 11+.'
+yellow_msg 'Root access is required.' 
+green_msg 'Source is @ https://github.com/hawshemi/linux-optimizer' 
+green_msg '======================================================='
 echo 
 
 sleep 1
 
 
-# Declare Paths
+# Declare Paths & Settings.
 SYS_PATH="/etc/sysctl.conf"
 LIM_PATH="/etc/security/limits.conf"
 PROF_PATH="/etc/profile"
 SSH_PATH="/etc/ssh/sshd_config"
+SWAP_PATH="/swapfile"
+SWAP_SIZE=2G
 
 
 # Check Root User
@@ -26,7 +48,7 @@ check_if_running_as_root() {
 
   # If you want to run as another user, please modify $EUID to be owned by this user
   if [[ "$EUID" -ne '0' ]]; then
-    echo "$(tput setaf 1)Error: You must run this script as root!$(tput sgr0)"
+    red_msg 'Error: You must run this script as root!'
     exit 1
   fi
 }
@@ -35,7 +57,7 @@ check_if_running_as_root() {
 # Check if OS is Debian
 check_debian() {
   if [[ $(lsb_release -si) != "Debian" ]]; then
-    echo "$(tput setaf 1)Error: This script is only intended to run on Debian.$(tput sgr0)"
+    red_msg 'Error: This script is only intended to run on Debian.'
     exit 1
   fi
 }
@@ -43,14 +65,14 @@ check_debian() {
 
 set_timezone() {
   echo 
-  echo "$(tput setaf 3)----- Setting TimeZone to Asia/Tehran.$(tput sgr0)"
+  yellow_msg 'Setting TimeZone to Asia/Tehran.'
   echo
   sleep 0.5
 
   timedatectl set-timezone Asia/Tehran
 
   echo 
-  echo "$(tput setaf 2)----- TimeZone set to Asia/Tehran.$(tput sgr0)"
+  green_msg 'TimeZone set to Asia/Tehran.'
   echo
   sleep 0.5
 }
@@ -59,19 +81,24 @@ set_timezone() {
 # Update & Upgrade & Remove & Clean
 complete_update() {
   echo 
-  echo "$(tput setaf 3)----- Updating the System.$(tput sgr0)"
+  yellow_msg 'Updating the System.'
   echo 
   sleep 1
 
   sudo apt update
   sudo apt -y upgrade
-  sleep 0.5
   sudo apt -y dist-upgrade
+  sleep 0.5
   sudo apt -y autoremove
+
   sudo apt -y autoclean
   sudo apt -y clean
+  sudo apt update
+  sudo apt -y upgrade
+  sudo apt -y dist-upgrade
+  sleep 0.5
   echo 
-  echo "$(tput setaf 2)----- System Updated Successfully.$(tput sgr0)"
+  green_msg 'System Updated Successfully.'
   echo 
   sleep 1
 }
@@ -80,7 +107,7 @@ complete_update() {
 ## Install useful packages
 installations() {
   echo 
-  echo "$(tput setaf 3)----- Installing Useful Packeges.$(tput sgr0)"
+  yellow_msg 'Installing Useful Packeges.'
   echo 
   sleep 1
 
@@ -88,12 +115,12 @@ installations() {
   sudo apt -y purge firewalld
 
   # Install
-  sudo apt -y install software-properties-common build-essential apt-transport-https iptables iptables-persistent lsb-release ca-certificates debian-keyring gnupg2 apt-utils cron bash-completion 
+  sudo apt -y install software-properties-common build-essential apt-transport-https nftables iptables iptables-persistent lsb-release ca-certificates debian-keyring gnupg2 apt-utils cron bash-completion 
   sudo apt -y install curl git zip unzip ufw wget preload locales nano vim python3 python3-pip jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev dialog
   sudo apt -y install binutils binutils-common binutils-x86-64-linux-gnu packagekit make automake autoconf libtool
   sleep 0.5
   echo 
-  echo "$(tput setaf 2)----- Useful Packages Installed Succesfully.$(tput sgr0)"
+  green_msg 'Useful Packages Installed Succesfully.'
   echo 
   sleep 0.5
 }
@@ -103,7 +130,7 @@ installations() {
 enable_packages() {
   sudo systemctl enable preload haveged cron
   echo 
-  echo "$(tput setaf 2)----- Packages Enabled Succesfully.$(tput sgr0)"
+  green_msg 'Packages Enabled Succesfully.'
   echo
   sleep 0.5
 }
@@ -112,15 +139,9 @@ enable_packages() {
 ## Swap Maker
 swap_maker() {
   echo 
-  echo "$(tput setaf 3)----- Making SWAP Space.$(tput sgr0)"
+  yellow_msg 'Making SWAP Space.'
   echo 
   sleep 1
-
-  # 2 GB Swap Size
-  SWAP_SIZE=2G
-
-  # Default Swap Path
-  SWAP_PATH="/swapfile"
 
   # Make Swap
   sudo fallocate -l $SWAP_SIZE $SWAP_PATH  # Allocate size
@@ -129,7 +150,7 @@ swap_maker() {
   sudo swapon $SWAP_PATH                   # Enable swap
   echo "$SWAP_PATH   none    swap    sw    0   0" >> /etc/fstab # Add to fstab
   echo 
-  echo $(tput setaf 2)----- SWAP Created Successfully.$(tput sgr0)
+  green_msg 'SWAP Created Successfully.'
   echo
   sleep 0.5
   
@@ -183,7 +204,7 @@ remove_old_sysctl() {
 ## SYSCTL Optimization
 sysctl_optimizations() {
   echo 
-  echo "$(tput setaf 3)----- Optimizing the Network.$(tput sgr0)"
+  yellow_msg 'Optimizing the Network.'
   echo 
   sleep 1
 
@@ -218,7 +239,7 @@ sysctl_optimizations() {
 
   sysctl -p
   echo 
-  echo $(tput setaf 2)----- Network is Optimized.$(tput sgr0)
+  green_msg 'Network is Optimized.'
   echo 
   sleep 0.5
 }
@@ -230,7 +251,7 @@ remove_old_ssh_conf() {
   cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 
   echo 
-  echo "$(tput setaf 2)----- Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak$(tput sgr0)"
+  green_msg 'Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak'
   echo 
   sleep 1
   
@@ -261,7 +282,7 @@ remove_old_ssh_conf() {
 ## Update SSH config
 update_sshd_conf() {
   echo 
-  echo "$(tput setaf 3)----- Optimizing SSH.$(tput sgr0)"
+  yellow_msg 'Optimizing SSH.'
   echo 
   sleep 1
 
@@ -291,7 +312,7 @@ update_sshd_conf() {
   service ssh restart
 
   echo 
-  echo $(tput setaf 2)----- SSH is Optimized.$(tput sgr0)
+  green_msg 'SSH is Optimized.'
   echo 
 }
 
@@ -299,7 +320,7 @@ update_sshd_conf() {
 # System Limits Optimizations
 limits_optimizations() {
   echo
-  echo "$(tput setaf 3)----- Optimizing System Limits.$(tput sgr0)"
+  yellow_msg 'Optimizing System Limits.'
   echo 
   sleep 1
 
@@ -315,7 +336,7 @@ limits_optimizations() {
 
   sudo sysctl -p
   echo 
-  echo $(tput setaf 2)----- System Limits Optimized.$(tput sgr0)
+  green_msg 'System Limits Optimized.'
   echo 
   sleep 0.5
 }
@@ -324,7 +345,7 @@ limits_optimizations() {
 ## UFW Optimizations
 ufw_optimizations() {
   echo
-  echo "$(tput setaf 3)----- Optimizing UFW.$(tput sgr0)"
+  yellow_msg 'Optimizing UFW.'
   echo 
   sleep 1
 
@@ -345,7 +366,7 @@ ufw_optimizations() {
   # Reload if running
   ufw reload
   echo 
-  echo $(tput setaf 2)----- Firewall is Optimized.$(tput sgr0)
+  green_msg 'Firewall is Optimized.'
   echo 
   sleep 0.5
 }
@@ -394,10 +415,10 @@ sleep 0.5
 
 # Outro
 echo 
-echo $(tput setaf 2)=========================$(tput sgr0)
-echo "$(tput setaf 2)----- Done! Server is Optimized.$(tput sgr0)"
-echo "$(tput setaf 3)----- Reboot in 5 seconds...$(tput sgr0)"
-echo $(tput setaf 2)=========================$(tput sgr0)
+green_msg '========================='
+green_msg 'Done! Server is Optimized.'
+yellow_msg 'Reboot in 5 seconds...'
+green_msg '========================='
 sudo sleep 5 ; shutdown -r 0
 echo 
 echo 
