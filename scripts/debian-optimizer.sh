@@ -117,7 +117,7 @@ installations() {
   # Install
   sudo apt -y install software-properties-common build-essential apt-transport-https nftables iptables iptables-persistent lsb-release ca-certificates debian-keyring gnupg2 apt-utils cron bash-completion 
   sudo apt -y install curl git zip unzip ufw wget preload locales nano vim python3 python3-pip jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev dialog
-  sudo apt -y install binutils binutils-common binutils-x86-64-linux-gnu packagekit make automake autoconf libtool
+  sudo apt -y install bc binutils binutils-common binutils-x86-64-linux-gnu packagekit make automake autoconf libtool
   sleep 0.5
   echo 
   green_msg 'Useful Packages Installed Succesfully.'
