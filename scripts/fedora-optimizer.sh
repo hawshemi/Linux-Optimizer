@@ -114,7 +114,7 @@ installations() {
     # Install
     sudo dnf -y install nftables iptables iptables-services ca-certificates gnupg2 bash-completion 
     sudo dnf -y install ufw curl git zip unzip wget nano vim python3 python3-pip jq qrencode haveged socat net-tools dialog htop
-    sudo dnf -y install binutils PackageKit make automake autoconf libtool
+    sudo dnf -y install bc binutils PackageKit make automake autoconf libtool
     sleep 0.5
     echo 
     green_msg 'Useful Packages Installed Succesfully.'
