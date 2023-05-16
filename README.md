@@ -18,7 +18,7 @@
 
 3. Install Useful Packages:
 
-    _`software-properties-common`_ _`build-essential`_ _`apt-transport-https`_ _`iptables`_ _`iptables-persistent`_ _`lsb-release`_ _`ca-certificates`_ _`ubuntu-keyring`_ _`gnupg2`_ _`apt-utils`_ _`cron`_ _`bash-completion`_ _`curl`_ _`git`_ _`zip`_ _`unzip`_ _`ufw`_ _`wget`_ _`preload`_ _`locales`_ _`nano`_ _`vim`_ _`python3`_ _`python3-pip`_ _`jq`_ _`qrencode`_ _`socat`_ _`busybox`_ _`net-tools`_ _`haveged`_ _`htop`_ _`libssl-dev`_ _`libsqlite3-dev`_ _`dialog`_ _`binutils`_ _`binutils-common`_ _`binutils-x86-64-linux-gnu`_ _`packagekit`_ _`make`_ _`automake`_ _`autoconf`_ _`libtool`_
+    _`software-properties-common`_ _`build-essential`_ _`apt-transport-https`_ _`iptables`_ _`iptables-persistent`_ _`lsb-release`_ _`ca-certificates`_ _`ubuntu-keyring`_ _`gnupg2`_ _`apt-utils`_ _`cron`_ _`bash-completion`_ _`curl`_ _`git`_ _`zip`_ _`unzip`_ _`ufw`_ _`wget`_ _`preload`_ _`locales`_ _`nano`_ _`vim`_ _`python3`_ _`python3-pip`_ _`jq`_ _`qrencode`_ _`socat`_ _`busybox`_ _`net-tools`_ _`haveged`_ _`htop`_ _`libssl-dev`_ _`libsqlite3-dev`_ _`dialog`_ _`bc`_ _`binutils`_ _`binutils-common`_ _`binutils-x86-64-linux-gnu`_ _`packagekit`_ _`make`_ _`automake`_ _`autoconf`_ _`libtool`_
 
     
 4. Enable Packages at Server Boot.
