@@ -43,25 +43,7 @@ SWAP_PATH="/swapfile"
 SWAP_SIZE=2G
 
 
-# Check Root User
-check_if_running_as_root() {
-    # If you want to run as another user, please modify $EUID to be owned by this user
-    if [[ "$EUID" -ne '0' ]]; then
-      red_msg 'Error: You must run this script as root!'
-      exit 1
-    fi
-}
-
-
-# Check if OS is fedora
-check_fedora() {
-    if [[ $(cat /etc/*-release | grep -E "^ID=" | awk -F'=' '{print $2}' | tr -d '"') != "fedora" ]]; then
-      red_msg 'Error: This script is only intended to run on fedora.'
-      exit 1
-    fi
-}
-
-
+# Timezone
 set_timezone() {
     echo 
     yellow_msg 'Setting TimeZone to Asia/Tehran.'
@@ -371,12 +353,6 @@ ufw_optimizations() {
 
 
 # RUN BABY, RUN
-check_if_running_as_root
-sleep 0.5
-
-check_fedora
-sleep 0.5
-
 set_timezone
 sleep 0.5
 
