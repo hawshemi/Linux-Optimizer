@@ -66,13 +66,11 @@ complete_update() {
     echo 
     sleep 1
 
-    sudo dnf -y update
     sudo dnf -y upgrade
-    sleep 0.5
     sudo dnf -y autoremove
     sudo dnf -y clean all
-
-    sudo dnf -y update
+    sleep 0.5
+    # Again :D
     sudo dnf -y upgrade
     sudo dnf -y autoremove
     
