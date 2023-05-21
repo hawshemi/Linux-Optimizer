@@ -54,15 +54,7 @@ check_if_running_as_root() {
 }
 
 
-# Check if OS is Debian
-check_debian() {
-  if [[ $(lsb_release -si) != "Debian" ]]; then
-    red_msg 'Error: This script is only intended to run on Debian.'
-    exit 1
-  fi
-}
-
-
+# Timezone
 set_timezone() {
   echo 
   yellow_msg 'Setting TimeZone to Asia/Tehran.'
@@ -374,9 +366,6 @@ ufw_optimizations() {
 
 # RUN BABY, RUN
 check_if_running_as_root
-sleep 0.5
-
-check_debian
 sleep 0.5
 
 set_timezone
