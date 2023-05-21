@@ -43,25 +43,7 @@ SWAP_PATH="/swapfile"
 SWAP_SIZE=2G
 
 
-# Check Root User
-check_if_running_as_root() {
-    # If you want to run as another user, please modify $EUID to be owned by this user
-    if [[ "$EUID" -ne '0' ]]; then
-      red_msg 'Error: You must run this script as root!'
-      exit 1
-    fi
-}
-
-
-# Check if OS is CentOS
-check_centos() {
-    if [[ $(cat /etc/*-release | grep -E "^ID=" | awk -F'=' '{print $2}' | tr -d '"') != "centos" ]]; then
-      red_msg 'Error: This script is only intended to run on CentOS.'
-      exit 1
-    fi
-}
-
-
+# Timezone
 set_timezone() {
     echo 
     yellow_msg 'Setting TimeZone to Asia/Tehran.'
@@ -84,13 +66,11 @@ complete_update() {
     echo 
     sleep 1
 
-    sudo dnf -y update
     sudo dnf -y upgrade
-    sleep 0.5
     sudo dnf -y autoremove
     sudo dnf -y clean all
-
-    sudo dnf -y update
+    sleep 0.5
+    # Again :D
     sudo dnf -y upgrade
     sudo dnf -y autoremove
     
@@ -377,12 +357,6 @@ ufw_optimizations() {
 
 
 # RUN BABY, RUN
-check_if_running_as_root
-sleep 0.5
-
-check_centos
-sleep 0.5
-
 set_timezone
 sleep 0.5
 

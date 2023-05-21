@@ -1,18 +1,82 @@
 #!/bin/bash
 
 
+clear
+
+
+# Green, Yellow & Red Messages.
+green_msg() {
+    tput setaf 2
+    echo "[*] ----- $1"
+    tput sgr0
+}
+
+yellow_msg() {
+    tput setaf 3
+    echo "[*] ----- $1"
+    tput sgr0
+}
+
+red_msg() {
+    tput setaf 1
+    echo "[*] ----- $1"
+    tput sgr0
+}
+
+
+# Root
+check_if_running_as_root() {
+    # If you want to run as another user, please modify $EUID to be owned by this user
+    if [[ "$EUID" -ne '0' ]]; then
+      echo 
+      red_msg 'Error: You must run this script as root!'
+      echo 
+      sleep 0.5
+      exit 1
+    fi
+}
+
+# Check Root
+check_if_running_as_root
+sleep 0.5
+
+
 # OS Detection
 if [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "Ubuntu" ]]; then
     OS="ubuntu"
+    echo 
+    sleep 0.5
+    yellow_msg "OS: Ubuntu"
+    echo 
+    sleep 2
 elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "Debian GNU/Linux" ]]; then
     OS="debian"
+    echo 
+    sleep 0.5
+    yellow_msg "OS: Debian"
+    echo 
+    sleep 2
 elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "CentOS Stream" ]]; then
     OS="centos"
+    echo 
+    sleep 0.5
+    yellow_msg "OS: Centos"
+    echo 
+    sleep 2
 elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "Fedora Linux" ]]; then
     OS="fedora"
+    echo 
+    sleep 0.5
+    yellow_msg "OS: Fedora"
+    echo 
+    sleep 2
 else
-    echo "Unknwon OS, Create an issue here: https://github.com/hawshemi/Linux-Optimizer"
+    echo 
+    sleep 0.5
+    red_msg "Unknwon OS, Create an issue here: https://github.com/hawshemi/Linux-Optimizer"
     OS="unknown"
+    echo 
+    sleep 1
 fi
 
 

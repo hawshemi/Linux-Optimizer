@@ -43,26 +43,7 @@ SWAP_PATH="/swapfile"
 SWAP_SIZE=2G
 
 
-# Check Root User
-check_if_running_as_root() {
-
-  # If you want to run as another user, please modify $EUID to be owned by this user
-  if [[ "$EUID" -ne '0' ]]; then
-    red_msg 'Error: You must run this script as root!'
-    exit 1
-  fi
-}
-
-
-# Check if OS is Debian
-check_debian() {
-  if [[ $(lsb_release -si) != "Debian" ]]; then
-    red_msg 'Error: This script is only intended to run on Debian.'
-    exit 1
-  fi
-}
-
-
+# Timezone
 set_timezone() {
   echo 
   yellow_msg 'Setting TimeZone to Asia/Tehran.'
@@ -373,12 +354,6 @@ ufw_optimizations() {
 
 
 # RUN BABY, RUN
-check_if_running_as_root
-sleep 0.5
-
-check_debian
-sleep 0.5
-
 set_timezone
 sleep 0.5
 
