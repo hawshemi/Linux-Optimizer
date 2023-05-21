@@ -53,15 +53,7 @@ check_if_running_as_root() {
 }
 
 
-# Check if OS is CentOS
-check_centos() {
-    if [[ $(cat /etc/*-release | grep -E "^ID=" | awk -F'=' '{print $2}' | tr -d '"') != "centos" ]]; then
-      red_msg 'Error: This script is only intended to run on CentOS.'
-      exit 1
-    fi
-}
-
-
+# Timezone
 set_timezone() {
     echo 
     yellow_msg 'Setting TimeZone to Asia/Tehran.'
@@ -378,9 +370,6 @@ ufw_optimizations() {
 
 # RUN BABY, RUN
 check_if_running_as_root
-sleep 0.5
-
-check_centos
 sleep 0.5
 
 set_timezone
