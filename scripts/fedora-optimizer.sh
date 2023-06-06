@@ -138,6 +138,7 @@ remove_old_sysctl() {
     sed -i '/fs.file-max/d' $SYS_PATH
     sed -i '/fs.inotify.max_user_instances/d' $SYS_PATH
 
+    sed -i '/net.ipv4.tcp_fastopen/d' $SYS_PATH
     sed -i '/net.ipv4.tcp_syncookies/d' $SYS_PATH
     sed -i '/net.ipv4.tcp_fin_timeout/d' $SYS_PATH
     sed -i '/net.ipv4.tcp_tw_reuse/d' $SYS_PATH
@@ -192,6 +193,7 @@ sysctl_optimizations() {
     # Optimize Network Settings
     echo 'fs.file-max = 1000000' >> $SYS_PATH
 
+    echo 'net.ipv4.tcp_fastopen = 3' >> $SYS_PATH
     echo 'net.core.rmem_default = 1048576' >> $SYS_PATH
     echo 'net.core.rmem_max = 2097152' >> $SYS_PATH
     echo 'net.core.wmem_default = 1048576' >> $SYS_PATH
