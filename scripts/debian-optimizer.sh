@@ -143,7 +143,7 @@ remove_old_sysctl() {
   sed -i '/fs.file-max/d' $SYS_PATH
   sed -i '/fs.inotify.max_user_instances/d' $SYS_PATH
   
-  sed -i '/net.ipv4.tcp_fastopen/d' >> $SYS_PATH
+  sed -i '/net.ipv4.tcp_fastopen/d' $SYS_PATH
   sed -i '/net.ipv4.tcp_syncookies/d' $SYS_PATH
   sed -i '/net.ipv4.tcp_fin_timeout/d' $SYS_PATH
   sed -i '/net.ipv4.tcp_tw_reuse/d' $SYS_PATH
