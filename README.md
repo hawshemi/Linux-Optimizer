@@ -84,6 +84,11 @@ dnf install -y sudo curl
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-optimizer.sh)
 ```
 
+
+## Menu Image
+<img width="431" alt="menu" title="Menu" src="https://github.com/hawshemi/Linux-Optimizer/assets/16742123/42884907-4be2-4182-a75e-06b02625b6da">
+
+
 ## Disclaimer
 This script is provided as-is, without any warranty or guarantee. Use it at your own risk.
 
