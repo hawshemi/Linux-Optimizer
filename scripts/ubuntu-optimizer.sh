@@ -149,34 +149,34 @@ remove_old_sysctl() {
     sed -i '/fs.file-max/d' $SYS_PATH
 
     # Swap Settings
-    sed -i 'vm.swappiness/d' $SYS_PATH
-    sed -i 'vm.vfs_cache_pressure/d' $SYS_PATH
+    sed -i '/vm.swappiness/d' $SYS_PATH
+    sed -i '/vm.vfs_cache_pressure/d' $SYS_PATH
 
     # Network Settings
-    sed -i 'fs.file-max/d' $SYS_PATH
+    sed -i '/fs.file-max/d' $SYS_PATH
 
-    sed -i 'net.ipv4.tcp_window_scaling/d' $SYS_PATH
-    sed -i 'net.ipv4.tcp_fastopen/d' $SYS_PATH
+    sed -i '/net.ipv4.tcp_window_scaling/d' $SYS_PATH
+    sed -i '/net.ipv4.tcp_fastopen/d' $SYS_PATH
     
-    sed -i 'net.core.rmem_default/d' $SYS_PATH
-    sed -i 'net.core.rmem_max/d' $SYS_PATH
-    sed -i 'net.core.wmem_default/d' $SYS_PATH
-    sed -i 'net.core.wmem_max/d' $SYS_PATH
-    sed -i 'net.core.netdev_max_backlog/d' $SYS_PATH
-    sed -i 'net.core.somaxconn/d' $SYS_PATH
-    sed -i 'net.ipv4.tcp_mtu_probing/d' $SYS_PATH
+    sed -i '/net.core.rmem_default/d' $SYS_PATH
+    sed -i '/net.core.rmem_max/d' $SYS_PATH
+    sed -i '/net.core.wmem_default/d' $SYS_PATH
+    sed -i '/net.core.wmem_max/d' $SYS_PATH
+    sed -i '/net.core.netdev_max_backlog/d' $SYS_PATH
+    sed -i '/net.core.somaxconn/d' $SYS_PATH
+    sed -i '/net.ipv4.tcp_mtu_probing/d' $SYS_PATH
 
-    sed -i 'net.ipv4.tcp_retries2/d' $SYS_PATH
-    sed -i 'net.ipv4.tcp_slow_start_after_idle/d' $SYS_PATH
-    sed -i 'net.ipv4.ip_forward/d' $SYS_PATH
+    sed -i '/net.ipv4.tcp_retries2/d' $SYS_PATH
+    sed -i '/net.ipv4.tcp_slow_start_after_idle/d' $SYS_PATH
+    sed -i '/net.ipv4.ip_forward/d' $SYS_PATH
 
-    sed -i 'net.ipv6.conf.all.disable_ipv6/d' $SYS_PATH
-    sed -i 'net.ipv6.conf.default.disable_ipv6/d' $SYS_PATH
-    sed -i 'net.ipv6.conf.all.forwarding/d' $SYS_PATH
+    sed -i '/net.ipv6.conf.all.disable_ipv6/d' $SYS_PATH
+    sed -i '/net.ipv6.conf.default.disable_ipv6/d' $SYS_PATH
+    sed -i '/net.ipv6.conf.all.forwarding/d' $SYS_PATH
 
     # BBR
-    sed -i 'net.core.default_qdisc/d' $SYS_PATH 
-    sed -i 'net.ipv4.tcp_congestion_control/d' $SYS_PATH
+    sed -i '/net.core.default_qdisc/d' $SYS_PATH 
+    sed -i '/net.ipv4.tcp_congestion_control/d' $SYS_PATH
 
     # System Limits.
     sed -i '/soft/d' $LIM_PATH
