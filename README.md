@@ -86,7 +86,7 @@ bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/l
 
 
 ## Menu Image
-<img width="431" alt="menu" title="Menu" src="https://github.com/hawshemi/Linux-Optimizer/assets/16742123/42884907-4be2-4182-a75e-06b02625b6da">
+<img width="481" title="Menu" alt="Menu" src="https://github.com/hawshemi/Linux-Optimizer/assets/16742123/64847a99-4efe-4d28-aec1-6d08a7fee335">
 
 
 ## Disclaimer
