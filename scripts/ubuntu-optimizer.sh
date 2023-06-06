@@ -38,7 +38,7 @@ ask_reboot() {
         read choice
         if [[ "$choice" == 'y' || "$choice" == 'Y' ]]; then
             sleep 0.5
-            shutdown -r 0
+            reboot
             exit 0
         fi
         if [[ "$choice" == 'n' || "$choice" == 'N' ]]; then
