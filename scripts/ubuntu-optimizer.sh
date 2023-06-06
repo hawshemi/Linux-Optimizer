@@ -21,19 +21,6 @@ red_msg() {
 }
 
 
-# Intro
-echo 
-green_msg '======================================================='
-green_msg 'This script will automatically Optimize your Ubuntu Server.'
-green_msg 'Tested on Ubuntu 16+ LTS.'
-yellow_msg 'Root access is required.'
-green_msg 'Source is @ https://github.com/hawshemi/linux-optimizer'
-green_msg '======================================================='
-echo 
-
-sleep 1
-
-
 # Declare Paths & Settings.
 SYS_PATH="/etc/sysctl.conf"
 LIM_PATH="/etc/security/limits.conf"
