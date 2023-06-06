@@ -21,19 +21,6 @@ red_msg() {
 }
 
 
-# Intro
-echo 
-green_msg '======================================================='
-green_msg 'This script will automatically Optimize your Debian Server.'
-green_msg 'Tested on Debian 11+.'
-yellow_msg 'Root access is required.' 
-green_msg 'Source is @ https://github.com/hawshemi/linux-optimizer' 
-green_msg '======================================================='
-echo 
-
-sleep 1
-
-
 # Declare Paths & Settings.
 SYS_PATH="/etc/sysctl.conf"
 LIM_PATH="/etc/security/limits.conf"
