@@ -353,7 +353,7 @@ ufw_optimizations() {
     sed -i 's+/etc/ufw/sysctl.conf+/etc/sysctl.conf+gI' /etc/default/ufw
 
     # Enable & Reload
-    sudo ufw enable
+    echo "y" | sudo ufw enable
     sudo ufw reload
     echo 
     green_msg 'Firewall is Optimized.'
@@ -524,7 +524,6 @@ main() {
             ;;
         esac
     done
-
 }
 
 
