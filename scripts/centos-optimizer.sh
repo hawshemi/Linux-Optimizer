@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://github.com/hawshemi/Linux-optimizer
 
 
 # Green, Yellow & Red Messages.
@@ -30,6 +31,23 @@ SWAP_PATH="/swapfile"
 SWAP_SIZE=2G
 
 
+# Ask Reboot
+ask_reboot() {
+    yellow_msg 'Reboot now? (Recommended) (y/n)'
+    while true; do
+        read choice
+        if [[ "$choice" == 'y' || "$choice" == 'Y' ]]; then
+            sleep 0.5
+            shutdown -r 0
+            exit 0
+        fi
+        if [[ "$choice" == 'n' || "$choice" == 'N' ]]; then
+            break
+        fi
+    done
+}
+
+
 # Timezone
 set_timezone() {
     echo 
@@ -51,12 +69,13 @@ complete_update() {
     echo 
     yellow_msg 'Updating the System.'
     echo 
-    sleep 1
+    sleep 0.5
 
     sudo dnf -y upgrade
     sudo dnf -y autoremove
     sudo dnf -y clean all
     sleep 0.5
+    
     # Again :D
     sudo dnf -y upgrade
     sudo dnf -y autoremove
@@ -64,7 +83,7 @@ complete_update() {
     echo 
     green_msg 'System Updated Successfully.'
     echo 
-    sleep 1
+    sleep 0.5
 }
 
 
@@ -73,7 +92,7 @@ installations() {
     echo 
     yellow_msg 'Installing Useful Packeges.'
     echo 
-    sleep 1
+    sleep 0.5
 
     # Purge firewalld to install UFW.
     sudo dnf -y remove firewalld
@@ -81,8 +100,8 @@ installations() {
     # Install
     sudo dnf -y install epel-release nftables iptables iptables-services ca-certificates gnupg2 bash-completion 
     sudo dnf -y install ufw curl git zip unzip wget nano vim python3 python3-pip jq qrencode haveged socat net-tools dialog htop
-    sudo dnf -y install bc binutils make automake autoconf libtool
-    sleep 0.5
+    sudo dnf -y install bc binutils PackageKit make automake autoconf libtool
+    
     echo 
     green_msg 'Useful Packages Installed Succesfully.'
     echo 
@@ -105,13 +124,7 @@ swap_maker() {
     echo 
     yellow_msg 'Making SWAP Space.'
     echo 
-    sleep 1
-
-    # 2 GB Swap Size
-    SWAP_SIZE=2G
-
-    # Default Swap Path
-    SWAP_PATH="/swapfile"
+    sleep 0.5
 
     # Make Swap
     sudo fallocate -l $SWAP_SIZE $SWAP_PATH  # Allocate size
@@ -131,7 +144,9 @@ remove_old_sysctl() {
     sed -i '/fs.file-max/d' $SYS_PATH
     sed -i '/fs.inotify.max_user_instances/d' $SYS_PATH
     
+    sed -i '/net.ipv4.tcp_window_scaling/d' $SYS_PATH
     sed -i '/net.ipv4.tcp_fastopen/d' $SYS_PATH
+
     sed -i '/net.ipv4.tcp_syncookies/d' $SYS_PATH
     sed -i '/net.ipv4.tcp_fin_timeout/d' $SYS_PATH
     sed -i '/net.ipv4.tcp_tw_reuse/d' $SYS_PATH
@@ -152,8 +167,8 @@ remove_old_sysctl() {
     sed -i '/net.ipv6.conf.all.disable_ipv6/d' $SYS_PATH
     sed -i '/net.ipv6.conf.default.disable_ipv6/d' $SYS_PATH
     sed -i '/net.ipv6.conf.all.forwarding/d' $SYS_PATH
-    # System Limits.
 
+    # System Limits.
     sed -i '/soft/d' $LIM_PATH
     sed -i '/hard/d' $LIM_PATH
 
@@ -176,17 +191,18 @@ sysctl_optimizations() {
     echo 
     yellow_msg 'Optimizing the Network.'
     echo 
-    sleep 1
+    sleep 0.5
 
     # Optimize Swap Settings
     echo 'vm.swappiness=10' >> $SYS_PATH
     echo 'vm.vfs_cache_pressure=50' >> $SYS_PATH
-    sleep 0.5
 
     # Optimize Network Settings
     echo 'fs.file-max = 1000000' >> $SYS_PATH
-    
+
+    echo 'net.ipv4.tcp_window_scaling = 1' >> $SYS_PATH
     echo 'net.ipv4.tcp_fastopen = 3' >> $SYS_PATH
+    
     echo 'net.core.rmem_default = 1048576' >> $SYS_PATH
     echo 'net.core.rmem_max = 2097152' >> $SYS_PATH
     echo 'net.core.wmem_default = 1048576' >> $SYS_PATH
@@ -222,7 +238,7 @@ remove_old_ssh_conf() {
     cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 
     echo 
-    green_msg 'Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak'
+    yellow_msg 'Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak'
     echo 
     sleep 1
     
@@ -254,7 +270,7 @@ update_sshd_conf() {
     echo 
     yellow_msg 'Optimizing SSH.'
     echo 
-    sleep 1
+    sleep 0.5
 
     # Enable TCP keep-alive messages
     echo "TCPKeepAlive yes" | tee -a $SSH_PATH
@@ -284,6 +300,7 @@ update_sshd_conf() {
     echo 
     green_msg 'SSH is Optimized.'
     echo 
+    sleep 0.5
 }
 
 
@@ -292,7 +309,7 @@ limits_optimizations() {
     echo
     yellow_msg 'Optimizing System Limits.'
     echo 
-    sleep 1
+    sleep 0.5
 
     echo '* soft     nproc          655350' >> $LIM_PATH
     echo '* hard     nproc          655350' >> $LIM_PATH
@@ -317,7 +334,7 @@ ufw_optimizations() {
     echo
     yellow_msg 'Optimizing UFW.'
     echo 
-    sleep 1
+    sleep 0.5
 
     # Disable UFW
     sudo ufw disable
@@ -336,8 +353,9 @@ ufw_optimizations() {
     # Change the UFW config to use System config.
     sed -i 's+/etc/ufw/sysctl.conf+/etc/sysctl.conf+gI' /etc/default/ufw
 
-    # Reload if running
-    ufw reload
+    # Enable & Reload
+    echo "y" | sudo ufw enable
+    sudo ufw reload
     echo 
     green_msg 'Firewall is Optimized.'
     echo 
@@ -345,48 +363,207 @@ ufw_optimizations() {
 }
 
 
-# RUN BABY, RUN
-set_timezone
-sleep 0.5
-
-complete_update
-sleep 0.5
-
-installations
-sleep 0.5
-
-enable_packages
-sleep 0.5
-
-swap_maker
-sleep 0.5
-
-remove_old_sysctl
-sleep 0.5
-
-sysctl_optimizations
-sleep 0.5
-
-remove_old_ssh_conf
-sleep 0.5
-
-update_sshd_conf
-sleep 0.5
-
-limits_optimizations
-sleep 1
-
-ufw_optimizations
-sleep 0.5
+# Show the Menu
+show_menu() {
+    echo 
+    yellow_msg 'Choose One Option: '
+    echo 
+    green_msg '1 - Apply Everything. (RECOMMENDED)'
+    echo 
+    green_msg '2 - Everything Without Useful Packages.'
+    green_msg '3 - Everything Without Useful Packages & UFW Optimizations.'
+    green_msg '4 - Update the OS.'
+    green_msg '5 - Make SWAP (2Gb).'
+    green_msg '6 - Optimize the Network, SSH & System Limits.'
+    green_msg '7 - Optimize UFW.'
+    echo 
+    red_msg 'q - Exit.'
+    echo 
+}
 
 
-# Outro
-echo 
-green_msg '========================='
-green_msg 'Done! Server is Optimized.'
-yellow_msg 'Reboot in 5 seconds...'
-green_msg '========================='
-sudo sleep 5 ; shutdown -r 0
-echo 
-echo 
-echo 
+# Choosing Program
+main() {
+    while true; do
+        show_menu
+        read -p 'Enter Your Choice: ' choice
+        case $choice in
+        1)
+            apply_everything
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        2)
+            complete_update
+            sleep 0.5
+
+            swap_maker
+            sleep 0.5
+
+            remove_old_sysctl
+            sleep 0.5
+
+            sysctl_optimizations
+            sleep 0.5
+
+            remove_old_ssh_conf
+            sleep 0.5
+
+            update_sshd_conf
+            sleep 0.5
+
+            limits_optimizations
+            sleep 0.5
+
+            ufw_optimizations
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        3)
+            complete_update
+            sleep 0.5
+
+            swap_maker
+            sleep 0.5
+
+            remove_old_sysctl
+            sleep 0.5
+
+            sysctl_optimizations
+            sleep 0.5
+
+            remove_old_ssh_conf
+            sleep 0.5
+
+            update_sshd_conf
+            sleep 0.5
+
+            limits_optimizations
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        4)
+            complete_update
+            sleep 0.5
+
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        5)
+            swap_maker
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        6)
+            remove_old_sysctl
+            sleep 0.5
+
+            sysctl_optimizations
+            sleep 0.5
+
+            remove_old_ssh_conf
+            sleep 0.5
+
+            update_sshd_conf
+            sleep 0.5
+
+            limits_optimizations
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        7)
+            ufw_optimizations
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        q)
+            exit 0
+            ;;
+
+        *)
+            red_msg 'Wrong input!'
+            ;;
+        esac
+    done
+}
+
+
+# Apply Everything
+apply_everything() {
+    
+    set_timezone
+    sleep 0.5
+
+    complete_update
+    sleep 0.5
+
+    installations
+    sleep 0.5
+
+    enable_packages
+    sleep 0.5
+
+    swap_maker
+    sleep 0.5
+
+    remove_old_sysctl
+    sleep 0.5
+
+    sysctl_optimizations
+    sleep 0.5
+
+    remove_old_ssh_conf
+    sleep 0.5
+
+    update_sshd_conf
+    sleep 0.5
+
+    limits_optimizations
+    sleep 0.5
+
+    ufw_optimizations
+    sleep 0.5
+}
+
+
+main
