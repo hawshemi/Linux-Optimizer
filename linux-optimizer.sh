@@ -59,35 +59,35 @@ if [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "Ubuntu" ]]; then
     sleep 0.5
     yellow_msg "OS: Ubuntu"
     echo 
-    sleep 2
+    sleep 1
 elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "Debian GNU/Linux" ]]; then
     OS="debian"
     echo 
     sleep 0.5
     yellow_msg "OS: Debian"
     echo 
-    sleep 2
+    sleep 1
 elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "CentOS Stream" ]]; then
     OS="centos"
     echo 
     sleep 0.5
     yellow_msg "OS: Centos"
     echo 
-    sleep 2
+    sleep 1
 elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "Fedora Linux" ]]; then
     OS="fedora"
     echo 
     sleep 0.5
     yellow_msg "OS: Fedora"
     echo 
-    sleep 2
+    sleep 1
 else
     echo 
     sleep 0.5
     red_msg "Unknwon OS, Create an issue here: https://github.com/hawshemi/Linux-Optimizer"
     OS="unknown"
     echo 
-    sleep 1
+    sleep 2
 fi
 
 
