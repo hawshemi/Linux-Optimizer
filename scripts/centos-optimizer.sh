@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://github.com/hawshemi/Linux-optimizer
 
 
 # Green, Yellow & Red Messages.
