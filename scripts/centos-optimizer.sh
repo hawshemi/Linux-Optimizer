@@ -373,9 +373,10 @@ show_menu() {
     green_msg '2 - Everything Without Useful Packages.'
     green_msg '3 - Everything Without Useful Packages & UFW Optimizations.'
     green_msg '4 - Update the OS.'
-    green_msg '5 - Make SWAP (2Gb).'
-    green_msg '6 - Optimize the Network, SSH & System Limits.'
-    green_msg '7 - Optimize UFW.'
+    green_msg '5 - Install Useful Packages.'
+    green_msg '6 - Make SWAP (2Gb).'
+    green_msg '7 - Optimize the Network, SSH & System Limits.'
+    green_msg '8 - Optimize UFW.'
     echo 
     red_msg 'q - Exit.'
     echo 
@@ -463,7 +464,6 @@ main() {
             complete_update
             sleep 0.5
 
-
             echo 
             green_msg '========================='
             green_msg  'Done.'
@@ -471,8 +471,10 @@ main() {
 
             ask_reboot
             ;;
+            
         5)
-            swap_maker
+            complete_update
+            installations
             sleep 0.5
 
             echo 
@@ -483,6 +485,17 @@ main() {
             ask_reboot
             ;;
         6)
+            swap_maker
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        7)
             remove_old_sysctl
             sleep 0.5
 
@@ -505,7 +518,7 @@ main() {
 
             ask_reboot
             ;;
-        7)
+        8)
             ufw_optimizations
             sleep 0.5
 
