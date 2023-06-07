@@ -79,6 +79,10 @@ dnf install -y sudo curl
 
 
 ## Run
+Root Access is Required. If user is not root, first Run:
+```
+sudo -i
+```
 **Tested on:** Ubuntu 16+, Debian 11+, CentOS 8+, Fedora 37+
 ```
 bash <(curl -s https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-optimizer.sh)
