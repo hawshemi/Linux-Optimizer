@@ -66,15 +66,15 @@ Reboot at the end is Recommended.
 
 ## Pre-Run
 
-### Packages `curl` and `sudo` must be installed.
+### Packages `wget` and `sudo` must be installed.
 
 - Ubuntu & Debian:
 ```
-apt install -y sudo curl
+apt install -y sudo wget
 ```
 - CentOS & Fedora:
 ```
-dnf install -y sudo curl
+dnf install -y sudo wget
 ```
 
 
