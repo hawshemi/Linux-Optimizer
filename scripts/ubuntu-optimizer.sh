@@ -133,7 +133,7 @@ installations() {
 
 # Enable packages at server boot
 enable_packages() {
-    sudo systemctl enable preload haveged cron
+    sudo systemctl enable preload haveged cron nftables
     echo 
     green_msg 'Packages Enabled Succesfully.'
     echo
