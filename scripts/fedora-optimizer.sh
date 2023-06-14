@@ -129,7 +129,7 @@ installations() {
 
 # Enable packages at server boot
 enable_packages() {
-    sudo systemctl enable haveged
+    sudo systemctl enable haveged nftables
     echo 
     green_msg 'Packages Enabled Succesfully.'
     echo
