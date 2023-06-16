@@ -52,8 +52,10 @@ sleep 0.5
 # Ask Reboot
 ask_reboot() {
     yellow_msg 'Reboot now? (Recommended) (y/n)'
+    echo 
     while true; do
         read choice
+        echo 
         if [[ "$choice" == 'y' || "$choice" == 'Y' ]]; then
             sleep 0.5
             reboot
@@ -157,50 +159,6 @@ swap_maker() {
 }
 
 
-# Remove Old SYSCTL Config to prevent duplicates.
-remove_old_sysctl() {
-    sed -i '/fs.file-max/d' $SYS_PATH
-
-    # Swap Settings
-    sed -i '/vm.swappiness/d' $SYS_PATH
-    sed -i '/vm.vfs_cache_pressure/d' $SYS_PATH
-
-    # Network Settings
-    sed -i '/fs.file-max/d' $SYS_PATH
-
-    sed -i '/net.ipv4.tcp_window_scaling/d' $SYS_PATH
-    sed -i '/net.ipv4.tcp_fastopen/d' $SYS_PATH
-    
-    sed -i '/net.core.rmem_default/d' $SYS_PATH
-    sed -i '/net.core.rmem_max/d' $SYS_PATH
-    sed -i '/net.core.wmem_default/d' $SYS_PATH
-    sed -i '/net.core.wmem_max/d' $SYS_PATH
-    sed -i '/net.core.netdev_max_backlog/d' $SYS_PATH
-    sed -i '/net.core.somaxconn/d' $SYS_PATH
-    sed -i '/net.ipv4.tcp_mtu_probing/d' $SYS_PATH
-
-    sed -i '/net.ipv4.tcp_retries2/d' $SYS_PATH
-    sed -i '/net.ipv4.tcp_slow_start_after_idle/d' $SYS_PATH
-    sed -i '/net.ipv4.ip_forward/d' $SYS_PATH
-
-    sed -i '/net.ipv6.conf.all.disable_ipv6/d' $SYS_PATH
-    sed -i '/net.ipv6.conf.default.disable_ipv6/d' $SYS_PATH
-    sed -i '/net.ipv6.conf.all.forwarding/d' $SYS_PATH
-
-    # BBR
-    sed -i '/net.core.default_qdisc/d' $SYS_PATH 
-    sed -i '/net.ipv4.tcp_congestion_control/d' $SYS_PATH
-
-    # System Limits.
-    sed -i '/soft/d' $LIM_PATH
-    sed -i '/hard/d' $LIM_PATH
-
-    # uLimit
-    sed -i '/1000000/d' $PROF_PATH
-
-}
-
-
 ## SYSCTL Optimization
 sysctl_optimizations() {
     echo 
@@ -208,74 +166,15 @@ sysctl_optimizations() {
     echo 
     sleep 0.5
 
-    # Optimize Swap Settings
-    echo 'vm.swappiness=10' >> $SYS_PATH
-    echo 'vm.vfs_cache_pressure=50' >> $SYS_PATH
-
-    # Optimize Network Settings
-    echo 'fs.file-max = 1000000' >> $SYS_PATH
-
-    echo 'net.ipv4.tcp_window_scaling = 1' >> $SYS_PATH
-    echo 'net.ipv4.tcp_fastopen = 3' >> $SYS_PATH
-    
-    echo 'net.core.rmem_default = 1048576' >> $SYS_PATH
-    echo 'net.core.rmem_max = 2097152' >> $SYS_PATH
-    echo 'net.core.wmem_default = 1048576' >> $SYS_PATH
-    echo 'net.core.wmem_max = 2097152' >> $SYS_PATH
-    echo 'net.core.netdev_max_backlog = 16384' >> $SYS_PATH
-    echo 'net.core.somaxconn = 32768' >> $SYS_PATH
-    echo 'net.ipv4.tcp_mtu_probing = 1' >> $SYS_PATH
-
-    echo 'net.ipv4.tcp_retries2 = 8' >> $SYS_PATH
-    echo 'net.ipv4.tcp_slow_start_after_idle = 0' >> $SYS_PATH
-    echo 'net.ipv4.ip_forward = 1' >> $SYS_PATH
-
-    echo 'net.ipv6.conf.all.disable_ipv6 = 0' >> $SYS_PATH
-    echo 'net.ipv6.conf.default.disable_ipv6 = 0' >> $SYS_PATH
-    echo 'net.ipv6.conf.all.forwarding = 1' >> $SYS_PATH
-
-    # Use BBR
-    echo 'net.core.default_qdisc = fq' >> $SYS_PATH 
-    echo 'net.ipv4.tcp_congestion_control = bbr' >> $SYS_PATH
+    # Replace the new sysctl.conf file.
+    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/sysctl.conf" -O $SYS_PATH 
 
     sysctl -p
     echo 
+
     green_msg 'Network is Optimized.'
     echo 
     sleep 0.5
-}
-
-
-# Remove old SSH config to prevent duplicates.
-remove_old_ssh_conf() {
-    # Make a backup of the original sshd_config file
-    cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
-
-    echo 
-    yellow_msg 'Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak'
-    echo 
-    sleep 1
-    
-    # Disable DNS lookups for connecting clients
-    sed -i 's/#UseDNS yes/UseDNS no/' $SSH_PATH
-
-    # Enable compression for SSH connections
-    sed -i 's/#Compression no/Compression yes/' $SSH_PATH
-
-    # Remove less efficient encryption ciphers
-    sed -i 's/Ciphers .*/Ciphers aes256-ctr,chacha20-poly1305@openssh.com/' $SSH_PATH
-
-    # Remove these lines
-    sed -i '/MaxAuthTries/d' $SSH_PATH
-    sed -i '/MaxSessions/d' $SSH_PATH
-    sed -i '/TCPKeepAlive/d' $SSH_PATH
-    sed -i '/ClientAliveInterval/d' $SSH_PATH
-    sed -i '/ClientAliveCountMax/d' $SSH_PATH
-    sed -i '/AllowAgentForwarding/d' $SSH_PATH
-    sed -i '/PermitRootLogin/d' $SSH_PATH
-    sed -i '/AllowTcpForwarding/d' $SSH_PATH
-    sed -i '/GatewayPorts/d' $SSH_PATH
-    sed -i '/PermitTunnel/d' $SSH_PATH
 }
 
 
@@ -286,27 +185,8 @@ update_sshd_conf() {
     echo 
     sleep 0.5
 
-    # Enable TCP keep-alive messages
-    echo "TCPKeepAlive yes" >> $SSH_PATH
-
-    # Configure client keep-alive messages
-    echo "ClientAliveInterval 3000" >> $SSH_PATH
-    echo "ClientAliveCountMax 100" >> $SSH_PATH
-
-    # Allow agent forwarding
-    echo "AllowAgentForwarding yes" >> $SSH_PATH
-
-    #Permit Root Login
-    echo "PermitRootLogin yes" >> $SSH_PATH
-
-    # Allow TCP forwarding
-    echo "AllowTcpForwarding yes" >> $SSH_PATH
-
-    # Enable gateway ports
-    echo "GatewayPorts yes" >> $SSH_PATH
-
-    # Enable tunneling
-    echo "PermitTunnel yes" >> $SSH_PATH
+    # Replace the new sshd_config file.
+    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/sshd_config" -O $SSH_PATH 
 
     # Restart the SSH service to apply the changes
     systemctl restart sshd
@@ -325,21 +205,9 @@ limits_optimizations() {
     echo 
     sleep 0.5
 
-    echo '* soft     nproc          655350' >> $LIM_PATH
-    echo '* hard     nproc          655350' >> $LIM_PATH
-    echo '* soft     nofile         655350' >> $LIM_PATH
-    echo '* hard     nofile         655350' >> $LIM_PATH
+    sed -i '/1000000/d' $PROF_PATH
 
-    echo 'root soft     nproc          655350' >> $LIM_PATH
-    echo 'root hard     nproc          655350' >> $LIM_PATH
-    echo 'root soft     nofile         655350' >> $LIM_PATH
-    echo 'root hard     nofile         655350' >> $LIM_PATH
-
-    sudo sysctl -p
-    echo 
-    green_msg 'System Limits Optimized.'
-    echo 
-    sleep 0.5
+    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/limits.conf" -O $LIM_PATH
 }
 
 
@@ -420,13 +288,7 @@ main() {
             swap_maker
             sleep 0.5
 
-            remove_old_sysctl
-            sleep 0.5
-
             sysctl_optimizations
-            sleep 0.5
-
-            remove_old_ssh_conf
             sleep 0.5
 
             update_sshd_conf
@@ -452,14 +314,9 @@ main() {
             swap_maker
             sleep 0.5
 
-            remove_old_sysctl
-            sleep 0.5
-
             sysctl_optimizations
             sleep 0.5
 
-            remove_old_ssh_conf
-            sleep 0.5
 
             update_sshd_conf
             sleep 0.5
@@ -510,13 +367,8 @@ main() {
             ask_reboot
             ;;
         7)
-            remove_old_sysctl
-            sleep 0.5
 
             sysctl_optimizations
-            sleep 0.5
-
-            remove_old_ssh_conf
             sleep 0.5
 
             update_sshd_conf
@@ -573,13 +425,7 @@ apply_everything() {
     swap_maker
     sleep 0.5
 
-    remove_old_sysctl
-    sleep 0.5
-
     sysctl_optimizations
-    sleep 0.5
-
-    remove_old_ssh_conf
     sleep 0.5
 
     update_sshd_conf
