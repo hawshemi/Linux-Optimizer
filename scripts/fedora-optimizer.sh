@@ -161,6 +161,14 @@ swap_maker() {
 
 ## SYSCTL Optimization
 sysctl_optimizations() {
+    # Make a backup of the original sysctl.conf file
+    cp $SYS_PATH /etc/sysctl.conf.bak
+
+    echo 
+    yellow_msg 'Default sysctl.conf file Saved. Directory: /etc/sysctl.conf.bak'
+    echo 
+    sleep 1
+
     echo 
     yellow_msg 'Optimizing the Network.'
     echo 
@@ -181,7 +189,7 @@ sysctl_optimizations() {
 # Remove old SSH config to prevent duplicates.
 remove_old_ssh_conf() {
     # Make a backup of the original sshd_config file
-    cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+    cp $SSH_PATH /etc/ssh/sshd_config.bak
 
     echo 
     yellow_msg 'Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak'
