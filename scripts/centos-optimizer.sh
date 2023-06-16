@@ -208,6 +208,7 @@ remove_old_ssh_conf() {
     sed -i '/AllowTcpForwarding/d' $SSH_PATH
     sed -i '/GatewayPorts/d' $SSH_PATH
     sed -i '/PermitTunnel/d' $SSH_PATH
+    sed -i '/X11Forwarding/d' $SSH_PATH
 }
 
 
@@ -241,7 +242,7 @@ update_sshd_conf() {
     echo "X11Forwarding yes" | tee -a $SSH_PATH
 
     # Restart the SSH service to apply the changes
-    service ssh restart
+    systemctl restart sshd
 
     echo 
     green_msg 'SSH is Optimized.'
