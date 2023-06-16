@@ -16,12 +16,6 @@ ClientAliveInterval 3000
 # Allow remote hosts to connect to local forwarded ports
 GatewayPorts yes
 
-# Don't allow login with empty passwords
-PermitEmptyPasswords no
-
-# Permit root login
-PermitRootLogin yes
-
 # Allow tun device forwarding for VPN tunneling
 PermitTunnel yes
 
