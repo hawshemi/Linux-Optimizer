@@ -10,7 +10,8 @@ AllowTcpForwarding yes
 # Maximum number of client alive messages which may be sent without receiving any messages back from the client
 ClientAliveCountMax 100
 
-# Sets a timeout interval in seconds (3000 secs = 50 minutes) after which if no data has been received from the client, sshd will send a message through the encrypted channel to request a response from the client
+# Sets a timeout interval in seconds (3000 secs = 50 minutes) after which if no data has been received from the client,
+# sshd will send a message through the encrypted channel to request a response from the client
 ClientAliveInterval 3000
 
 # Allow remote hosts to connect to local forwarded ports
