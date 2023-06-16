@@ -32,24 +32,26 @@
 6. Enable `IPv6` Support.
 
 
-7. Clean the Old `SYSCTL` Configs.
-
-
-8. Optimize the `SYSCTL` Configs.
+7. Optimize the `SYSCTL` Configs.
     - Optimize `SWAP`.
     - Optimize Network Settings.
     - Activate `BBR`.
     - Optimize the Kernel.
 
+    *Original file is backed up at `/etc/sysctl.conf.bak`.*
+
     
-9. Optimize `SSH`:
+8. Optimize `SSH`:
     - Back up the original `sshd_config` file.
     - Disable DNS lookups for connecting clients.
     - Remove less efficient encryption ciphers.
     - Enable and Configure TCP keep-alive messages.
     - Allow agent & TCP forwarding.
     - Enable gateway ports, Tunneling & Compression.
-    
+    - Enable X11 Forwarding.
+
+    *Original file is backed up at `/etc/ssh/sshd_config.bak`.*
+   
 
 10. Optimize the System Limits:
     - Soft & Hard `nproc` limits.
@@ -81,7 +83,7 @@ dnf install -y sudo wget
 ## Run
 #### **Tested on:** Ubuntu 18+, Debian 11+, CentOS 8+, Fedora 37+
 
-#### Root Access is Required. If user is not root, first run:
+#### Root Access is Required. If the user is not root, first run:
 ```
 sudo -i
 ```
