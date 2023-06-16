@@ -114,9 +114,6 @@ installations() {
     echo 
     sleep 0.5
 
-    # Purge firewalld to install UFW.
-    sudo dnf -y remove firewalld
-
     # Install
     sudo dnf -y install epel-release nftables iptables iptables-services ca-certificates gnupg2 bash-completion 
     sudo dnf -y install ufw curl git zip unzip wget nano vim python3 python3-pip jq qrencode haveged socat net-tools dialog htop
@@ -283,6 +280,12 @@ ufw_optimizations() {
     yellow_msg 'Optimizing UFW.'
     echo 
     sleep 0.5
+
+    # Purge firewalld to install UFW.
+    sudo dnf -y remove firewalld
+
+    # Install UFW if it isn't installed.
+    dnf install -y ufw
 
     # Disable UFW
     sudo ufw disable

@@ -119,9 +119,6 @@ installations() {
     echo 
     sleep 0.5
 
-    # Purge firewalld to install UFW.
-    sudo apt -y purge firewalld
-
     # Install
     sudo apt -y install software-properties-common build-essential apt-transport-https nftables iptables iptables-persistent lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion 
     sudo apt -y install curl git zip unzip ufw wget preload locales nano vim python3 python3-pip jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev dialog
@@ -288,6 +285,12 @@ ufw_optimizations() {
     yellow_msg 'Optimizing UFW.'
     echo 
     sleep 0.5
+
+    # Purge firewalld to install UFW.
+    sudo apt -y purge firewalld
+    
+    # Install UFW if it isn't installed.
+    sudo apt install -y ufw
 
     # Disable UFW
     sudo ufw disable
