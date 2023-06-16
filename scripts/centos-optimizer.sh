@@ -297,7 +297,7 @@ ufw_optimizations() {
     echo "y" | sudo ufw enable
     sudo ufw reload
     echo 
-    green_msg 'UFW is Optimized.'
+    green_msg 'Firewall is Optimized.'
     echo 
     sleep 0.5
 }
@@ -494,6 +494,9 @@ apply_everything() {
     sysctl_optimizations
     sleep 0.5
 
+    remove_old_ssh_conf
+    sleep 0.5
+    
     update_sshd_conf
     sleep 0.5
 
