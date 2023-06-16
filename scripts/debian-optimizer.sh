@@ -499,6 +499,9 @@ apply_everything() {
     sysctl_optimizations
     sleep 0.5
 
+    remove_old_ssh_conf
+    sleep 0.5
+    
     update_sshd_conf
     sleep 0.5
 
