@@ -302,7 +302,7 @@ ufw_optimizations() {
     echo "y" | sudo ufw enable
     sudo ufw reload
     echo 
-    green_msg 'Firewall is Optimized.'
+    green_msg 'UFW is Optimized.'
     echo 
     sleep 0.5
 }
