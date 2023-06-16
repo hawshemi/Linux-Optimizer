@@ -37,7 +37,9 @@
     - Optimize Network Settings.
     - Activate `BBR`.
     - Optimize the Kernel.
-    
+
+    *Original file is backed up at `/etc/sysctl.conf.bak`.*
+
     
 8. Optimize `SSH`:
     - Back up the original `sshd_config` file.
@@ -47,14 +49,16 @@
     - Allow agent & TCP forwarding.
     - Enable gateway ports, Tunneling & Compression.
     - Enable X11 Forwarding.
-    
 
-9. Optimize the System Limits:
+    *Original file is backed up at `/etc/ssh/sshd_config.bak`.*
+   
+
+10. Optimize the System Limits:
     - Soft & Hard `nproc` limits.
     - Soft & Hard `nofile` limits.
     
     
-10. Optimize `UFW` & Open Common Ports.
+11. Optimize `UFW` & Open Common Ports.
     - Open Ports `21`, `22`, `80`, `443`.
     - With `IPv6`, `TCP` & `UDP`.
 
