@@ -1,4 +1,5 @@
 # /etc/ssh/sshd_config
+# The parameters in this file are added to the sshd_config file, Not overwritten.
 
 
 # Allow SSH agent forwarding
