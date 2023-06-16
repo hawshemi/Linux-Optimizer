@@ -1,5 +1,5 @@
 #!/bin/bash
-# https://github.com/hawshemi/Linux-optimizer
+# https://github.com/hawshemi/Linux-Optimizer
 
 
 # Green, Yellow & Red Messages.
@@ -167,7 +167,7 @@ sysctl_optimizations() {
     sleep 0.5
 
     # Replace the new sysctl.conf file.
-    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/sysctl.conf" -O $SYS_PATH 
+    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/update/files/sysctl.conf" -q -O $SYS_PATH 
 
     sysctl -p
     echo 
@@ -178,6 +178,39 @@ sysctl_optimizations() {
 }
 
 
+# Remove old SSH config to prevent duplicates.
+remove_old_ssh_conf() {
+    # Make a backup of the original sshd_config file
+    cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+
+    echo 
+    yellow_msg 'Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak'
+    echo 
+    sleep 1
+    
+    # Disable DNS lookups for connecting clients
+    sed -i 's/#UseDNS yes/UseDNS no/' $SSH_PATH
+
+    # Enable compression for SSH connections
+    sed -i 's/#Compression no/Compression yes/' $SSH_PATH
+
+    # Remove less efficient encryption ciphers
+    sed -i 's/Ciphers .*/Ciphers aes256-ctr,chacha20-poly1305@openssh.com/' $SSH_PATH
+
+    # Remove these lines
+    sed -i '/MaxAuthTries/d' $SSH_PATH
+    sed -i '/MaxSessions/d' $SSH_PATH
+    sed -i '/TCPKeepAlive/d' $SSH_PATH
+    sed -i '/ClientAliveInterval/d' $SSH_PATH
+    sed -i '/ClientAliveCountMax/d' $SSH_PATH
+    sed -i '/AllowAgentForwarding/d' $SSH_PATH
+    sed -i '/PermitRootLogin/d' $SSH_PATH
+    sed -i '/AllowTcpForwarding/d' $SSH_PATH
+    sed -i '/GatewayPorts/d' $SSH_PATH
+    sed -i '/PermitTunnel/d' $SSH_PATH
+}
+
+
 ## Update SSH config
 update_sshd_conf() {
     echo 
@@ -185,11 +218,30 @@ update_sshd_conf() {
     echo 
     sleep 0.5
 
-    # Replace the new sshd_config file.
-    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/sshd_config" -O $SSH_PATH 
+    # Enable TCP keep-alive messages
+    echo "TCPKeepAlive yes" | tee -a $SSH_PATH
+
+    # Configure client keep-alive messages
+    echo "ClientAliveInterval 3000" | tee -a $SSH_PATH
+    echo "ClientAliveCountMax 100" | tee -a $SSH_PATH
+
+    # Allow agent forwarding
+    echo "AllowAgentForwarding yes" | tee -a $SSH_PATH
+
+    # Allow TCP forwarding
+    echo "AllowTcpForwarding yes" | tee -a $SSH_PATH
+
+    # Enable gateway ports
+    echo "GatewayPorts yes" | tee -a $SSH_PATH
+
+    # Enable tunneling
+    echo "PermitTunnel yes" | tee -a $SSH_PATH
+
+    # Enable X11 graphical interface forwarding
+    echo "X11Forwarding yes" | tee -a $SSH_PATH
 
     # Restart the SSH service to apply the changes
-    systemctl restart sshd
+    service ssh restart
 
     echo 
     green_msg 'SSH is Optimized.'
@@ -207,7 +259,12 @@ limits_optimizations() {
 
     sed -i '/1000000/d' $PROF_PATH
 
-    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/limits.conf" -O $LIM_PATH
+    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/update/files/limits.conf" -q -O $LIM_PATH
+
+    echo 
+    green_msg 'System Limits are Optimized.'
+    echo 
+    sleep 0.5
 }
 
 
@@ -239,7 +296,7 @@ ufw_optimizations() {
     echo "y" | sudo ufw enable
     sudo ufw reload
     echo 
-    green_msg 'Firewall is Optimized.'
+    green_msg 'UFW is Optimized.'
     echo 
     sleep 0.5
 }
@@ -291,6 +348,9 @@ main() {
             sysctl_optimizations
             sleep 0.5
 
+            remove_old_ssh_conf
+            sleep 0.5
+    
             update_sshd_conf
             sleep 0.5
 
@@ -317,7 +377,9 @@ main() {
             sysctl_optimizations
             sleep 0.5
 
-
+            remove_old_ssh_conf
+            sleep 0.5
+    
             update_sshd_conf
             sleep 0.5
 
@@ -371,6 +433,9 @@ main() {
             sysctl_optimizations
             sleep 0.5
 
+            remove_old_ssh_conf
+            sleep 0.5
+    
             update_sshd_conf
             sleep 0.5
 
