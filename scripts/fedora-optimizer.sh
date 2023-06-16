@@ -167,7 +167,7 @@ sysctl_optimizations() {
     sleep 0.5
 
     # Replace the new sysctl.conf file.
-    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/update/files/sysctl.conf" -q -O $SYS_PATH 
+    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/sysctl.conf" -q -O $SYS_PATH 
 
     sysctl -p
     echo 
@@ -260,7 +260,7 @@ limits_optimizations() {
 
     sed -i '/1000000/d' $PROF_PATH
 
-    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/update/files/limits.conf" -q -O $LIM_PATH
+    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/limits.conf" -q -O $LIM_PATH
 
     echo 
     green_msg 'System Limits are Optimized.'
@@ -494,6 +494,9 @@ apply_everything() {
     sysctl_optimizations
     sleep 0.5
 
+    remove_old_ssh_conf
+    sleep 0.5
+    
     update_sshd_conf
     sleep 0.5
 
