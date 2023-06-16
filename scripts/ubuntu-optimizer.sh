@@ -214,7 +214,6 @@ remove_old_ssh_conf() {
     sed -i '/ClientAliveInterval/d' $SSH_PATH
     sed -i '/ClientAliveCountMax/d' $SSH_PATH
     sed -i '/AllowAgentForwarding/d' $SSH_PATH
-    sed -i '/PermitRootLogin/d' $SSH_PATH
     sed -i '/AllowTcpForwarding/d' $SSH_PATH
     sed -i '/GatewayPorts/d' $SSH_PATH
     sed -i '/PermitTunnel/d' $SSH_PATH
