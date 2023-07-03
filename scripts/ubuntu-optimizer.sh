@@ -115,7 +115,7 @@ complete_update() {
 ## Install useful packages
 installations() {
     echo 
-    yellow_msg 'Installing Useful Packeges.'
+    yellow_msg 'Installing Useful Packages.'
     echo 
     sleep 0.5
 
@@ -123,13 +123,13 @@ installations() {
     sudo apt -y install apt-transport-https iptables iptables-persistent nftables
 
     # System utilities
-    sudo apt -y install apt-utils bash-completion binutils-common binutils-x86-64-linux-gnu busybox ca-certificates cron curl gnupg2 locales lsb-release nano preload software-properties-common ufw unzip vim wget xxd zip
+    sudo apt -y install apt-utils bash-completion busybox ca-certificates cron curl gnupg2 locales lsb-release nano preload software-properties-common ufw unzip vim wget xxd zip
 
     # Programming and development tools
     sudo apt -y install autoconf automake bash-completion build-essential git libtool make pkg-config python3 python3-pip
 
     # Additional libraries and dependencies
-    sudo apt -y install bc binutils ubuntu-keyring haveged jq libsodium-dev libsqlite3-dev libssl-dev packagekit qrencode socat
+    sudo apt -y install bc binutils binutils-common binutils-x86-64-linux-gnu ubuntu-keyring haveged jq libsodium-dev libsqlite3-dev libssl-dev packagekit qrencode socat
 
     # Miscellaneous
     sudo apt -y install dialog htop net-tools
