@@ -110,18 +110,21 @@ complete_update() {
 ## Install useful packages
 installations() {
     echo 
-    yellow_msg 'Installing Useful Packeges.'
+    yellow_msg 'Installing Useful Packages.'
     echo 
     sleep 0.5
 
     # Install EPEL repository
     sudo dnf -y install epel-release
 
+    # Update for the EPEL
+    sudo dnf -y upgrade
+
     # Networking packages
     sudo dnf -y install iptables iptables-services nftables
 
     # System utilities
-    sudo dnf -y install bash-completion ca-certificates curl gnupg2 nano ufw unzip vim wget xxd zip
+    sudo dnf -y install bash-completion ca-certificates crontabs curl dnf-plugins-core dnf-utils gnupg2 nano ufw unzip vim wget zip
 
     # Programming and development tools
     sudo dnf -y install autoconf automake bash-completion git libtool make pkg-config python3 python3-pip
@@ -141,7 +144,7 @@ installations() {
 
 # Enable packages at server boot
 enable_packages() {
-    sudo systemctl enable haveged nftables
+    sudo systemctl enable crond.service haveged nftables
     echo 
     green_msg 'Packages Enabled Succesfully.'
     echo
