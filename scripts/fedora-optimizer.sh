@@ -113,21 +113,21 @@ installations() {
     yellow_msg 'Installing Useful Packeges.'
     echo 
     sleep 0.5
-
+    
     # Networking packages
-    sudo dnf -y install nftables iptables iptables-services
+    sudo dnf -y install iptables iptables-services nftables
 
     # System utilities
-    sudo dnf -y install ca-certificates gnupg2 bash-completion ufw curl wget zip unzip nano vim xxd
+    sudo dnf -y install bash-completion ca-certificates curl gnupg2 nano ufw unzip vim wget xxd zip
 
     # Programming and development tools
-    sudo dnf -y install python3 python3-pip git make automake autoconf libtool pkg-config
+    sudo dnf -y install autoconf automake bash-completion git libtool make pkg-config python3 python3-pip
 
     # Additional libraries and dependencies
-    sudo dnf -y install jq qrencode haveged socat bc binutils PackageKit libsodium libsodium-devel
+    sudo dnf -y install bc binutils haveged jq libsodium libsodium-devel PackageKit qrencode socat
 
     # Miscellaneous
-    sudo dnf -y install net-tools dialog htop
+    sudo dnf -y install dialog htop net-tools
 
     echo 
     green_msg 'Useful Packages Installed Succesfully.'
