@@ -114,11 +114,24 @@ installations() {
     echo 
     sleep 0.5
 
-    # Install
-    sudo dnf -y install epel-release nftables iptables iptables-services ca-certificates gnupg2 bash-completion 
-    sudo dnf -y install ufw curl git zip unzip wget nano vim python3 python3-pip jq qrencode haveged socat net-tools dialog htop
-    sudo dnf -y install bc binutils PackageKit make automake autoconf libtool
-    
+    # Install EPEL repository
+    sudo dnf -y install epel-release
+
+    # Networking packages
+    sudo dnf -y install iptables iptables-services nftables
+
+    # System utilities
+    sudo dnf -y install bash-completion ca-certificates curl gnupg2 nano ufw unzip vim wget xxd zip
+
+    # Programming and development tools
+    sudo dnf -y install autoconf automake bash-completion git libtool make pkg-config python3 python3-pip
+
+    # Additional libraries and dependencies
+    sudo dnf -y install bc binutils haveged jq libsodium libsodium-devel PackageKit qrencode socat
+
+    # Miscellaneous
+    sudo dnf -y install dialog htop net-tools
+
     echo 
     green_msg 'Useful Packages Installed Succesfully.'
     echo 
