@@ -114,11 +114,21 @@ installations() {
     echo 
     sleep 0.5
 
-    # Install
-    sudo dnf -y install nftables iptables iptables-services ca-certificates gnupg2 bash-completion 
-    sudo dnf -y install ufw curl git zip unzip wget nano vim python3 python3-pip jq qrencode haveged socat net-tools dialog htop
-    sudo dnf -y install bc binutils PackageKit make automake autoconf libtool
-    
+    # Networking packages
+    sudo dnf -y install nftables iptables iptables-services
+
+    # System utilities
+    sudo dnf -y install ca-certificates gnupg2 bash-completion ufw curl wget zip unzip nano vim xxd
+
+    # Programming and development tools
+    sudo dnf -y install python3 python3-pip git make automake autoconf libtool pkg-config
+
+    # Additional libraries and dependencies
+    sudo dnf -y install jq qrencode haveged socat bc binutils PackageKit libsodium libsodium-devel
+
+    # Miscellaneous
+    sudo dnf -y install net-tools dialog htop
+
     echo 
     green_msg 'Useful Packages Installed Succesfully.'
     echo 
