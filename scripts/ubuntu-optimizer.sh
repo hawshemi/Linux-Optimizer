@@ -119,11 +119,21 @@ installations() {
     echo 
     sleep 0.5
 
-    # Install
-    sudo apt -y install software-properties-common build-essential apt-transport-https nftables iptables iptables-persistent lsb-release ca-certificates ubuntu-keyring gnupg2 apt-utils cron bash-completion 
-    sudo apt -y install curl git zip unzip ufw wget preload locales nano vim python3 python3-pip jq qrencode socat busybox net-tools haveged htop libssl-dev libsqlite3-dev dialog
-    sudo apt -y install bc binutils binutils-common binutils-x86-64-linux-gnu packagekit make automake autoconf libtool
-    
+    # Networking packages
+    sudo apt -y install apt-transport-https iptables iptables-persistent nftables
+
+    # System utilities
+    sudo apt -y install apt-utils bash-completion binutils-common binutils-x86-64-linux-gnu busybox ca-certificates cron curl gnupg2 locales lsb-release nano preload software-properties-common ufw unzip vim wget xxd zip
+
+    # Programming and development tools
+    sudo apt -y install autoconf automake bash-completion build-essential git libtool make pkg-config python3 python3-pip
+
+    # Additional libraries and dependencies
+    sudo apt -y install bc binutils ubuntu-keyring haveged jq libsodium-dev libsqlite3-dev libssl-dev packagekit qrencode socat
+
+    # Miscellaneous
+    sudo apt -y install dialog htop net-tools
+
     echo 
     green_msg 'Useful Packages Installed Succesfully.'
     echo 
