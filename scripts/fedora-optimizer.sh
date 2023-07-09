@@ -118,7 +118,7 @@ installations() {
     sudo dnf -y install iptables iptables-services nftables
 
     # System utilities
-    sudo dnf -y install bash-completion busybox crontabs ca-certificates curl dnf-plugins-core dnf-utils gnupg2 nano ufw unzip vim wget zip
+    sudo dnf -y install bash-completion busybox crontabs ca-certificates curl dnf-plugins-core dnf-utils gnupg2 nano screen ufw unzip vim wget zip
 
     # Programming and development tools
     sudo dnf -y install autoconf automake bash-completion git libtool make pkg-config python3 python3-pip
