@@ -123,7 +123,7 @@ installations() {
     sudo apt -y install apt-transport-https iptables iptables-persistent nftables
 
     # System utilities
-    sudo apt -y install apt-utils bash-completion busybox ca-certificates cron curl gnupg2 locales lsb-release nano preload software-properties-common ufw unzip vim wget xxd zip
+    sudo apt -y install apt-utils bash-completion busybox ca-certificates cron curl gnupg2 locales lsb-release nano preload screen software-properties-common ufw unzip vim wget xxd zip
 
     # Programming and development tools
     sudo apt -y install autoconf automake bash-completion build-essential git libtool make pkg-config python3 python3-pip
