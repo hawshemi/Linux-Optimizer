@@ -272,8 +272,55 @@ limits_optimizations() {
     echo 
     sleep 0.5
 
-    sed -i '/1000000/d' $PROF_PATH
+    # Clear old ulimits
+    sed -i '/ulimit -c/d' $PROF_PATH
+    sed -i '/ulimit -d/d' $PROF_PATH
+    sed -i '/ulimit -f/d' $PROF_PATH
+    sed -i '/ulimit -i/d' $PROF_PATH
+    sed -i '/ulimit -n/d' $PROF_PATH
+    sed -i '/ulimit -q/d' $PROF_PATH
+    sed -i '/ulimit -u/d' $PROF_PATH
+    sed -i '/ulimit -v/d' $PROF_PATH
+    sed -i '/ulimit -x/d' $PROF_PATH
+    sed -i '/ulimit -s/d' $PROF_PATH
+    sed -i '/ulimit -l/d' $PROF_PATH
 
+    # Add new ulimits
+    # The maximum size of core files created.
+    echo "ulimit -c unlimited" | tee -a $PROF_PATH
+
+    # The maximum size of a process's data segment
+    echo "ulimit -d unlimited" | tee -a $PROF_PATH
+
+    # The maximum size of files created by the shell (default option)
+    echo "ulimit -f unlimited" | tee -a $PROF_PATH
+
+    # The maximum number of pending signals
+    echo "ulimit -i unlimited" | tee -a $PROF_PATH
+
+    # The maximum number of open file descriptors
+    echo "ulimit -n 999999" | tee -a $PROF_PATH
+
+    # The maximum POSIX message queue size
+    echo "ulimit -q unlimited" | tee -a $PROF_PATH
+
+    # The maximum number of processes available to a single user
+    echo "ulimit -u unlimited" | tee -a $PROF_PATH
+
+    # The maximum amount of virtual memory available to the process
+    echo "ulimit -v unlimited" | tee -a $PROF_PATH
+
+    # The maximum number of file locks
+    echo "ulimit -x unlimited" | tee -a $PROF_PATH
+
+    # The maximum stack size
+    echo "ulimit -s 8192" | tee -a $PROF_PATH
+
+    # The maximum size that may be locked into memory
+    echo "ulimit -l unlimited" | tee -a $PROF_PATH
+
+
+    # Update the limits.conf
     wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/limits.conf" -q -O $LIM_PATH
 
     echo 
