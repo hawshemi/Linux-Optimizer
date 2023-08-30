@@ -1,0 +1,35 @@
+# /etc/profile
+# The parameters in this file will be added/updated to the profile file.
+
+# The maximum size of core files created.
+ulimit -c unlimited
+
+# The maximum size of a process's data segment.
+ulimit -d unlimited
+
+# The maximum size of files created by the shell (default option)
+ulimit -f unlimited
+
+# The maximum number of pending signals
+ulimit -i unlimited
+
+# The maximum number of open file descriptors.
+ulimit -n 999999
+
+# The maximum POSIX message queue size
+ulimit -q unlimited
+
+# The maximum number of processes available to a single user.
+ulimit -u unlimited
+
+# The maximum amount of virtual memory available to the process.
+ulimit -v unlimited
+
+# The maximum number of file locks.
+ulimit -x unlimited
+
+# The maximum stack size
+ulimit -s 8192
+
+# The maximum size that may be locked into memory.
+ulimit -l unlimited
