@@ -55,11 +55,12 @@
    
 
 10. Optimize the System Limits:
+    - ulimit `-c -d -f -i -n -q -u -v -x -s -l` optimizations.
     - Soft & Hard `nproc` limits.
     - Soft & Hard `nofile` limits.
     
     
-11. Optimize `UFW` & Open Common Ports.
+12. Optimize `UFW` & Open Common Ports.
     - Open Ports `21`, `22`, `80`, `443`.
     - With `IPv6`, `TCP` & `UDP`.
 
