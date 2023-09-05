@@ -106,13 +106,3 @@ This script is provided as-is, without any warranty or guarantee. Use it at your
 ## License
 This script is licensed under the MIT License.
 
-
-## Star History
-
-<a href="https://star-history.com/#hawshemi/Linux-Optimizer&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=hawshemi/Linux-Optimizer&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=hawshemi/Linux-Optimizer&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=hawshemi/Linux-Optimizer&type=Date" />
-  </picture>
-</a>
