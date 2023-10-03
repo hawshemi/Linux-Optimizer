@@ -97,20 +97,20 @@ complete_update() {
     echo 
     sleep 0.5
 
-    sudo apt update
-    sudo apt -y upgrade
-    sudo apt -y dist-upgrade
-    sudo apt -y autoremove
+    sudo apt -qq update
+    sudo apt upgrade -y > /dev/null 2>&1
+    sudo apt dist-upgrade -y > /dev/null 2>&1
+    sudo apt autoremove -y > /dev/null 2>&1
     sleep 0.5
-    
+
     # Again :D
-    sudo apt -y autoclean
+    sudo apt -y -qq autoclean
     sudo apt -y clean
-    sudo apt update
-    sudo apt -y upgrade
-    sudo apt -y dist-upgrade
-    sudo apt -y autoremove
-    
+    sudo apt -qq update
+    sudo apt upgrade -y > /dev/null 2>&1
+    sudo apt dist-upgrade -y > /dev/null 2>&1
+    sudo apt autoremove -y > /dev/null 2>&1
+
     echo 
     green_msg 'System Updated Successfully.'
     echo 
