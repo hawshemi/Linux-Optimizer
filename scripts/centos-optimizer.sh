@@ -71,14 +71,20 @@ ask_reboot() {
 # Timezone
 set_timezone() {
     echo 
-    yellow_msg 'Setting TimeZone to Asia/Tehran.'
+    yellow_msg 'Setting TimeZone based on VPS IP address.'
     echo
     sleep 0.5
 
-    timedatectl set-timezone Asia/Tehran
+    public_ip=$(curl -s https://ipinfo.io/ip)
+
+    location_info=$(curl -s "http://ip-api.com/json/$public_ip")
+
+    timezone=$(echo "$location_info" | jq -r '.timezone')
+
+    sudo timedatectl set-timezone "$timezone"
 
     echo 
-    green_msg 'TimeZone set to Asia/Tehran.'
+    green_msg "Timezone set to $timezone"
     echo
     sleep 0.5
 }
@@ -87,18 +93,18 @@ set_timezone() {
 # Update & Upgrade & Remove & Clean
 complete_update() {
     echo 
-    yellow_msg 'Updating the System.'
+    yellow_msg 'Updating the System. (This can take a while...)'
     echo 
     sleep 0.5
 
-    sudo dnf -y upgrade
-    sudo dnf -y autoremove
-    sudo dnf -y clean all
+    sudo dnf -y -q upgrade
+    sudo dnf -y -q autoremove
+    sudo dnf -y -q clean all
     sleep 0.5
     
     # Again :D
-    sudo dnf -y upgrade
-    sudo dnf -y autoremove
+    sudo dnf -y -q upgrade
+    sudo dnf -y -q autoremove
     
     echo 
     green_msg 'System Updated Successfully.'
@@ -110,30 +116,30 @@ complete_update() {
 ## Install useful packages
 installations() {
     echo 
-    yellow_msg 'Installing Useful Packages.'
+    yellow_msg 'Installing Useful Packages. (This can take a while...)'
     echo 
     sleep 0.5
 
     # Install EPEL repository
-    sudo dnf -y install epel-release
+    sudo dnf -y -q install epel-release
 
     # Update for the EPEL
-    sudo dnf -y upgrade
+    sudo dnf -y -q upgrade
 
     # Networking packages
-    sudo dnf -y install iptables iptables-services nftables
+    sudo dnf -y -q install iptables iptables-services nftables
 
     # System utilities
-    sudo dnf -y install bash-completion ca-certificates crontabs curl dnf-plugins-core dnf-utils gnupg2 nano screen ufw unzip vim wget zip
+    sudo dnf -y -q install bash-completion ca-certificates crontabs curl dnf-plugins-core dnf-utils gnupg2 nano screen ufw unzip vim wget zip
 
     # Programming and development tools
-    sudo dnf -y install autoconf automake bash-completion git libtool make pkg-config python3 python3-pip
+    sudo dnf -y -q install autoconf automake bash-completion git libtool make pkg-config python3 python3-pip
 
     # Additional libraries and dependencies
-    sudo dnf -y install bc binutils haveged jq libsodium libsodium-devel PackageKit qrencode socat
+    sudo dnf -y -q install bc binutils haveged jq libsodium libsodium-devel PackageKit qrencode socat
 
     # Miscellaneous
-    sudo dnf -y install dialog htop net-tools
+    sudo dnf -y -q install dialog htop net-tools
 
     echo 
     green_msg 'Useful Packages Installed Succesfully.'
@@ -549,9 +555,6 @@ main() {
 # Apply Everything
 apply_everything() {
     
-    set_timezone
-    sleep 0.5
-
     complete_update
     sleep 0.5
 
@@ -559,6 +562,9 @@ apply_everything() {
     sleep 0.5
 
     enable_packages
+    sleep 0.5
+
+    set_timezone
     sleep 0.5
 
     swap_maker

@@ -24,6 +24,11 @@ red_msg() {
 }
 
 
+# Paths
+HOST_PATH="/etc/hosts"
+DNS_PATH="/etc/resolv.conf"
+
+
 # Intro
 echo 
 green_msg '================================================================='
@@ -47,9 +52,69 @@ check_if_running_as_root() {
     fi
 }
 
+
 # Check Root
 check_if_running_as_root
 sleep 0.5
+
+
+fix_etc_hosts(){ 
+  echo 
+  yellow_msg "Fixing Hosts file."
+  echo 
+  sleep 0.5
+
+  echo 
+  cp $HOST_PATH /etc/hosts.bak
+  yellow_msg "Default hosts file saved. Directory: /etc/hosts.bak"
+  echo 
+  sleep 0.5
+
+  if ! grep -q $(hostname) $HOST_PATH; then
+    echo "127.0.1.1 $(hostname)" | sudo tee -a $HOST_PATH > /dev/null
+    echo 
+    green_msg "Hosts Fixed."
+    echo 
+    sleep 0.5
+  else
+    echo 
+    green_msg "Hosts OK. No changes made."
+    echo 
+    sleep 0.5
+  fi
+}
+
+
+# Fix DNS
+fix_dns(){
+    echo 
+    yellow_msg "Fixing DNS Temporarily."
+    echo 
+    sleep 0.5
+
+    echo 
+    cp $DNS_PATH /etc/resolv.conf.bak
+    yellow_msg "Default resolv.conf file saved. Directory: /etc/resolv.conf.bak"
+    echo 
+    sleep 0.5
+
+    sed -i '/nameserver/d' $DNS_PATH
+
+    echo "nameserver 1.1.1.1" >> $DNS_PATH
+    echo "nameserver 1.0.0.1" >> $DNS_PATH
+    echo "nameserver 8.8.8.8" >> $DNS_PATH
+    echo "nameserver 8.8.4.4" >> $DNS_PATH
+
+    echo 
+    green_msg "DNS Fixed Temporarily."
+    echo 
+    sleep 0.5
+}
+
+
+# Run
+fix_etc_hosts
+fix_dns
 
 
 # OS Detection
