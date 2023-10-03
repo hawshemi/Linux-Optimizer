@@ -73,9 +73,9 @@
 Reboot at the end is Recommended.
 
 
-## Pre-Run
+## Prerequisites
 
-### Packages `wget` and `sudo` must be installed.
+### Ensure that the `wget` and `sudo` packages are installed on your system:
 
 - Ubuntu & Debian:
 ```
@@ -101,7 +101,7 @@ wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-opti
 
 
 ## Menu Image
-<img width="481" title="Menu" alt="Menu" src="https://github.com/hawshemi/Linux-Optimizer/assets/16742123/64847a99-4efe-4d28-aec1-6d08a7fee335">
+![Menu](https://github.com/hawshemi/Linux-Optimizer/assets/16742123/64847a99-4efe-4d28-aec1-6d08a7fee335)
 
 
 ## Disclaimer
