@@ -71,14 +71,20 @@ ask_reboot() {
 # Timezone
 set_timezone() {
     echo 
-    yellow_msg 'Setting TimeZone to Asia/Tehran.'
+    yellow_msg 'Setting TimeZone based on VPS IP address.'
     echo
     sleep 0.5
 
-    timedatectl set-timezone Asia/Tehran
+    public_ip=$(curl -s https://ipinfo.io/ip)
+
+    location_info=$(curl -s "http://ip-api.com/json/$public_ip")
+
+    timezone=$(echo "$location_info" | jq -r '.timezone')
+
+    sudo timedatectl set-timezone "$timezone"
 
     echo 
-    green_msg 'TimeZone set to Asia/Tehran.'
+    green_msg "Timezone set to $timezone"
     echo
     sleep 0.5
 }
@@ -547,9 +553,6 @@ main() {
 
 # Apply Everything
 apply_everything() {
-    
-    set_timezone
-    sleep 0.5
 
     complete_update
     sleep 0.5
@@ -558,6 +561,9 @@ apply_everything() {
     sleep 0.5
 
     enable_packages
+    sleep 0.5
+
+    set_timezone
     sleep 0.5
 
     swap_maker
