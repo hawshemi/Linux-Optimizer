@@ -93,7 +93,7 @@ set_timezone() {
 # Update & Upgrade & Remove & Clean
 complete_update() {
     echo 
-    yellow_msg 'Updating the System.'
+    yellow_msg 'Updating the System. (This can take a while...)'
     echo 
     sleep 0.5
 
