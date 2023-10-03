@@ -5,8 +5,10 @@
        
 0. Fix `hosts` file and DNS _(temporarily)_.
     - Check and append 127.0.1.1 and server hostname to `/etc/hosts`.
+    
     *Original `hosts` file is backed up at `/etc/hosts.bak`.*
     - Append `1.1.1.1`, `1.0.0.1`, `8.8.8.8` and `8.8.4.4` to `/etc/resolv.conf`.
+    
     *Original `dns` file is backed up at `/etc/resolv.conf.bak`.*
 
 
