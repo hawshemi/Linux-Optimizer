@@ -29,7 +29,7 @@ PROF_PATH="/etc/profile"
 SSH_PATH="/etc/ssh/sshd_config"
 SWAP_PATH="/swapfile"
 SWAP_SIZE=2G
-
+SSH_PORT=$(awk '/^Port / {print $2}' /etc/ssh/sshd_config)
 
 # Root
 check_if_running_as_root() {
@@ -360,8 +360,7 @@ ufw_optimizations() {
     # Open default ports.
     sudo ufw allow 21
     sudo ufw allow 21/udp
-    sudo ufw allow 22
-    sudo ufw allow 22/udp
+    sudo ufw allow $SSH_PORT
     sudo ufw allow 80
     sudo ufw allow 80/udp
     sudo ufw allow 443
