@@ -3,6 +3,12 @@
 ## This Bash script automates the optimization of your Linux server.
 ### It performs the following tasks:
        
+0. Fix `hosts` file and DNS _(temporarily)_.
+    - put 127.0.1.1 and server hostname in `/etc/hosts`.
+    - *Original `hosts` file is backed up at `/etc/hosts.bak`.*
+    - Add `1.1.1.1`, `1.0.0.1`, `8.8.8.8` and `8.8.4.4` in `/etc/resolv.conf`.
+    - *Original `dns` file is backed up at `/etc/resolv.conf.bak`.*
+
 
 1. Update, Upgrade, and Clean the server:
     - _Update_
