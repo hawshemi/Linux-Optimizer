@@ -314,13 +314,17 @@ limits_optimizations() {
     sed -i '/ulimit -d/d' $PROF_PATH
     sed -i '/ulimit -f/d' $PROF_PATH
     sed -i '/ulimit -i/d' $PROF_PATH
+    sed -i '/ulimit -l/d' $PROF_PATH
+    sed -i '/ulimit -m/d' $PROF_PATH
     sed -i '/ulimit -n/d' $PROF_PATH
     sed -i '/ulimit -q/d' $PROF_PATH
+    sed -i '/ulimit -s/d' $PROF_PATH
+    sed -i '/ulimit -t/d' $PROF_PATH
     sed -i '/ulimit -u/d' $PROF_PATH
     sed -i '/ulimit -v/d' $PROF_PATH
     sed -i '/ulimit -x/d' $PROF_PATH
     sed -i '/ulimit -s/d' $PROF_PATH
-    sed -i '/ulimit -l/d' $PROF_PATH
+
 
     # Add new ulimits
     # The maximum size of core files created.
@@ -335,11 +339,24 @@ limits_optimizations() {
     # The maximum number of pending signals
     echo "ulimit -i unlimited" | tee -a $PROF_PATH
 
+    # The maximum size that may be locked into memory
+    echo "ulimit -l unlimited" | tee -a $PROF_PATH
+
+    # The maximum memory size
+    echo "ulimit -m unlimited" | tee -a $PROF_PATH
+
     # The maximum number of open file descriptors
-    echo "ulimit -n 999999" | tee -a $PROF_PATH
+    echo "ulimit -n 1048576" | tee -a $PROF_PATH
 
     # The maximum POSIX message queue size
     echo "ulimit -q unlimited" | tee -a $PROF_PATH
+
+    # The maximum stack size
+    echo "ulimit -s -H 65536" | tee -a $PROF_PATH
+    echo "ulimit -s 32768" | tee -a $PROF_PATH
+
+    # The maximum number of seconds to be used by each process.
+    echo "ulimit -t unlimited" | tee -a $PROF_PATH
 
     # The maximum number of processes available to a single user
     echo "ulimit -u unlimited" | tee -a $PROF_PATH
@@ -349,12 +366,6 @@ limits_optimizations() {
 
     # The maximum number of file locks
     echo "ulimit -x unlimited" | tee -a $PROF_PATH
-
-    # The maximum stack size
-    echo "ulimit -s 8192" | tee -a $PROF_PATH
-
-    # The maximum size that may be locked into memory
-    echo "ulimit -l unlimited" | tee -a $PROF_PATH
 
 
     echo 
