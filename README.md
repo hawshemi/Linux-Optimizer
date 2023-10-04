@@ -55,7 +55,7 @@
     - Remove less efficient encryption ciphers.
     - Enable and Configure TCP keep-alive messages.
     - Allow agent & TCP forwarding.
-    - Enable gateway ports, Tunneling & Compression.
+    - Enable gateway ports, Tunneling and compression.
     - Enable X11 Forwarding.
 
     *Original file is backed up at `/etc/ssh/sshd_config.bak`.*
@@ -67,8 +67,8 @@
     - Soft & Hard `nofile` limits.
     
     
-12. Optimize `UFW` & Open Common Ports.
-    - Open Ports `21`, `22`, `80`, `443`.
+12. Optimize `UFW` and open Common Ports.
+    - Open Ports `SSH`, `80`, `443`.
     - With `IPv6`, `TCP` & `UDP`.
 
     
