@@ -26,6 +26,7 @@ red_msg() {
 SYS_PATH="/etc/sysctl.conf"
 LIM_PATH="/etc/security/limits.conf"
 PROF_PATH="/etc/profile"
+SSH_PORT=""
 SSH_PATH="/etc/ssh/sshd_config"
 SWAP_PATH="/swapfile"
 SWAP_SIZE=2G
@@ -203,6 +204,32 @@ sysctl_optimizations() {
     sleep 0.5
 }
 
+# Function to find the SSH port and set it in the SSH_PORT variable
+find_ssh_port() {
+    echo 
+    yellow_msg "Finding SSH port."
+    # Check if the SSH configuration file exists
+    if [ -e "$SSH_PATH" ]; then
+        # Use grep to search for the 'Port' directive in the SSH configuration file
+        SSH_PORT=$(grep -oP '^Port\s+\K\d+' "$SSH_PATH" 2>/dev/null)
+
+        if [ -n "$SSH_PORT" ]; then
+            echo 
+            green_msg "SSH port found: $SSH_PORT"
+            echo 
+            sleep 0.5
+        else
+            echo 
+            green_msg "SSH port is default 22."
+            echo 
+            SSH_PORT=22
+            sleep 0.5
+        fi
+    else
+        red_msg "SSH configuration file not found at $SSH_PATH"
+    fi
+}
+
 
 # Remove old SSH config to prevent duplicates.
 remove_old_ssh_conf() {
@@ -352,16 +379,15 @@ ufw_optimizations() {
     sudo apt -y purge firewalld
     
     # Install UFW if it isn't installed.
+    sudo apt update -qq
     sudo apt install -y ufw
 
     # Disable UFW
     sudo ufw disable
 
     # Open default ports.
-    sudo ufw allow 21
-    sudo ufw allow 21/udp
-    sudo ufw allow 22
-    sudo ufw allow 22/udp
+    sudo ufw allow $SSH_PORT
+    sudo ufw allow $SSH_PORT/udp
     sudo ufw allow 80
     sudo ufw allow 80/udp
     sudo ufw allow 443
@@ -375,7 +401,7 @@ ufw_optimizations() {
     echo "y" | sudo ufw enable
     sudo ufw reload
     echo 
-    green_msg 'UFW is Optimized.'
+    green_msg 'UFW is Optimized. (Open your custom ports manually.)'
     echo 
     sleep 0.5
 }
@@ -436,6 +462,7 @@ main() {
             limits_optimizations
             sleep 0.5
 
+            find_ssh_port
             ufw_optimizations
             sleep 0.5
 
@@ -529,6 +556,7 @@ main() {
             ask_reboot
             ;;
         8)
+            find_ssh_port
             ufw_optimizations
             sleep 0.5
 
@@ -581,6 +609,7 @@ apply_everything() {
     limits_optimizations
     sleep 0.5
 
+    find_ssh_port
     ufw_optimizations
     sleep 0.5
 }
