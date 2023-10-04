@@ -385,7 +385,7 @@ ufw_optimizations() {
     yellow_msg 'Installing UFW...'
     echo 
     dnf -y -q install epel-release
-    # dnf -y -q up
+    dnf -y -q up
     dnf -y install ufw
     
     # Disable UFW
