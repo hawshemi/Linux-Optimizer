@@ -62,9 +62,7 @@
    
 
 10. Optimize the System Limits:
-    - ulimit `-c -d -f -i -n -q -u -v -x -s -l` optimizations.
-    - Soft & Hard `nproc` limits.
-    - Soft & Hard `nofile` limits.
+    - Soft and Hard ulimit `-c -d -f -i -l -n -q -s -u -v -x` optimizations.
     
     
 12. Optimize `UFW` and open Common Ports.
