@@ -24,7 +24,6 @@ red_msg() {
 
 # Declare Paths & Settings.
 SYS_PATH="/etc/sysctl.conf"
-LIM_PATH="/etc/security/limits.conf"
 PROF_PATH="/etc/profile"
 SSH_PORT=""
 SSH_PATH="/etc/ssh/sshd_config"
@@ -357,9 +356,6 @@ limits_optimizations() {
     # The maximum size that may be locked into memory
     echo "ulimit -l unlimited" | tee -a $PROF_PATH
 
-
-    # Update the limits.conf
-    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/limits.conf" -q -O $LIM_PATH
 
     echo 
     green_msg 'System Limits are Optimized.'
