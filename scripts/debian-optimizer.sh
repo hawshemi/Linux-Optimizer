@@ -97,19 +97,19 @@ complete_update() {
     echo 
     sleep 0.5
 
-    sudo apt -qq update
-    sudo apt upgrade -y > /dev/null 2>&1
-    sudo apt dist-upgrade -y > /dev/null 2>&1
-    sudo apt autoremove -y > /dev/null 2>&1
+    sudo apt -q update
+    sudo apt upgrade -y
+    sudo apt dist-upgrade -y
+    sudo apt autoremove -y
     sleep 0.5
 
     # Again :D
-    sudo apt -y -qq autoclean
+    sudo apt -y -q autoclean
     sudo apt -y clean
     sudo apt -qq update
-    sudo apt upgrade -y > /dev/null 2>&1
-    sudo apt dist-upgrade -y > /dev/null 2>&1
-    sudo apt autoremove -y > /dev/null 2>&1
+    sudo apt upgrade -y
+    sudo apt dist-upgrade -y
+    sudo apt autoremove -y
 
     echo 
     green_msg 'System Updated Successfully.'
@@ -387,7 +387,7 @@ ufw_optimizations() {
     sudo apt -y purge firewalld
 
     # Install UFW if it isn't installed.
-    sudo apt update -qq
+    sudo apt update -q
     sudo apt install -y ufw
 
     # Disable UFW
