@@ -62,11 +62,13 @@ sleep 0.5
 install_dependencies_debian_based() {
   echo 
   yellow_msg 'Installing Dependencies...'
+  echo 
   sleep 0.5
   
   apt update -q
   apt install -y wget curl sudo jq
 
+  echo
   green_msg 'Dependencies Install.'
   echo 
   sleep 0.5
