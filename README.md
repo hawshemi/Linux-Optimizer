@@ -24,7 +24,7 @@
 2. Install XanMod Kernel.
     - Enable BBRv3.
     - CloudFlare TCP Optimizations.
-    - More Details: https://xanmod.org/
+    - More Details: https://xanmod.org
 
 
 3. Install Useful Packages:
@@ -46,16 +46,16 @@
 7. Enable `IPv6` Support.
 
 
-8. Optimize the `SYSCTL` Configs.
+8. Optimize the [SYSCTL](https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sysctl.conf) Configs.
     - Optimize `SWAP`.
     - Optimize Network Settings.
-    - Activate `BBR`.
+    - Activate `BBR` _(`BBRv3` with XanMod)_.
     - Optimize the Kernel.
 
     *Original file is backed up at `/etc/sysctl.conf.bak`.*
 
     
-9. Optimize `SSH`:
+9. Optimize [SSH](https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sshd_config):
     - Back up the original `sshd_config` file.
     - Disable DNS lookups for connecting clients.
     - Remove less efficient encryption ciphers.
@@ -67,7 +67,7 @@
     *Original file is backed up at `/etc/ssh/sshd_config.bak`.*
    
 
-10. Optimize the System Limits:
+10. Optimize the [System Limits](https://github.com/hawshemi/Linux-Optimizer/blob/main/files/profile):
     - Soft and Hard ulimit `-c -d -f -i -l -n -q -s -u -v -x` optimizations.
     
     
