@@ -69,7 +69,7 @@ install_dependencies_debian_based() {
   apt install -y wget curl sudo jq
 
   echo
-  green_msg 'Dependencies Install.'
+  green_msg 'Dependencies Installed.'
   echo 
   sleep 0.5
 }
@@ -86,7 +86,7 @@ install_dependencies_rhel_based() {
   dnf install -y wget curl sudo jq
   
   echo
-  green_msg 'Dependencies Install.'
+  green_msg 'Dependencies Installed.'
   echo 
   sleep 0.5
 }
