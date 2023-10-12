@@ -21,7 +21,7 @@
     - _Clean_
 
 
-2. Install XanMod Kernel:
+2. Install XanMod Kernel _(Only on Ubuntu & Debian)_:
     - Enable BBRv3.
     - CloudFlare TCP Optimizations.
     - More Details: https://xanmod.org
