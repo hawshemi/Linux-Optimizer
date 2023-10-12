@@ -33,7 +33,7 @@ DNS_PATH="/etc/resolv.conf"
 echo 
 green_msg '================================================================='
 green_msg 'This script will automatically Optimize your Linux Server.'
-green_msg 'Tested on: Ubuntu 16+, Debian 11+, CentOS 8+, Fedora 37+'
+green_msg 'Tested on: Ubuntu 18+, Debian 11+, CentOS 8+, Fedora 37+'
 green_msg 'Root access is required.' 
 green_msg 'Source is @ https://github.com/hawshemi/linux-optimizer' 
 green_msg '================================================================='
@@ -58,26 +58,54 @@ check_if_running_as_root
 sleep 0.5
 
 
-fix_etc_hosts(){ 
+# Install dependencies
+install_dependencies_debian_based() {
   echo 
-  yellow_msg "Fixing Hosts file."
+  yellow_msg 'Installing Dependencies...'
+  sleep 0.5
+  
+  apt update -q
+  apt install -y wget curl sudo jq
+
+  green_msg 'Dependencies Install.'
+  echo 
+  sleep 0.5
+}
+
+
+# Install dependencies
+install_dependencies_rhel_based() {
+  echo 
+  yellow_msg 'Installing Dependencies...'
   echo 
   sleep 0.5
 
+  # dnf up -y
+  dnf install -y wget curl sudo jq
+  
+  echo
+  green_msg 'Dependencies Install.'
   echo 
+  sleep 0.5
+}
+
+
+# Fix Hosts file
+fix_etc_hosts(){ 
+  echo 
+  yellow_msg "Fixing Hosts file."
+  sleep 0.5
+
   cp $HOST_PATH /etc/hosts.bak
   yellow_msg "Default hosts file saved. Directory: /etc/hosts.bak"
-  echo 
   sleep 0.5
 
   if ! grep -q $(hostname) $HOST_PATH; then
     echo "127.0.1.1 $(hostname)" | sudo tee -a $HOST_PATH > /dev/null
-    echo 
     green_msg "Hosts Fixed."
     echo 
     sleep 0.5
   else
-    echo 
     green_msg "Hosts OK. No changes made."
     echo 
     sleep 0.5
@@ -89,13 +117,10 @@ fix_etc_hosts(){
 fix_dns(){
     echo 
     yellow_msg "Fixing DNS Temporarily."
-    echo 
     sleep 0.5
 
-    echo 
     cp $DNS_PATH /etc/resolv.conf.bak
     yellow_msg "Default resolv.conf file saved. Directory: /etc/resolv.conf.bak"
-    echo 
     sleep 0.5
 
     sed -i '/nameserver/d' $DNS_PATH
@@ -105,16 +130,50 @@ fix_dns(){
     echo "nameserver 8.8.8.8" >> $DNS_PATH
     echo "nameserver 8.8.4.4" >> $DNS_PATH
 
-    echo 
     green_msg "DNS Fixed Temporarily."
     echo 
     sleep 0.5
 }
 
 
-# Run
-fix_etc_hosts
-fix_dns
+# Timezone
+set_timezone() {
+    echo
+    yellow_msg 'Setting TimeZone based on VPS IP address...'
+    sleep 0.5
+
+    get_public_ip() {
+        local ip_sources=("https://ipv4.icanhazip.com" "api.ipify.org" "https://ipv4.ident.me/")
+        local ip
+
+        for source in "${ip_sources[@]}"; do
+            ip=$(curl -s "$source")
+            if [ -n "$ip" ]; then
+                echo "$ip"
+                return 0
+            fi
+        done
+
+        red_msg "Error: Failed to fetch public IP address from known sources. Moving on..."
+        return 1
+    }
+
+    public_ip=$(get_public_ip)
+
+    if [ $? -eq 0 ]; then
+        location_info=$(curl -s "http://ip-api.com/json/$public_ip")
+        timezone=$(echo "$location_info" | jq -r '.timezone')
+
+        sudo timedatectl set-timezone "$timezone"
+
+        green_msg "Timezone set to $timezone"
+    else
+        red_msg "Error: Failed to fetch public IP address from known sources. Moving on..."
+    fi
+
+    echo
+    sleep 0.5
+}
 
 
 # OS Detection
@@ -154,6 +213,28 @@ else
     echo 
     sleep 2
 fi
+
+
+## Run
+
+# Install dependencies
+if [[ "$OS" == "ubuntu" || "$OS" == "debian" ]]; then
+    install_dependencies_debian_based
+elif [[ "$OS" == "centos" || "$OS" == "fedora" ]]; then
+    install_dependencies_rhel_based
+fi
+
+# Fix Hosts file
+fix_etc_hosts
+sleep 0.5
+
+# Fix DNS
+fix_dns
+sleep 0.5
+
+# Timezone
+set_timezone
+sleep 0.5
 
 
 # Run Script based on Distros

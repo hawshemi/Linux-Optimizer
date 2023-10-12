@@ -68,48 +68,26 @@ ask_reboot() {
 }
 
 
-# Timezone
-set_timezone() {
-    echo 
-    yellow_msg 'Setting TimeZone based on VPS IP address.'
-    echo
-    sleep 0.5
-
-    public_ip=$(curl -s https://ipinfo.io/ip)
-
-    location_info=$(curl -s "http://ip-api.com/json/$public_ip")
-
-    timezone=$(echo "$location_info" | jq -r '.timezone')
-
-    sudo timedatectl set-timezone "$timezone"
-
-    echo 
-    green_msg "Timezone set to $timezone"
-    echo
-    sleep 0.5
-}
-
-
 # Update & Upgrade & Remove & Clean
 complete_update() {
     echo 
-    yellow_msg 'Updating the System. (This can take a while...)'
+    yellow_msg 'Updating the System... (This can take a while.)'
     echo 
     sleep 0.5
 
     sudo apt -q update
-    sudo apt upgrade -y
-    sudo apt dist-upgrade -y
-    sudo apt autoremove -y
+    sudo apt -y upgrade
+    sudo apt -y dist-upgrade
+    sudo apt -y autoremove
     sleep 0.5
 
     # Again :D
     sudo apt -y -q autoclean
     sudo apt -y clean
     sudo apt -q update
-    sudo apt upgrade -y
-    sudo apt dist-upgrade -y
-    sudo apt autoremove -y
+    sudo apt -y upgrade
+    sudo apt -y dist-upgrade
+    sudo apt -y autoremove
 
     echo 
     green_msg 'System Updated Successfully.'
@@ -118,10 +96,80 @@ complete_update() {
 }
 
 
+# Install XanMod Kernel
+install_xanmod() {
+    echo 
+    yellow_msg 'Checking XanMod...'
+    echo 
+
+    if uname -r | grep -q 'xanmod'; then
+        green_msg 'XanMod is already installed.'
+        exit 0
+    else
+        echo 
+        yellow_msg 'XanMod not found. Installing XanMod Kernel...'
+        echo 
+        sleep 0.5
+
+        # Update and Upgrade
+        sudo apt update -q
+        sudo apt upgrade -y
+        sudo apt install wget curl gpg -y
+
+        # Add the XanMod repository key
+        wget -qO - https://gitlab.com/afrd.gpg | sudo gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg
+
+        # Add the XanMod repository
+        echo 'deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main' | sudo tee /etc/apt/sources.list.d/xanmod-release.list
+
+        # Check the CPU level
+        cpu_level=$(awk -f - <<EOF
+        BEGIN {
+            while (!/flags/) if (getline < "/proc/cpuinfo" != 1) exit 1
+            if (/lm/&&/cmov/&&/cx8/&&/fpu/&&/fxsr/&&/mmx/&&/syscall/&&/sse2/) level = 1
+            if (level == 1 && /cx16/&&/lahf/&&/popcnt/&&/sse4_1/&&/sse4_2/&&/ssse3/) level = 2
+            if (level == 2 && /avx/&&/avx2/&&/bmi1/&&/bmi2/&&/f16c/&&/fma/&&/abm/&&/movbe/&&/xsave/) level = 3
+            if (level == 3 && /avx512f/&&/avx512bw/&&/avx512cd/&&/avx512dq/&&/avx512vl/) level = 4
+            if (level > 0) { print level; exit level + 1 }
+            exit 1
+        }
+EOF
+        )
+
+        # Install the appropriate XanMod kernel based on CPU level
+        case $cpu_level in
+            1)
+                sudo apt update -qq && sudo apt install linux-xanmod-x64v1 -y
+                ;;
+            2)
+                sudo apt update -qq && sudo apt install linux-xanmod-x64v2 -y
+                ;;
+            3)
+                sudo apt update -qq && sudo apt install linux-xanmod-x64v3 -y
+                ;;
+            4)
+                sudo apt update -qq && sudo apt install linux-xanmod-x64v4 -y
+                ;;
+            *)
+                echo "Unsupported CPU level."
+                exit 1
+                ;;
+        esac
+    
+        # Clean up
+        sudo apt autoremove -y
+        echo 
+        green_msg "XanMod Kernel Installed."
+        echo 
+        sleep 0.5
+    fi
+}
+
+
 ## Install useful packages
 installations() {
     echo 
-    yellow_msg 'Installing Useful Packages.'
+    yellow_msg 'Installing Useful Packages...'
     echo 
     sleep 0.5
 
@@ -160,7 +208,7 @@ enable_packages() {
 ## Swap Maker
 swap_maker() {
     echo 
-    yellow_msg 'Making SWAP Space.'
+    yellow_msg 'Making SWAP Space...'
     echo 
     sleep 0.5
 
@@ -188,7 +236,7 @@ sysctl_optimizations() {
     sleep 1
 
     echo 
-    yellow_msg 'Optimizing the Network.'
+    yellow_msg 'Optimizing the Network...'
     echo 
     sleep 0.5
 
@@ -203,10 +251,11 @@ sysctl_optimizations() {
     sleep 0.5
 }
 
+
 # Function to find the SSH port and set it in the SSH_PORT variable
 find_ssh_port() {
     echo 
-    yellow_msg "Finding SSH port."
+    yellow_msg "Finding SSH port..."
     # Check if the SSH configuration file exists
     if [ -e "$SSH_PATH" ]; then
         # Use grep to search for the 'Port' directive in the SSH configuration file
@@ -266,7 +315,7 @@ remove_old_ssh_conf() {
 ## Update SSH config
 update_sshd_conf() {
     echo 
-    yellow_msg 'Optimizing SSH.'
+    yellow_msg 'Optimizing SSH...'
     echo 
     sleep 0.5
 
@@ -305,7 +354,7 @@ update_sshd_conf() {
 # System Limits Optimizations
 limits_optimizations() {
     echo
-    yellow_msg 'Optimizing System Limits.'
+    yellow_msg 'Optimizing System Limits...'
     echo 
     sleep 0.5
 
@@ -378,7 +427,7 @@ limits_optimizations() {
 ## UFW Optimizations
 ufw_optimizations() {
     echo
-    yellow_msg 'Optimizing UFW.'
+    yellow_msg 'Optimizing UFW...'
     echo 
     sleep 0.5
 
@@ -419,15 +468,17 @@ show_menu() {
     echo 
     yellow_msg 'Choose One Option: '
     echo 
-    green_msg '1 - Apply Everything. (RECOMMENDED)'
+    green_msg '1  - Apply Everything. (RECOMMENDED)'
     echo 
-    green_msg '2 - Everything Without Useful Packages.'
-    green_msg '3 - Everything Without Useful Packages & UFW Optimizations.'
-    green_msg '4 - Update the OS.'
-    green_msg '5 - Install Useful Packages.'
-    green_msg '6 - Make SWAP (2Gb).'
-    green_msg '7 - Optimize the Network, SSH & System Limits.'
-    green_msg '8 - Optimize UFW.'
+    green_msg '2  - Everything Without XanMod Kernel.'
+    green_msg '3  - Install XanMod Kernel.'
+    green_msg '4  - Everything Without Useful Packages & XanMod.'
+    green_msg '5  - Everything Without Useful Packages & XanMod & UFW Optimizations.'
+    green_msg '6  - Update the OS.'
+    green_msg '7  - Install Useful Packages.'
+    green_msg '8  - Make SWAP (2Gb).'
+    green_msg '9  - Optimize the Network, SSH & System Limits.'
+    green_msg '10 - Optimize UFW.'
     echo 
     red_msg 'q - Exit.'
     echo 
@@ -452,6 +503,10 @@ main() {
             ;;
         2)
             complete_update
+            sleep 0.5
+
+            installations
+            enable_packages
             sleep 0.5
 
             swap_maker
@@ -484,19 +539,7 @@ main() {
             complete_update
             sleep 0.5
 
-            swap_maker
-            sleep 0.5
-
-            sysctl_optimizations
-            sleep 0.5
-
-            remove_old_ssh_conf
-            sleep 0.5
-
-            update_sshd_conf
-            sleep 0.5
-
-            limits_optimizations
+            install_xanmod
             sleep 0.5
 
             echo 
@@ -510,30 +553,25 @@ main() {
             complete_update
             sleep 0.5
 
-            echo 
-            green_msg '========================='
-            green_msg  'Done.'
-            green_msg '========================='
-
-            ask_reboot
-            ;;
-            
-        5)
-            complete_update
-            installations
-            sleep 0.5
-
-            echo 
-            green_msg '========================='
-            green_msg  'Done.'
-            green_msg '========================='
-
-            ask_reboot
-            ;;
-        6)
             swap_maker
             sleep 0.5
 
+            sysctl_optimizations
+            sleep 0.5
+
+            remove_old_ssh_conf
+            sleep 0.5
+
+            update_sshd_conf
+            sleep 0.5
+
+            limits_optimizations
+            sleep 0.5
+
+            find_ssh_port
+            ufw_optimizations
+            sleep 0.5
+
             echo 
             green_msg '========================='
             green_msg  'Done.'
@@ -541,8 +579,13 @@ main() {
 
             ask_reboot
             ;;
-        7)
-        
+        5)
+            complete_update
+            sleep 0.5
+
+            swap_maker
+            sleep 0.5
+
             sysctl_optimizations
             sleep 0.5
 
@@ -562,7 +605,65 @@ main() {
 
             ask_reboot
             ;;
+        6)
+            complete_update
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+            
+        7)
+            complete_update
+            sleep 0.5
+
+            installations
+            enable_packages
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
         8)
+            swap_maker
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        9)
+            sysctl_optimizations
+            sleep 0.5
+
+            remove_old_ssh_conf
+            sleep 0.5
+
+            update_sshd_conf
+            sleep 0.5
+
+            limits_optimizations
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        10)
             find_ssh_port
             ufw_optimizations
             sleep 0.5
@@ -592,13 +693,11 @@ apply_everything() {
     complete_update
     sleep 0.5
 
+    install_xanmod
+    sleep 0.5 
+
     installations
-    sleep 0.5
-
     enable_packages
-    sleep 0.5
-
-    set_timezone
     sleep 0.5
 
     swap_maker
@@ -615,7 +714,7 @@ apply_everything() {
 
     limits_optimizations
     sleep 0.5
-
+    
     find_ssh_port
     ufw_optimizations
     sleep 0.5
