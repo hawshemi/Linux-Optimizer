@@ -62,13 +62,11 @@ sleep 0.5
 install_dependencies_debian_based() {
   echo 
   yellow_msg 'Installing Dependencies...'
-  echo 
   sleep 0.5
   
   apt update -q
   apt install -y wget curl sudo jq
 
-  echo 
   green_msg 'Dependencies Install.'
   echo 
   sleep 0.5
@@ -84,8 +82,8 @@ install_dependencies_rhel_based() {
 
   # dnf up -y
   dnf install -y wget curl sudo jq
-
-  echo 
+  
+  echo
   green_msg 'Dependencies Install.'
   echo 
   sleep 0.5
@@ -96,23 +94,18 @@ install_dependencies_rhel_based() {
 fix_etc_hosts(){ 
   echo 
   yellow_msg "Fixing Hosts file."
-  echo 
   sleep 0.5
 
-  echo 
   cp $HOST_PATH /etc/hosts.bak
   yellow_msg "Default hosts file saved. Directory: /etc/hosts.bak"
-  echo 
   sleep 0.5
 
   if ! grep -q $(hostname) $HOST_PATH; then
     echo "127.0.1.1 $(hostname)" | sudo tee -a $HOST_PATH > /dev/null
-    echo 
     green_msg "Hosts Fixed."
     echo 
     sleep 0.5
   else
-    echo 
     green_msg "Hosts OK. No changes made."
     echo 
     sleep 0.5
@@ -124,13 +117,10 @@ fix_etc_hosts(){
 fix_dns(){
     echo 
     yellow_msg "Fixing DNS Temporarily."
-    echo 
     sleep 0.5
 
-    echo 
     cp $DNS_PATH /etc/resolv.conf.bak
     yellow_msg "Default resolv.conf file saved. Directory: /etc/resolv.conf.bak"
-    echo 
     sleep 0.5
 
     sed -i '/nameserver/d' $DNS_PATH
@@ -140,7 +130,6 @@ fix_dns(){
     echo "nameserver 8.8.8.8" >> $DNS_PATH
     echo "nameserver 8.8.4.4" >> $DNS_PATH
 
-    echo 
     green_msg "DNS Fixed Temporarily."
     echo 
     sleep 0.5
@@ -151,7 +140,6 @@ fix_dns(){
 set_timezone() {
     echo
     yellow_msg 'Setting TimeZone based on VPS IP address...'
-    echo
     sleep 0.5
 
     get_public_ip() {
@@ -178,10 +166,8 @@ set_timezone() {
 
         sudo timedatectl set-timezone "$timezone"
 
-        echo
         green_msg "Timezone set to $timezone"
     else
-        echo
         red_msg "Error: Failed to fetch public IP address from known sources. Moving on..."
     fi
 
