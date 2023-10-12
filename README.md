@@ -3,11 +3,11 @@
 ## This Bash script automates the optimization of your Linux server.
 ### It performs the following tasks:
        
-0. Fix `hosts` file and DNS _(temporarily)_.
-    - Check and append 127.0.1.1 and server hostname to `/etc/hosts`.
+0. Fix `hosts` file and DNS _(temporarily)_:
+    - Check and add 127.0.1.1 and server hostname to `/etc/hosts`.
     
     *Original `hosts` file is backed up at `/etc/hosts.bak`.*
-    - Append `1.1.1.1`, `1.0.0.1`, `8.8.8.8` and `8.8.4.4` to `/etc/resolv.conf`.
+    - Add `1.1.1.1`, `1.0.0.1`, `8.8.8.8` and `8.8.4.4` to `/etc/resolv.conf`.
     
     *Original `dns` file is backed up at `/etc/resolv.conf.bak`.*
 
@@ -21,7 +21,7 @@
     - _Clean_
 
 
-2. Install XanMod Kernel.
+2. Install XanMod Kernel:
     - Enable BBRv3.
     - CloudFlare TCP Optimizations.
     - More Details: https://xanmod.org
@@ -46,7 +46,7 @@
 7. Enable `IPv6` Support.
 
 
-8. Optimize the [SYSCTL](https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sysctl.conf) Configs.
+8. Optimize the [SYSCTL](https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sysctl.conf) Configs:
     - Optimize `SWAP`.
     - Optimize Network Settings.
     - Activate `BBR` _(`BBRv3` with XanMod)_.
@@ -71,7 +71,7 @@
     - Soft and Hard ulimit `-c -d -f -i -l -n -q -s -u -v -x` optimizations.
     
     
-11. Optimize `UFW` and open Common Ports.
+11. Optimize `UFW` and open Common Ports:
     - Open Ports `SSH`, `80`, `443`.
     - With `IPv6`, `TCP` & `UDP`.
 
