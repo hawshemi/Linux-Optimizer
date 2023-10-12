@@ -75,14 +75,14 @@ complete_update() {
     echo 
     sleep 0.5
 
-    sudo dnf -y -q up
-    sudo dnf -y -q autoremove
-    sudo dnf -y -q clean all
+    sudo dnf -y up
+    sudo dnf -y autoremove
+    sudo dnf -y clean all
     sleep 0.5
     
     # Again :D
-    sudo dnf -y -q up
-    sudo dnf -y -q autoremove
+    sudo dnf -y up
+    sudo dnf -y autoremove
     
     echo 
     green_msg 'System Updated Successfully.'
@@ -99,19 +99,19 @@ installations() {
     sleep 0.5
     
     # Networking packages
-    sudo dnf -y -q install iptables iptables-services nftables
+    sudo dnf -y install iptables iptables-services nftables
 
     # System utilities
-    sudo dnf -y -q install bash-completion busybox crontabs ca-certificates curl dnf-plugins-core dnf-utils gnupg2 nano screen ufw unzip vim wget zip
+    sudo dnf -y install bash-completion busybox crontabs ca-certificates curl dnf-plugins-core dnf-utils gnupg2 nano screen ufw unzip vim wget zip
 
     # Programming and development tools
-    sudo dnf -y -q install autoconf automake bash-completion git libtool make pkg-config python3 python3-pip
+    sudo dnf -y install autoconf automake bash-completion git libtool make pkg-config python3 python3-pip
 
     # Additional libraries and dependencies
-    sudo dnf -y -q install bc binutils haveged jq libsodium libsodium-devel PackageKit qrencode socat
+    sudo dnf -y install bc binutils haveged jq libsodium libsodium-devel PackageKit qrencode socat
 
     # Miscellaneous
-    sudo dnf -y -q install dialog htop net-tools
+    sudo dnf -y install dialog htop net-tools
 
     echo 
     green_msg 'Useful Packages Installed Succesfully.'
@@ -363,7 +363,7 @@ ufw_optimizations() {
     echo 
     yellow_msg 'Installing UFW...'
     echo 
-    dnf -y -q up
+    dnf -y up
     dnf -y install ufw
     
     # Disable UFW
