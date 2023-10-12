@@ -51,7 +51,7 @@ sleep 0.5
 
 # Ask Reboot
 ask_reboot() {
-    yellow_msg 'Reboot now? (Recommended) (y/n)'
+    yellow_msg 'Reboot now? (RECOMMENDED) (y/n)'
     echo 
     while true; do
         read choice
@@ -68,32 +68,10 @@ ask_reboot() {
 }
 
 
-# Timezone
-set_timezone() {
-    echo 
-    yellow_msg 'Setting TimeZone based on VPS IP address.'
-    echo
-    sleep 0.5
-
-    public_ip=$(curl -s https://ipinfo.io/ip)
-
-    location_info=$(curl -s "http://ip-api.com/json/$public_ip")
-
-    timezone=$(echo "$location_info" | jq -r '.timezone')
-
-    sudo timedatectl set-timezone "$timezone"
-
-    echo 
-    green_msg "Timezone set to $timezone"
-    echo
-    sleep 0.5
-}
-
-
 # Update & Upgrade & Remove & Clean
 complete_update() {
     echo 
-    yellow_msg 'Updating the System. (This can take a while...)'
+    yellow_msg 'Updating the System... (This can take a while.)'
     echo 
     sleep 0.5
 
@@ -116,7 +94,7 @@ complete_update() {
 ## Install useful packages
 installations() {
     echo 
-    yellow_msg 'Installing Useful Packages. (This can take a while...)'
+    yellow_msg 'Installing Useful Packages... (This can take a while.)'
     echo 
     sleep 0.5
 
@@ -161,7 +139,7 @@ enable_packages() {
 ## Swap Maker
 swap_maker() {
     echo 
-    yellow_msg 'Making SWAP Space.'
+    yellow_msg 'Making SWAP Space...'
     echo 
     sleep 0.5
 
@@ -189,7 +167,7 @@ sysctl_optimizations() {
     sleep 1
 
     echo 
-    yellow_msg 'Optimizing the Network.'
+    yellow_msg 'Optimizing the Network...'
     echo 
     sleep 0.5
 
@@ -208,7 +186,7 @@ sysctl_optimizations() {
 # Function to find the SSH port and set it in the SSH_PORT variable
 find_ssh_port() {
     echo 
-    yellow_msg "Finding SSH port."
+    yellow_msg "Finding SSH port..."
     # Check if the SSH configuration file exists
     if [ -e "$SSH_PATH" ]; then
         # Use grep to search for the 'Port' directive in the SSH configuration file
@@ -268,7 +246,7 @@ remove_old_ssh_conf() {
 ## Update SSH config
 update_sshd_conf() {
     echo 
-    yellow_msg 'Optimizing SSH.'
+    yellow_msg 'Optimizing SSH...'
     echo 
     sleep 0.5
 
@@ -307,7 +285,7 @@ update_sshd_conf() {
 # System Limits Optimizations
 limits_optimizations() {
     echo
-    yellow_msg 'Optimizing System Limits.'
+    yellow_msg 'Optimizing System Limits...'
     echo 
     sleep 0.5
 
@@ -380,7 +358,7 @@ limits_optimizations() {
 ## UFW Optimizations
 ufw_optimizations() {
     echo
-    yellow_msg 'Optimizing UFW.'
+    yellow_msg 'Optimizing UFW...'
     echo 
     sleep 0.5
 
@@ -527,6 +505,7 @@ main() {
         5)
             complete_update
             installations
+            enable_packages
             sleep 0.5
 
             echo 
@@ -602,9 +581,6 @@ apply_everything() {
     sleep 0.5
 
     enable_packages
-    sleep 0.5
-
-    set_timezone
     sleep 0.5
 
     swap_maker
