@@ -21,26 +21,32 @@
     - _Clean_
 
 
-2. Install Useful Packages:
+2. Install XanMod Kernel.
+    - Enable BBRv3.
+    - CloudFlare TCP Optimizations.
+    - More Details: https://xanmod.org/
+
+
+3. Install Useful Packages:
 
     _`apt-transport-https`_ _`apt-utils`_ _`autoconf`_ _`automake`_ _`bash-completion`_ _`bc`_ _`binutils`_ _`binutils-common`_ _`binutils-x86-64-linux-gnu`_ _`build-essential`_ _`busybox`_ _`ca-certificates`_ _`cron`_ _`curl`_ _`dialog`_ _`epel-release`_ _`gnupg2`_ _`git`_ _`haveged`_ _`htop`_ _`iptables`_ _`iptables-persistent`_ _`jq`_ _`keyring`_ _`libssl-dev`_ _`libsqlite3-dev`_ _`libtool`_ _`locales`_ _`lsb-release`_ _`make`_ _`nano`_ _`net-tools`_ _`nftables`_ _`packagekit`_ _`preload`_ _`python3`_ _`python3-pip`_ _`qrencode`_ _`socat`_ _`screen`_ _`software-properties-common`_ _`ufw`_ _`unzip`_ _`vim`_ _`wget`_ _`zip`_
 
 
-3. Enable Packages at Server Boot.
+4. Enable Packages at Server Boot.
 
     
-4. Set the server TimeZone to VPS IP address location.
+5. Set the server TimeZone to VPS IP address location.
 
  
-5. Create & Enable `SWAP` File:
+6. Create & Enable `SWAP` File:
     - Swap Path: `"/swapfile"`
     - Swap Size: `2Gb`
 
 
-6. Enable `IPv6` Support.
+7. Enable `IPv6` Support.
 
 
-7. Optimize the `SYSCTL` Configs.
+8. Optimize the `SYSCTL` Configs.
     - Optimize `SWAP`.
     - Optimize Network Settings.
     - Activate `BBR`.
@@ -49,7 +55,7 @@
     *Original file is backed up at `/etc/sysctl.conf.bak`.*
 
     
-8. Optimize `SSH`:
+9. Optimize `SSH`:
     - Back up the original `sshd_config` file.
     - Disable DNS lookups for connecting clients.
     - Remove less efficient encryption ciphers.
@@ -65,7 +71,7 @@
     - Soft and Hard ulimit `-c -d -f -i -l -n -q -s -u -v -x` optimizations.
     
     
-12. Optimize `UFW` and open Common Ports.
+11. Optimize `UFW` and open Common Ports.
     - Open Ports `SSH`, `80`, `443`.
     - With `IPv6`, `TCP` & `UDP`.
 
