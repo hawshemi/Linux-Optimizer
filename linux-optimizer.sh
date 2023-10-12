@@ -58,6 +58,41 @@ check_if_running_as_root
 sleep 0.5
 
 
+# Install dependencies
+install_dependencies_debian_based() {
+  echo 
+  yellow_msg 'Installing Dependencies...'
+  echo 
+  sleep 0.5
+  
+  apt update -q
+  apt install -y wget curl sudo jq
+
+  echo 
+  green_msg 'Dependencies Install.'
+  echo 
+  sleep 0.5
+}
+
+
+# Install dependencies
+install_dependencies_rhel_based() {
+  echo 
+  yellow_msg 'Installing Dependencies...'
+  echo 
+  sleep 0.5
+
+  # dnf up -y
+  dnf install -y wget curl sudo jq
+
+  echo 
+  green_msg 'Dependencies Install.'
+  echo 
+  sleep 0.5
+}
+
+
+# Fix Hosts file
 fix_etc_hosts(){ 
   echo 
   yellow_msg "Fixing Hosts file."
@@ -131,7 +166,7 @@ set_timezone() {
             fi
         done
 
-        echo "Unable to fetch public IP address from known sources"
+        red_msg "Error: Failed to fetch public IP address from known sources. Moving on..."
         return 1
     }
 
@@ -147,23 +182,12 @@ set_timezone() {
         green_msg "Timezone set to $timezone"
     else
         echo
-        red_msg "Error: Failed to fetch public IP address from known sources"
+        red_msg "Error: Failed to fetch public IP address from known sources. Moving on..."
     fi
 
     echo
     sleep 0.5
 }
-
-
-# Run
-fix_etc_hosts
-sleep 0.5
-
-fix_dns
-sleep 0.5
-
-set_timezone
-sleep 0.5
 
 
 # OS Detection
@@ -203,6 +227,28 @@ else
     echo 
     sleep 2
 fi
+
+
+## Run
+
+# Install dependencies
+if [[ "$OS" == "ubuntu" || "$OS" == "debian" ]]; then
+    install_dependencies_debian_based
+elif [[ "$OS" == "centos" || "$OS" == "fedora" ]]; then
+    install_dependencies_rhel_based
+fi
+
+# Fix Hosts file
+fix_etc_hosts
+sleep 0.5
+
+# Fix DNS
+fix_dns
+sleep 0.5
+
+# Timezone
+set_timezone
+sleep 0.5
 
 
 # Run Script based on Distros
