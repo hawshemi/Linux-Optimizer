@@ -33,7 +33,7 @@ DNS_PATH="/etc/resolv.conf"
 echo 
 green_msg '================================================================='
 green_msg 'This script will automatically Optimize your Linux Server.'
-green_msg 'Tested on: Ubuntu 16+, Debian 11+, CentOS 8+, Fedora 37+'
+green_msg 'Tested on: Ubuntu 18+, Debian 11+, CentOS 8+, Fedora 37+'
 green_msg 'Root access is required.' 
 green_msg 'Source is @ https://github.com/hawshemi/linux-optimizer' 
 green_msg '================================================================='
@@ -112,9 +112,58 @@ fix_dns(){
 }
 
 
+# Timezone
+set_timezone() {
+    echo
+    yellow_msg 'Setting TimeZone based on VPS IP address...'
+    echo
+    sleep 0.5
+
+    get_public_ip() {
+        local ip_sources=("https://ipv4.icanhazip.com" "api.ipify.org" "https://ipv4.ident.me/")
+        local ip
+
+        for source in "${ip_sources[@]}"; do
+            ip=$(curl -s "$source")
+            if [ -n "$ip" ]; then
+                echo "$ip"
+                return 0
+            fi
+        done
+
+        echo "Unable to fetch public IP address from known sources"
+        return 1
+    }
+
+    public_ip=$(get_public_ip)
+
+    if [ $? -eq 0 ]; then
+        location_info=$(curl -s "http://ip-api.com/json/$public_ip")
+        timezone=$(echo "$location_info" | jq -r '.timezone')
+
+        sudo timedatectl set-timezone "$timezone"
+
+        echo
+        green_msg "Timezone set to $timezone"
+    else
+        echo
+        red_msg "Error: Failed to fetch public IP address from known sources"
+    fi
+
+    echo
+    sleep 0.5
+}
+
+
 # Run
 fix_etc_hosts
+sleep 0.5
+
 fix_dns
+sleep 0.5
+
+set_timezone
+sleep 0.5
 
 
 # OS Detection
