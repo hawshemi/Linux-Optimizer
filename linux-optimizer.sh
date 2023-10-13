@@ -65,7 +65,7 @@ install_dependencies_debian_based() {
   echo 
   sleep 0.5
   
-  apt update -q
+  apt update -qq
   apt install -y wget curl sudo jq
 
   echo
