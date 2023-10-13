@@ -33,7 +33,7 @@ DNS_PATH="/etc/resolv.conf"
 echo 
 green_msg '================================================================='
 green_msg 'This script will automatically Optimize your Linux Server.'
-green_msg 'Tested on: Ubuntu 18+, Debian 11+, CentOS 8+, Fedora 37+'
+green_msg 'Tested on: Ubuntu 18+, Debian 11+, CentOS 8+, AlmaLinux 8+, Fedora 37+'
 green_msg 'Root access is required.' 
 green_msg 'Source is @ https://github.com/hawshemi/linux-optimizer' 
 green_msg '================================================================='
