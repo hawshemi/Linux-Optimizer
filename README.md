@@ -94,7 +94,7 @@ dnf install -y sudo wget
 
 
 ## Run
-#### **Tested on:** Ubuntu 18+, Debian 11+, CentOS 8+, Fedora 37+
+#### **Tested on:** Ubuntu 18+, Debian 11+, CentOS 8+, AlmaLinux 8+, Fedora 37+
 
 #### Root Access is Required. If the user is not root, first run:
 ```
