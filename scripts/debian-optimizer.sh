@@ -104,7 +104,8 @@ install_xanmod() {
 
     if uname -r | grep -q 'xanmod'; then
         green_msg 'XanMod is already installed.'
-        exit 0
+        echo 
+        sleep 0.5
     else
         echo 
         yellow_msg 'XanMod not found. Installing XanMod Kernel...'
