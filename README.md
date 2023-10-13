@@ -107,7 +107,11 @@ wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-opti
 
 
 ## Menu Image
-![Menu](https://github.com/hawshemi/Linux-Optimizer/assets/16742123/64847a99-4efe-4d28-aec1-6d08a7fee335)
+### Debian & Ubuntu:
+![debian-based-menu](https://github.com/hawshemi/Linux-Optimizer/assets/16742123/aa518755-c938-45c1-910a-edf967057405)
+
+### CentOS, AlmaLinux & Fedora:
+![rhel-based-menu](https://github.com/hawshemi/Linux-Optimizer/assets/16742123/ffa0eb1d-6670-48ad-9dc4-7939a1c9fca0)
 
 
 ## Disclaimer
