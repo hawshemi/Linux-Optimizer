@@ -145,7 +145,7 @@ set_timezone() {
     sleep 0.5
 
     get_public_ip() {
-        local ip_sources=("https://ipv4.icanhazip.com" "api.ipify.org" "https://ipv4.ident.me/")
+        local ip_sources=("https://ipv4.icanhazip.com" "https://api.ipify.org" "https://ipv4.ident.me/")
         local ip
 
         for source in "${ip_sources[@]}"; do
@@ -200,6 +200,13 @@ elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "CentOS Stream" ]];
     yellow_msg "OS: Centos"
     echo 
     sleep 0.5
+elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "AlmaLinux" ]]; then
+    OS="almalinux"
+    echo 
+    sleep 0.5
+    yellow_msg "OS: AlmaLinux"
+    echo 
+    sleep 0.5
 elif [[ $(grep -oP '(?<=^NAME=").*(?=")' /etc/os-release) == "Fedora Linux" ]]; then
     OS="fedora"
     echo 
@@ -222,9 +229,10 @@ fi
 # Install dependencies
 if [[ "$OS" == "ubuntu" || "$OS" == "debian" ]]; then
     install_dependencies_debian_based
-elif [[ "$OS" == "centos" || "$OS" == "fedora" ]]; then
+elif [[ "$OS" == "centos" || "$OS" == "fedora" || "$OS" == "almalinux" ]]; then
     install_dependencies_rhel_based
 fi
+
 
 # Fix Hosts file
 fix_etc_hosts
@@ -253,6 +261,10 @@ centos)
     # CentOS
     wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/scripts/centos-optimizer.sh" -q -O centos-optimizer.sh && chmod +x centos-optimizer.sh && bash centos-optimizer.sh 
     ;;
+almalinux)
+    # AlmaLinux
+    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/scripts/centos-optimizer.sh" -q -O almalinux-optimizer.sh && chmod +x almalinux-optimizer.sh && bash almalinux-optimizer.sh 
+    ;;
 fedora)
     # Fedora
     wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/scripts/fedora-optimizer.sh" -q -O fedora-optimizer.sh && chmod +x fedora-optimizer.sh && bash fedora-optimizer.sh 
@@ -262,3 +274,4 @@ unknown)
     exit 
     ;;
 esac
+
