@@ -77,7 +77,7 @@ complete_update() {
 
     sudo apt -q update
     sudo apt -y upgrade
-    sudo apt -y dist-upgrade
+    sudo apt -y full-upgrade
     sudo apt -y autoremove
     sleep 0.5
 
@@ -86,7 +86,7 @@ complete_update() {
     sudo apt -y clean
     sudo apt -q update
     sudo apt -y upgrade
-    sudo apt -y dist-upgrade
+    sudo apt -y full-upgrade
     sudo apt -y autoremove
 
     echo 
