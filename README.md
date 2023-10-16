@@ -15,7 +15,7 @@
 1. Update, Upgrade, and Clean the server:
     - _Update_
     - _Upgrade_
-    - _Dist-Upgrade_
+    - _Full-Upgrade_
     - _AutoRemove_
     - _AutoClean_
     - _Clean_
@@ -35,7 +35,7 @@
 4. Enable Packages at Server Boot.
 
     
-5. Set the server TimeZone to VPS IP address location.
+5. Set the server TimeZone to the VPS IP address location.
 
  
 6. Create & Enable `SWAP` File:
