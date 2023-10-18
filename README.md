@@ -21,7 +21,7 @@
     - _Clean_
 
 
-2. Install XanMod Kernel _(Only on Ubuntu & Debian)_:
+2. Install XanMod LTS Kernel _(Only on Ubuntu & Debian)_:
     - Enable BBRv3.
     - CloudFlare TCP Optimizations.
     - More Details: https://xanmod.org
@@ -81,15 +81,15 @@ Reboot at the end is Recommended.
 
 ## Prerequisites
 
-### Ensure that the `wget` and `sudo` packages are installed on your system:
+### Ensure that the `sudo`, `wget` and `jq` packages are installed on your system:
 
 - Ubuntu & Debian:
 ```
-apt install -y sudo wget
+apt update -q && apt install -y sudo wget jq
 ```
 - CentOS & Fedora:
 ```
-dnf install -y sudo wget
+dnf up -y && dnf install -y sudo wget jq
 ```
 
 
@@ -108,10 +108,11 @@ wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-opti
 
 ## Menu Image
 ### Debian & Ubuntu:
-![debian-based-menu](https://github.com/hawshemi/Linux-Optimizer/assets/16742123/aa518755-c938-45c1-910a-edf967057405)
+![debian-based-menu](https://github.com/hawshemi/Linux-Optimizer/assets/16742123/3604470e-48ed-403d-a753-143dc934f6fd)
 
 ### CentOS, AlmaLinux & Fedora:
-![rhel-based-menu](https://github.com/hawshemi/Linux-Optimizer/assets/16742123/ffa0eb1d-6670-48ad-9dc4-7939a1c9fca0)
+![rhel-based-menu](https://github.com/hawshemi/Linux-Optimizer/assets/16742123/07099e64-3864-425f-83e2-cda1e57d5b62)
+
 
 
 ## Disclaimer
