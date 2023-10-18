@@ -85,7 +85,7 @@ complete_update() {
     sudo dnf -y autoremove
     
     echo 
-    green_msg 'System Updated Successfully.'
+    green_msg 'System Updated & Cleaned Successfully.'
     echo 
     sleep 0.5
 }
@@ -352,7 +352,7 @@ limits_optimizations() {
 ## UFW Optimizations
 ufw_optimizations() {
     echo
-    yellow_msg 'Optimizing UFW...'
+    yellow_msg 'Installing & Optimizing UFW...'
     echo 
     sleep 0.5
 
@@ -360,9 +360,6 @@ ufw_optimizations() {
     sudo dnf -y remove firewalld
 
     # Install UFW if not installed.
-    echo 
-    yellow_msg 'Installing UFW...'
-    echo 
     dnf -y up
     dnf -y install ufw
     
@@ -385,7 +382,7 @@ ufw_optimizations() {
     echo "y" | sudo ufw enable
     sudo ufw reload
     echo 
-    green_msg 'UFW is Optimized.'
+    green_msg 'UFW is Installed & Optimized.'
     echo 
     sleep 0.5
 }
@@ -396,15 +393,21 @@ show_menu() {
     echo 
     yellow_msg 'Choose One Option: '
     echo 
-    green_msg '1 - Apply Everything. (RECOMMENDED)'
+    green_msg '1  - Apply Everything. (RECOMMENDED)'
     echo 
-    green_msg '2 - Everything Without Useful Packages.'
-    green_msg '3 - Everything Without Useful Packages & UFW Optimizations.'
-    green_msg '4 - Update the OS.'
-    green_msg '5 - Install Useful Packages.'
-    green_msg '6 - Make SWAP (2Gb).'
-    green_msg '7 - Optimize the Network, SSH & System Limits.'
-    green_msg '8 - Optimize UFW.'
+    green_msg '2  - Complete Update + Make SWAP + Optimize Network, SSH & System Limits + UFW'
+    green_msg '3  - Complete Update + Make SWAP + Optimize Network, SSH & System Limits'
+    echo 
+    green_msg '4  - Complete Update & Clean the OS.'
+    green_msg '5  - Install Useful Packages.'
+    green_msg '6  - Make SWAP (2Gb).'
+    green_msg '7  - Optimize the Network, SSH & System Limits.'
+    echo 
+    green_msg '8  - Optimize the Network settings.'
+    green_msg '9  - Optimize the SSH settings.'
+    green_msg '10 - Optimize the System Limits.'
+    echo 
+    green_msg '11 - Install & Optimize UFW.'
     echo 
     red_msg 'q - Exit.'
     echo 
@@ -520,7 +523,6 @@ main() {
             ask_reboot
             ;;
         7)
-
             sysctl_optimizations
             sleep 0.5
 
@@ -541,6 +543,40 @@ main() {
             ask_reboot
             ;;
         8)
+            sysctl_optimizations
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ;;
+        9)
+            remove_old_ssh_conf
+            sleep 0.5
+    
+            update_sshd_conf
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ;;
+        10)
+            limits_optimizations
+            sleep 0.5
+
+            echo 
+            green_msg '========================='
+            green_msg  'Done.'
+            green_msg '========================='
+
+            ask_reboot
+            ;;
+        11)
             find_ssh_port
             ufw_optimizations
             sleep 0.5
