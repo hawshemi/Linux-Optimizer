@@ -140,16 +140,16 @@ EOF
         # Install the appropriate XanMod kernel based on CPU level
         case $cpu_level in
             1)
-                sudo apt update -qq && sudo apt install linux-xanmod-x64v1 -y
+                sudo apt update -qq && sudo apt install linux-xanmod-lts-x64v1 -y
                 ;;
             2)
-                sudo apt update -qq && sudo apt install linux-xanmod-x64v2 -y
+                sudo apt update -qq && sudo apt install linux-xanmod-lts-x64v2 -y
                 ;;
             3)
-                sudo apt update -qq && sudo apt install linux-xanmod-x64v3 -y
+                sudo apt update -qq && sudo apt install linux-xanmod-lts-x64v3 -y
                 ;;
             4)
-                sudo apt update -qq && sudo apt install linux-xanmod-x64v4 -y
+                sudo apt update -qq && sudo apt install linux-xanmod-lts-x64v4 -y
                 ;;
             *)
                 echo "Unsupported CPU level."
