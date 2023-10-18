@@ -382,7 +382,7 @@ ufw_optimizations() {
     echo "y" | sudo ufw enable
     sudo ufw reload
     echo 
-    green_msg 'UFW is Installed & Optimized.'
+    green_msg 'UFW is Installed & Optimized. (Open your custom ports manually.)'
     echo 
     sleep 0.5
 }
