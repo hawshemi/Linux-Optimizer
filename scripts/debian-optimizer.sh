@@ -101,7 +101,8 @@ install_xanmod() {
     echo 
     yellow_msg 'Checking XanMod...'
     echo 
-
+    sleep 0.5
+    
     if uname -r | grep -q 'xanmod'; then
         green_msg 'XanMod is already installed.'
         echo 
@@ -429,7 +430,7 @@ limits_optimizations() {
 ## UFW Optimizations
 ufw_optimizations() {
     echo
-    yellow_msg 'Optimizing UFW...'
+    yellow_msg 'Installing & Optimizing UFW...'
     echo 
     sleep 0.5
 
@@ -459,7 +460,7 @@ ufw_optimizations() {
     echo "y" | sudo ufw enable
     sudo ufw reload
     echo 
-    green_msg 'UFW is Optimized. (Open your custom ports manually.)'
+    green_msg 'UFW is Installed & Optimized. (Open your custom ports manually.)'
     echo 
     sleep 0.5
 }
@@ -483,9 +484,9 @@ show_menu() {
     green_msg '8  - Make SWAP (2Gb).'
     green_msg '9  - Optimize the Network, SSH & System Limits.'
     echo 
-    green_msg '10 - Optimie the Network settings.'
-    green_msg '11 - Optimie the SSH settings.'
-    green_msg '12 - Optimie the System Limits.'
+    green_msg '10 - Optimize the Network settings.'
+    green_msg '11 - Optimize the SSH settings.'
+    green_msg '12 - Optimize the System Limits.'
     echo 
     green_msg '13 - Install & Optimize UFW.'
     echo 
