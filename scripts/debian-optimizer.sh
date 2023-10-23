@@ -33,7 +33,7 @@ SWAP_SIZE=2G
 
 # Root
 check_if_running_as_root() {
-    # If you want to run as another user, please modify $EUID to be owned by this user
+    ## If you want to run as another user, please modify $EUID to be owned by this user
     if [[ "$EUID" -ne '0' ]]; then
       echo 
       red_msg 'Error: You must run this script as root!'
@@ -81,7 +81,7 @@ complete_update() {
     sudo apt -y autoremove
     sleep 0.5
 
-    # Again :D
+    ## Again :D
     sudo apt -y -q autoclean
     sudo apt -y clean
     sudo apt -q update
@@ -102,7 +102,7 @@ install_xanmod() {
     yellow_msg 'Checking XanMod...'
     echo 
     sleep 0.5
-    
+
     if uname -r | grep -q 'xanmod'; then
         green_msg 'XanMod is already installed.'
         echo 
@@ -113,18 +113,12 @@ install_xanmod() {
         echo 
         sleep 0.5
 
-        # Update and Upgrade
+        ## Update, Upgrade & Install dependencies
         sudo apt update -q
         sudo apt upgrade -y
         sudo apt install wget curl gpg -y
 
-        # Add the XanMod repository key
-        wget -qO - https://gitlab.com/afrd.gpg | sudo gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg
-
-        # Add the XanMod repository
-        echo 'deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main' | sudo tee /etc/apt/sources.list.d/xanmod-release.list
-
-        # Check the CPU level
+        ## Check the CPU level
         cpu_level=$(awk -f - <<EOF
         BEGIN {
             while (!/flags/) if (getline < "/proc/cpuinfo" != 1) exit 1
@@ -138,57 +132,60 @@ install_xanmod() {
 EOF
         )
 
-        # Install the appropriate XanMod kernel based on CPU level
-        case $cpu_level in
-            1)
-                sudo apt update -qq && sudo apt install linux-xanmod-lts-x64v1 -y
-                ;;
-            2)
-                sudo apt update -qq && sudo apt install linux-xanmod-lts-x64v2 -y
-                ;;
-            3)
-                sudo apt update -qq && sudo apt install linux-xanmod-lts-x64v3 -y
-                ;;
-            4)
-                sudo apt update -qq && sudo apt install linux-xanmod-lts-x64v4 -y
-                ;;
-            *)
-                echo "Unsupported CPU level."
-                exit 1
-                ;;
-        esac
-    
-        # Clean up
-        sudo apt update -qq
-        sudo apt autoremove -y
-        echo 
-        green_msg "XanMod Kernel Installed."
-        echo 
-        sleep 0.5
+        if [ "$cpu_level" -ge 1 ] && [ "$cpu_level" -le 4 ]; then
+            echo 
+            yellow_msg "CPU Level: v$cpu_level"
+            echo 
+
+            ## Add the XanMod repository key
+            wget -qO - https://gitlab.com/afrd.gpg | sudo gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg
+
+            ## Add the XanMod repository
+            echo 'deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main' | sudo tee /etc/apt/sources.list.d/xanmod-release.list
+            
+            ## Install XanMod
+            sudo apt update -q && sudo apt install "linux-xanmod-lts-x64v$cpu_level" -y
+
+            ## Clean up
+            sudo apt update -q
+            sudo apt autoremove --purge -y
+            
+            echo 
+            green_msg "XanMod Kernel Installed. Reboot to Apply the new Kernel."
+            echo 
+            sleep 1
+        else
+            echo 
+            red_msg "Unsupported CPU. (Check the supported CPUs at xanmod.org)"
+            echo 
+            sleep 2
+        fi
+
+
     fi
 }
 
 
-## Install useful packages
+# Install useful packages
 installations() {
     echo 
     yellow_msg 'Installing Useful Packages...'
     echo 
     sleep 0.5
 
-    # Networking packages
+    ## Networking packages
     sudo apt -q -y install apt-transport-https iptables iptables-persistent nftables
 
-    # System utilities
+    ## System utilities
     sudo apt -q -y install apt-utils bash-completion busybox ca-certificates cron curl gnupg2 locales lsb-release nano preload screen software-properties-common ufw unzip vim wget xxd zip
 
-    # Programming and development tools
+    ## Programming and development tools
     sudo apt -q -y install autoconf automake bash-completion build-essential git libtool make pkg-config python3 python3-pip
 
-    # Additional libraries and dependencies
+    ## Additional libraries and dependencies
     sudo apt -q -y install bc binutils binutils-common binutils-x86-64-linux-gnu debian-keyring haveged jq libsodium-dev libsqlite3-dev libssl-dev packagekit qrencode socat
 
-    # Miscellaneous
+    ## Miscellaneous
     sudo apt -q -y install dialog htop net-tools
 
     echo 
@@ -208,19 +205,19 @@ enable_packages() {
 }
 
 
-## Swap Maker
+# Swap Maker
 swap_maker() {
     echo 
     yellow_msg 'Making SWAP Space...'
     echo 
     sleep 0.5
 
-    # Make Swap
-    sudo fallocate -l $SWAP_SIZE $SWAP_PATH  # Allocate size
-    sudo chmod 600 $SWAP_PATH                # Set proper permission
-    sudo mkswap $SWAP_PATH                   # Setup swap         
-    sudo swapon $SWAP_PATH                   # Enable swap
-    echo "$SWAP_PATH   none    swap    sw    0   0" >> /etc/fstab # Add to fstab
+    ## Make Swap
+    sudo fallocate -l $SWAP_SIZE $SWAP_PATH  ### Allocate size
+    sudo chmod 600 $SWAP_PATH                ### Set proper permission
+    sudo mkswap $SWAP_PATH                   ### Setup swap         
+    sudo swapon $SWAP_PATH                   ### Enable swap
+    echo "$SWAP_PATH   none    swap    sw    0   0" >> /etc/fstab ### Add to fstab
     echo 
     green_msg 'SWAP Created Successfully.'
     echo
@@ -228,9 +225,9 @@ swap_maker() {
 }
 
 
-## SYSCTL Optimization
+# SYSCTL Optimization
 sysctl_optimizations() {
-    # Make a backup of the original sysctl.conf file
+    ## Make a backup of the original sysctl.conf file
     cp $SYS_PATH /etc/sysctl.conf.bak
 
     echo 
@@ -243,12 +240,12 @@ sysctl_optimizations() {
     echo 
     sleep 0.5
 
-    # Replace the new sysctl.conf file.
+    ## Replace the new sysctl.conf file.
     wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/sysctl.conf" -q -O $SYS_PATH 
 
     sysctl -p
-    echo 
 
+    echo 
     green_msg 'Network is Optimized.'
     echo 
     sleep 0.5
@@ -259,9 +256,11 @@ sysctl_optimizations() {
 find_ssh_port() {
     echo 
     yellow_msg "Finding SSH port..."
-    # Check if the SSH configuration file exists
+    echo 
+    
+    ## Check if the SSH configuration file exists
     if [ -e "$SSH_PATH" ]; then
-        # Use grep to search for the 'Port' directive in the SSH configuration file
+        ## Use grep to search for the 'Port' directive in the SSH configuration file
         SSH_PORT=$(grep -oP '^Port\s+\K\d+' "$SSH_PATH" 2>/dev/null)
 
         if [ -n "$SSH_PORT" ]; then
@@ -284,7 +283,7 @@ find_ssh_port() {
 
 # Remove old SSH config to prevent duplicates.
 remove_old_ssh_conf() {
-    # Make a backup of the original sshd_config file
+    ## Make a backup of the original sshd_config file
     cp $SSH_PATH /etc/ssh/sshd_config.bak
 
     echo 
@@ -292,16 +291,16 @@ remove_old_ssh_conf() {
     echo 
     sleep 1
     
-    # Disable DNS lookups for connecting clients
+    ## Disable DNS lookups for connecting clients
     sed -i 's/#UseDNS yes/UseDNS no/' $SSH_PATH
 
-    # Enable compression for SSH connections
+    ## Enable compression for SSH connections
     sed -i 's/#Compression no/Compression yes/' $SSH_PATH
 
-    # Remove less efficient encryption ciphers
+    ## Remove less efficient encryption ciphers
     sed -i 's/Ciphers .*/Ciphers aes256-ctr,chacha20-poly1305@openssh.com/' $SSH_PATH
 
-    # Remove these lines
+    ## Remove these lines
     sed -i '/MaxAuthTries/d' $SSH_PATH
     sed -i '/MaxSessions/d' $SSH_PATH
     sed -i '/TCPKeepAlive/d' $SSH_PATH
@@ -315,37 +314,37 @@ remove_old_ssh_conf() {
 }
 
 
-## Update SSH config
+# Update SSH config
 update_sshd_conf() {
     echo 
     yellow_msg 'Optimizing SSH...'
     echo 
     sleep 0.5
 
-    # Enable TCP keep-alive messages
+    ## Enable TCP keep-alive messages
     echo "TCPKeepAlive yes" | tee -a $SSH_PATH
 
-    # Configure client keep-alive messages
+    ## Configure client keep-alive messages
     echo "ClientAliveInterval 3000" | tee -a $SSH_PATH
     echo "ClientAliveCountMax 100" | tee -a $SSH_PATH
 
-    # Allow agent forwarding
+    ## Allow agent forwarding
     echo "AllowAgentForwarding yes" | tee -a $SSH_PATH
 
-    # Allow TCP forwarding
+    ## Allow TCP forwarding
     echo "AllowTcpForwarding yes" | tee -a $SSH_PATH
 
-    # Enable gateway ports
+    ## Enable gateway ports
     echo "GatewayPorts yes" | tee -a $SSH_PATH
 
-    # Enable tunneling
+    ## Enable tunneling
     echo "PermitTunnel yes" | tee -a $SSH_PATH
 
-    # Enable X11 graphical interface forwarding
+    ## Enable X11 graphical interface forwarding
     echo "X11Forwarding yes" | tee -a $SSH_PATH
 
-    # Restart the SSH service to apply the changes
-    service ssh restart
+    ## Restart the SSH service to apply the changes
+    sudo service ssh restart
 
     echo 
     green_msg 'SSH is Optimized.'
@@ -361,7 +360,7 @@ limits_optimizations() {
     echo 
     sleep 0.5
 
-    # Clear old ulimits
+    ## Clear old ulimits
     sed -i '/ulimit -c/d' $PROF_PATH
     sed -i '/ulimit -d/d' $PROF_PATH
     sed -i '/ulimit -f/d' $PROF_PATH
@@ -378,45 +377,45 @@ limits_optimizations() {
     sed -i '/ulimit -s/d' $PROF_PATH
 
 
-    # Add new ulimits
-    # The maximum size of core files created.
+    ## Add new ulimits
+    ## The maximum size of core files created.
     echo "ulimit -c unlimited" | tee -a $PROF_PATH
 
-    # The maximum size of a process's data segment
+    ## The maximum size of a process's data segment
     echo "ulimit -d unlimited" | tee -a $PROF_PATH
 
-    # The maximum size of files created by the shell (default option)
+    ## The maximum size of files created by the shell (default option)
     echo "ulimit -f unlimited" | tee -a $PROF_PATH
 
-    # The maximum number of pending signals
+    ## The maximum number of pending signals
     echo "ulimit -i unlimited" | tee -a $PROF_PATH
 
-    # The maximum size that may be locked into memory
+    ## The maximum size that may be locked into memory
     echo "ulimit -l unlimited" | tee -a $PROF_PATH
 
-    # The maximum memory size
+    ## The maximum memory size
     echo "ulimit -m unlimited" | tee -a $PROF_PATH
 
-    # The maximum number of open file descriptors
+    ## The maximum number of open file descriptors
     echo "ulimit -n 1048576" | tee -a $PROF_PATH
 
-    # The maximum POSIX message queue size
+    ## The maximum POSIX message queue size
     echo "ulimit -q unlimited" | tee -a $PROF_PATH
 
-    # The maximum stack size
+    ## The maximum stack size
     echo "ulimit -s -H 65536" | tee -a $PROF_PATH
     echo "ulimit -s 32768" | tee -a $PROF_PATH
 
-    # The maximum number of seconds to be used by each process.
+    ## The maximum number of seconds to be used by each process.
     echo "ulimit -t unlimited" | tee -a $PROF_PATH
 
-    # The maximum number of processes available to a single user
+    ## The maximum number of processes available to a single user
     echo "ulimit -u unlimited" | tee -a $PROF_PATH
 
-    # The maximum amount of virtual memory available to the process
+    ## The maximum amount of virtual memory available to the process
     echo "ulimit -v unlimited" | tee -a $PROF_PATH
 
-    # The maximum number of file locks
+    ## The maximum number of file locks
     echo "ulimit -x unlimited" | tee -a $PROF_PATH
 
 
@@ -427,24 +426,24 @@ limits_optimizations() {
 }
 
 
-## UFW Optimizations
+# UFW Optimizations
 ufw_optimizations() {
     echo
     yellow_msg 'Installing & Optimizing UFW...'
     echo 
     sleep 0.5
 
-    # Purge firewalld to install UFW.
+    ## Purge firewalld to install UFW.
     sudo apt -y purge firewalld
 
-    # Install UFW if it isn't installed.
+    ## Install UFW if it isn't installed.
     sudo apt update -q
     sudo apt install -y ufw
 
-    # Disable UFW
+    ## Disable UFW
     sudo ufw disable
 
-    # Open default ports.
+    ## Open default ports.
     sudo ufw allow $SSH_PORT
     sudo ufw allow $SSH_PORT/udp
     sudo ufw allow 80
@@ -453,10 +452,10 @@ ufw_optimizations() {
     sudo ufw allow 443/udp
     sleep 0.5
 
-    # Change the UFW config to use System config.
+    ## Change the UFW config to use System config.
     sed -i 's+/etc/ufw/sysctl.conf+/etc/sysctl.conf+gI' /etc/default/ufw
 
-    # Enable & Reload
+    ## Enable & Reload
     echo "y" | sudo ufw enable
     sudo ufw reload
     echo 
