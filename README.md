@@ -56,7 +56,6 @@
 
     
 9. Optimize [SSH](https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sshd_config):
-    - Back up the original `sshd_config` file.
     - Disable DNS lookups for connecting clients.
     - Remove less efficient encryption ciphers.
     - Enable and Configure TCP keep-alive messages.
