@@ -67,7 +67,7 @@
    
 
 10. Optimize the [System Limits](https://github.com/hawshemi/Linux-Optimizer/blob/main/files/profile):
-    - Soft and Hard ulimit `-c -d -f -i -l -n -q -s -u -v -x` optimizations.
+    - Soft and Hard *ulimit* `-c -d -f -i -l -n -q -s -u -v -x` optimizations.
     
     
 11. Optimize `UFW` and open Common Ports:
