@@ -138,39 +138,48 @@ fix_dns(){
 }
 
 
-# Timezone
 set_timezone() {
     echo
     yellow_msg 'Setting TimeZone based on VPS IP address...'
     sleep 0.5
 
-    get_public_ip() {
+    get_location_info() {
         local ip_sources=("https://ipv4.icanhazip.com" "https://api.ipify.org" "https://ipv4.ident.me/")
-        local ip
+        local location_info
 
         for source in "${ip_sources[@]}"; do
-            ip=$(curl -s "$source")
+            local ip=$(curl -s "$source")
             if [ -n "$ip" ]; then
-                echo "$ip"
-                return 0
+                location_info=$(curl -s "http://ip-api.com/json/$ip")
+                if [ -n "$location_info" ]; then
+                    echo "$location_info"
+                    return 0
+                fi
             fi
         done
 
-        red_msg "Error: Failed to fetch public IP address from known sources. Moving on..."
+        red_msg "Error: Failed to fetch location information from known sources. Setting timezone to UTC."
+        sudo timedatectl set-timezone "UTC"
         return 1
     }
 
-    public_ip=$(get_public_ip)
+    # Fetch location information from three sources
+    location_info_1=$(get_location_info)
+    location_info_2=$(get_location_info)
+    location_info_3=$(get_location_info)
 
-    if [ $? -eq 0 ]; then
-        location_info=$(curl -s "http://ip-api.com/json/$public_ip")
-        timezone=$(echo "$location_info" | jq -r '.timezone')
+    # Extract timezones from the location information
+    timezones=($(echo "$location_info_1 $location_info_2 $location_info_3" | jq -r '.timezone'))
 
+    # Check if at least two timezones are equal
+    if [[ "${timezones[0]}" == "${timezones[1]}" || "${timezones[0]}" == "${timezones[2]}" || "${timezones[1]}" == "${timezones[2]}" ]]; then
+        # Set the timezone based on the first matching pair
+        timezone="${timezones[0]}"
         sudo timedatectl set-timezone "$timezone"
-
         green_msg "Timezone set to $timezone"
     else
-        red_msg "Error: Failed to fetch public IP address from known sources. Moving on..."
+        red_msg "Error: Failed to fetch consistent location information from known sources. Setting timezone to UTC."
+        sudo timedatectl set-timezone "UTC"
     fi
 
     echo

@@ -240,11 +240,89 @@ sysctl_optimizations() {
     echo 
     sleep 0.5
 
-    ## Replace the new sysctl.conf file.
-    wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/files/sysctl.conf" -q -O $SYS_PATH 
+    sed -i -e '/fs.file-max/d' \
+        -e '/net.core.default_qdisc/d' \
+        -e '/net.core.netdev_max_backlog/d' \
+        -e '/net.core.optmem_max/d' \
+        -e '/net.core.somaxconn/d' \
+        -e '/net.core.rmem_max/d' \
+        -e '/net.core.wmem_max/d' \
+        -e '/net.ipv4.tcp_rmem/d' \
+        -e '/net.ipv4.tcp_wmem/d' \
+        -e '/net.ipv4.tcp_congestion_control/d' \
+        -e '/net.ipv4.tcp_fastopen/d' \
+        -e '/net.ipv4.tcp_fin_timeout/d' \
+        -e '/net.ipv4.tcp_keepalive_time/d' \
+        -e '/net.ipv4.tcp_keepalive_probes/d' \
+        -e '/net.ipv4.tcp_keepalive_intvl/d' \
+        -e '/net.ipv4.tcp_max_orphans/d' \
+        -e '/net.ipv4.tcp_max_syn_backlog/d' \
+        -e '/net.ipv4.tcp_max_tw_buckets/d' \
+        -e '/net.ipv4.tcp_mem/d' \
+        -e '/net.ipv4.tcp_mtu_probing/d' \
+        -e '/net.ipv4.tcp_notsent_lowat/d' \
+        -e '/net.ipv4.tcp_retries2/d' \
+        -e '/net.ipv4.tcp_sack/d' \
+        -e '/net.ipv4.tcp_dsack/d' \
+        -e '/net.ipv4.tcp_slow_start_after_idle/d' \
+        -e '/net.ipv4.tcp_window_scaling/d' \
+        -e '/net.ipv4.tcp_ecn/d' \
+        -e '/net.ipv4.ip_forward/d' \
+        -e '/net.ipv4.udp_mem/d' \
+        -e '/net.ipv6.conf.all.disable_ipv6/d' \
+        -e '/net.ipv6.conf.all.forwarding/d' \
+        -e '/net.ipv6.conf.default.disable_ipv6/d' \
+        -e '/net.unix.max_dgram_qlen/d' \
+        -e '/vm.min_free_kbytes/d' \
+        -e '/vm.swappiness/d' \
+        -e '/vm.vfs_cache_pressure/d' \
+        "$SYS_PATH"
 
-    sysctl -p
 
+    ## Add new parameteres. Read More: https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sysctl.conf
+
+cat <<EOF >> "$SYS_PATH"
+fs.file-max = 1000000
+net.core.default_qdisc = fq_codel
+net.core.netdev_max_backlog = 16384
+net.core.optmem_max = 65535
+net.core.somaxconn = 65535
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.ipv4.tcp_rmem = 8192 1048576 16777216
+net.ipv4.tcp_wmem = 8192 1048576 16777216
+net.ipv4.tcp_congestion_control = bbr
+net.ipv4.tcp_fastopen = 3
+net.ipv4.tcp_fin_timeout = 25
+net.ipv4.tcp_keepalive_time = 1200
+net.ipv4.tcp_keepalive_probes = 7
+net.ipv4.tcp_keepalive_intvl = 30
+net.ipv4.tcp_max_orphans = 819200
+net.ipv4.tcp_max_syn_backlog = 20480
+net.ipv4.tcp_max_tw_buckets = 1440000
+net.ipv4.tcp_mem = 65536 131072 262144
+net.ipv4.tcp_mtu_probing = 1
+net.ipv4.tcp_notsent_lowat = 16384
+net.ipv4.tcp_retries2 = 8
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_dsack = 1
+net.ipv4.tcp_slow_start_after_idle = 0
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_ecn = 1
+net.ipv4.ip_forward = 1
+net.ipv4.udp_mem = 65536 131072 262144
+net.ipv6.conf.all.disable_ipv6 = 0
+net.ipv6.conf.all.forwarding = 1
+net.ipv6.conf.default.disable_ipv6 = 0
+net.unix.max_dgram_qlen = 50
+vm.min_free_kbytes = 65536
+vm.swappiness = 10
+vm.vfs_cache_pressure = 50
+EOF
+
+    sleep 0.5
+    sudo sysctl -p
+    
     echo 
     green_msg 'Network is Optimized.'
     echo 
@@ -290,30 +368,23 @@ remove_old_ssh_conf() {
     yellow_msg 'Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak'
     echo 
     sleep 1
-    
-    ## Disable DNS lookups for connecting clients
-    sed -i 's/#UseDNS yes/UseDNS no/' $SSH_PATH
-
-    ## Enable compression for SSH connections
-    sed -i 's/#Compression no/Compression yes/' $SSH_PATH
-
-    ## Remove less efficient encryption ciphers
-    sed -i 's/Ciphers .*/Ciphers aes256-ctr,chacha20-poly1305@openssh.com/' $SSH_PATH
 
     ## Remove these lines
-    sed -i '/MaxAuthTries/d' $SSH_PATH
-    sed -i '/MaxSessions/d' $SSH_PATH
-    sed -i '/TCPKeepAlive/d' $SSH_PATH
-    sed -i '/ClientAliveInterval/d' $SSH_PATH
-    sed -i '/ClientAliveCountMax/d' $SSH_PATH
-    sed -i '/AllowAgentForwarding/d' $SSH_PATH
-    sed -i '/AllowTcpForwarding/d' $SSH_PATH
-    sed -i '/GatewayPorts/d' $SSH_PATH
-    sed -i '/PermitTunnel/d' $SSH_PATH
-    sed -i '/X11Forwarding/d' $SSH_PATH
+    sed -i -e 's/#UseDNS yes/UseDNS no/' \
+        -e 's/#Compression no/Compression yes/' \
+        -e 's/Ciphers .*/Ciphers aes256-ctr,chacha20-poly1305@openssh.com/' \
+        -e '/MaxAuthTries/d' \
+        -e '/MaxSessions/d' \
+        -e '/TCPKeepAlive/d' \
+        -e '/ClientAliveInterval/d' \
+        -e '/ClientAliveCountMax/d' \
+        -e '/AllowAgentForwarding/d' \
+        -e '/AllowTcpForwarding/d' \
+        -e '/GatewayPorts/d' \
+        -e '/PermitTunnel/d' \
+        -e '/X11Forwarding/d' "$SSH_PATH"
+
 }
-
-
 # Update SSH config
 update_sshd_conf() {
     echo 
@@ -322,29 +393,29 @@ update_sshd_conf() {
     sleep 0.5
 
     ## Enable TCP keep-alive messages
-    echo "TCPKeepAlive yes" | tee -a $SSH_PATH
+    echo "TCPKeepAlive yes" | tee -a "$SSH_PATH"
 
     ## Configure client keep-alive messages
-    echo "ClientAliveInterval 3000" | tee -a $SSH_PATH
-    echo "ClientAliveCountMax 100" | tee -a $SSH_PATH
+    echo "ClientAliveInterval 3000" | tee -a "$SSH_PATH"
+    echo "ClientAliveCountMax 100" | tee -a "$SSH_PATH"
 
     ## Allow agent forwarding
-    echo "AllowAgentForwarding yes" | tee -a $SSH_PATH
+    echo "AllowAgentForwarding yes" | tee -a "$SSH_PATH"
 
     ## Allow TCP forwarding
-    echo "AllowTcpForwarding yes" | tee -a $SSH_PATH
+    echo "AllowTcpForwarding yes" | tee -a "$SSH_PATH"
 
     ## Enable gateway ports
-    echo "GatewayPorts yes" | tee -a $SSH_PATH
+    echo "GatewayPorts yes" | tee -a "$SSH_PATH"
 
     ## Enable tunneling
-    echo "PermitTunnel yes" | tee -a $SSH_PATH
+    echo "PermitTunnel yes" | tee -a "$SSH_PATH"
 
     ## Enable X11 graphical interface forwarding
-    echo "X11Forwarding yes" | tee -a $SSH_PATH
+    echo "X11Forwarding yes" | tee -a "$SSH_PATH"
 
     ## Restart the SSH service to apply the changes
-    sudo service ssh restart
+    sudo systemctl restart ssh
 
     echo 
     green_msg 'SSH is Optimized.'
