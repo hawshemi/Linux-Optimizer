@@ -80,15 +80,15 @@ Reboot at the end is Recommended.
 
 ## Prerequisites
 
-### Ensure that the `sudo`, `wget` and `jq` packages are installed on your system:
+### Ensure that the `sudo` and `wget` packages are installed on your system:
 
 - Ubuntu & Debian:
 ```
-apt update -q && apt install -y sudo wget jq
+sudo apt update -q && sudo apt install -y sudo wget
 ```
 - CentOS & Fedora:
 ```
-dnf up -y && dnf install -y sudo wget jq
+sudo dnf up -y && sudo dnf install -y sudo wget
 ```
 
 
