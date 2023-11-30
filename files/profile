@@ -1,6 +1,7 @@
 # /etc/profile
 # The parameters in this file will be added/updated to the profile file.
 
+
 # The maximum size of core files created.
 ulimit -c unlimited
 
