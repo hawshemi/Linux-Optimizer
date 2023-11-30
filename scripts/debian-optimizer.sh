@@ -290,30 +290,23 @@ remove_old_ssh_conf() {
     yellow_msg 'Default SSH Config file Saved. Directory: /etc/ssh/sshd_config.bak'
     echo 
     sleep 1
-    
-    ## Disable DNS lookups for connecting clients
-    sed -i 's/#UseDNS yes/UseDNS no/' $SSH_PATH
-
-    ## Enable compression for SSH connections
-    sed -i 's/#Compression no/Compression yes/' $SSH_PATH
-
-    ## Remove less efficient encryption ciphers
-    sed -i 's/Ciphers .*/Ciphers aes256-ctr,chacha20-poly1305@openssh.com/' $SSH_PATH
 
     ## Remove these lines
-    sed -i '/MaxAuthTries/d' $SSH_PATH
-    sed -i '/MaxSessions/d' $SSH_PATH
-    sed -i '/TCPKeepAlive/d' $SSH_PATH
-    sed -i '/ClientAliveInterval/d' $SSH_PATH
-    sed -i '/ClientAliveCountMax/d' $SSH_PATH
-    sed -i '/AllowAgentForwarding/d' $SSH_PATH
-    sed -i '/AllowTcpForwarding/d' $SSH_PATH
-    sed -i '/GatewayPorts/d' $SSH_PATH
-    sed -i '/PermitTunnel/d' $SSH_PATH
-    sed -i '/X11Forwarding/d' $SSH_PATH
+    sed -i -e 's/#UseDNS yes/UseDNS no/' \
+        -e 's/#Compression no/Compression yes/' \
+        -e 's/Ciphers .*/Ciphers aes256-ctr,chacha20-poly1305@openssh.com/' \
+        -e '/MaxAuthTries/d' \
+        -e '/MaxSessions/d' \
+        -e '/TCPKeepAlive/d' \
+        -e '/ClientAliveInterval/d' \
+        -e '/ClientAliveCountMax/d' \
+        -e '/AllowAgentForwarding/d' \
+        -e '/AllowTcpForwarding/d' \
+        -e '/GatewayPorts/d' \
+        -e '/PermitTunnel/d' \
+        -e '/X11Forwarding/d' "$SSH_PATH"
+
 }
-
-
 # Update SSH config
 update_sshd_conf() {
     echo 
@@ -322,29 +315,29 @@ update_sshd_conf() {
     sleep 0.5
 
     ## Enable TCP keep-alive messages
-    echo "TCPKeepAlive yes" | tee -a $SSH_PATH
+    echo "TCPKeepAlive yes" | tee -a "$SSH_PATH"
 
     ## Configure client keep-alive messages
-    echo "ClientAliveInterval 3000" | tee -a $SSH_PATH
-    echo "ClientAliveCountMax 100" | tee -a $SSH_PATH
+    echo "ClientAliveInterval 3000" | tee -a "$SSH_PATH"
+    echo "ClientAliveCountMax 100" | tee -a "$SSH_PATH"
 
     ## Allow agent forwarding
-    echo "AllowAgentForwarding yes" | tee -a $SSH_PATH
+    echo "AllowAgentForwarding yes" | tee -a "$SSH_PATH"
 
     ## Allow TCP forwarding
-    echo "AllowTcpForwarding yes" | tee -a $SSH_PATH
+    echo "AllowTcpForwarding yes" | tee -a "$SSH_PATH"
 
     ## Enable gateway ports
-    echo "GatewayPorts yes" | tee -a $SSH_PATH
+    echo "GatewayPorts yes" | tee -a "$SSH_PATH"
 
     ## Enable tunneling
-    echo "PermitTunnel yes" | tee -a $SSH_PATH
+    echo "PermitTunnel yes" | tee -a "$SSH_PATH"
 
     ## Enable X11 graphical interface forwarding
-    echo "X11Forwarding yes" | tee -a $SSH_PATH
+    echo "X11Forwarding yes" | tee -a "$SSH_PATH"
 
     ## Restart the SSH service to apply the changes
-    sudo service ssh restart
+    sudo systemctl restart ssh
 
     echo 
     green_msg 'SSH is Optimized.'
