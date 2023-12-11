@@ -96,6 +96,23 @@ complete_update() {
 }
 
 
+# Disable Terminal Ads
+disable_terminal_ads() {
+    echo 
+    yellow_msg 'Disabling Terminal Ads...'
+    echo 
+    sleep 0.5
+
+    sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
+    pro config set apt_news=false
+
+    echo 
+    green_msg 'Terminal Ads Disabled.'
+    echo 
+    sleep 0.5
+}
+
+
 # Install XanMod Kernel
 install_xanmod() {
     echo 
@@ -162,7 +179,6 @@ EOF
 
     fi
 }
-
 
 
 # Install useful packages
@@ -246,6 +262,8 @@ sysctl_optimizations() {
         -e '/net.core.somaxconn/d' \
         -e '/net.core.rmem_max/d' \
         -e '/net.core.wmem_max/d' \
+        -e '/net.core.rmem_default/d' \
+        -e '/net.core.wmem_default/d' \
         -e '/net.ipv4.tcp_rmem/d' \
         -e '/net.ipv4.tcp_wmem/d' \
         -e '/net.ipv4.tcp_congestion_control/d' \
@@ -281,13 +299,15 @@ sysctl_optimizations() {
     ## Add new parameteres. Read More: https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sysctl.conf
 
 cat <<EOF >> "$SYS_PATH"
-fs.file-max = 1000000
+fs.file-max = 67108864
 net.core.default_qdisc = fq_codel
-net.core.netdev_max_backlog = 16384
-net.core.optmem_max = 65535
-net.core.somaxconn = 65535
+net.core.netdev_max_backlog = 32768
+net.core.optmem_max = 65536
+net.core.somaxconn = 65536
 net.core.rmem_max = 16777216
 net.core.wmem_max = 16777216
+net.core.rmem_default = 1048576
+net.core.wmem_default = 1048576
 net.ipv4.tcp_rmem = 8192 1048576 16777216
 net.ipv4.tcp_wmem = 8192 1048576 16777216
 net.ipv4.tcp_congestion_control = bbr
@@ -299,7 +319,7 @@ net.ipv4.tcp_keepalive_intvl = 30
 net.ipv4.tcp_max_orphans = 819200
 net.ipv4.tcp_max_syn_backlog = 20480
 net.ipv4.tcp_max_tw_buckets = 1440000
-net.ipv4.tcp_mem = 65536 131072 262144
+net.ipv4.tcp_mem = 65536 1048576 16777216
 net.ipv4.tcp_mtu_probing = 1
 net.ipv4.tcp_notsent_lowat = 16384
 net.ipv4.tcp_retries2 = 8
@@ -309,7 +329,7 @@ net.ipv4.tcp_slow_start_after_idle = 0
 net.ipv4.tcp_window_scaling = 1
 net.ipv4.tcp_ecn = 1
 net.ipv4.ip_forward = 1
-net.ipv4.udp_mem = 65536 131072 262144
+net.ipv4.udp_mem = 65536 1048576 16777216
 net.ipv6.conf.all.disable_ipv6 = 0
 net.ipv6.conf.all.forwarding = 1
 net.ipv6.conf.default.disable_ipv6 = 0
@@ -804,6 +824,9 @@ main() {
 apply_everything() {
 
     complete_update
+    sleep 0.5
+
+    disable_terminal_ads
     sleep 0.5
 
     install_xanmod
