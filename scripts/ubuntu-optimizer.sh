@@ -96,6 +96,23 @@ complete_update() {
 }
 
 
+# Disable Terminal Ads
+disable_terminal_ads() {
+    echo 
+    yellow_msg 'Disabling Terminal Ads...'
+    echo 
+    sleep 0.5
+
+    sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
+    pro config set apt_news=false
+
+    echo 
+    green_msg 'Terminal Ads Disabled.'
+    echo 
+    sleep 0.5
+}
+
+
 # Install XanMod Kernel
 install_xanmod() {
     echo 
@@ -162,7 +179,6 @@ EOF
 
     fi
 }
-
 
 
 # Install useful packages
@@ -808,6 +824,9 @@ main() {
 apply_everything() {
 
     complete_update
+    sleep 0.5
+
+    disable_terminal_ads
     sleep 0.5
 
     install_xanmod
