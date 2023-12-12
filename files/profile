@@ -21,7 +21,7 @@ ulimit -l unlimited
 ulimit -m unlimited
 
 # The maximum number of open file descriptors.
-ulimit -n 67108864
+ulimit -n 1048576
 
 # The maximum POSIX message queue size
 ulimit -q unlimited
