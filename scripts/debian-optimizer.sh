@@ -681,10 +681,9 @@ ufw_optimizations() {
 
     ## Open default ports.
     sudo ufw allow $SSH_PORT
-    sudo ufw allow $SSH_PORT/udp
-    sudo ufw allow 80
+    sudo ufw allow 80/tcp
     sudo ufw allow 80/udp
-    sudo ufw allow 443
+    sudo ufw allow 443/tcp
     sudo ufw allow 443/udp
     sleep 0.5
 
