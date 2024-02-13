@@ -50,10 +50,16 @@
 
 
 9. Optimize the [SYSCTL](https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sysctl.conf) Configs:
+    - Optimize File System Settings.
+    - Optimize Network Core Settings.
     - Optimize `SWAP`.
-    - Optimize Network Settings.
-    - Activate `BBR` _(`BBRv3` with XanMod)_.
+    - Optimzie `TCP` Settings.
+    - Optimzie `UDP` Settings.
+    - Optimzie `UNIX` Domain Sockets Settings.
+    - Optimzie `Virtual memory (VM)` Settings.
+    - Optimzie Network Configuration Settings.
     - Optimize the Kernel.
+    - Activate `BBR` _(`BBRv3` with XanMod)_.
 
     *Original file is backed up at `/etc/sysctl.conf.bak`.*
 
