@@ -24,7 +24,7 @@
 2. Disable Terminal Ads _(Only on Ubuntu)_.
 
 
-3. Install XanMod LTS Kernel _(Only on Ubuntu & Debian)_:
+3. Install XanMod Kernel _(Only on Ubuntu & Debian)_:
     - Enable BBRv3.
     - CloudFlare TCP Optimizations.
     - More Details: https://xanmod.org
@@ -55,9 +55,9 @@
     - Optimize `SWAP`.
     - Optimzie `TCP` Settings.
     - Optimzie `UDP` Settings.
-    - Optimzie `UNIX` Domain Sockets Settings.
-    - Optimzie `Virtual memory (VM)` Settings.
-    - Optimzie Network Configuration Settings.
+    - Optimize `UNIX` Domain Sockets Settings.
+    - Optimize `Virtual memory (VM)` Settings.
+    - Optimize Network Configuration Settings.
     - Optimize the Kernel.
     - Activate `BBR` _(`BBRv3` with XanMod)_.
 
