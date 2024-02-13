@@ -144,7 +144,7 @@ EOF
             echo 'deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main' | sudo tee /etc/apt/sources.list.d/xanmod-release.list
             
             ## Install XanMod
-            sudo apt update -q && sudo apt install "linux-xanmod-lts-x64v$cpu_level" -y
+            sudo apt update -q && sudo apt install "linux-xanmod-x64v$cpu_level" -y
 
             ## Clean up
             sudo apt update -q
