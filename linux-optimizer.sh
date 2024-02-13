@@ -40,7 +40,7 @@ green_msg '================================================================='
 echo 
 
 
-# Root
+# Check Root Function
 check_if_running_as_root() {
     # If you want to run as another user, please modify $EUID to be owned by this user
     if [[ "$EUID" -ne '0' ]]; then
@@ -53,7 +53,7 @@ check_if_running_as_root() {
 }
 
 
-# Check Root
+# Run Check Root
 check_if_running_as_root
 sleep 0.5
 
@@ -115,7 +115,7 @@ fix_etc_hosts(){
 }
 
 
-# Fix DNS
+# Fix DNS Temporarly
 fix_dns(){
     echo 
     yellow_msg "Fixing DNS Temporarily."
@@ -127,10 +127,8 @@ fix_dns(){
 
     sed -i '/nameserver/d' $DNS_PATH
 
-    echo "nameserver 1.1.1.1" >> $DNS_PATH
-    echo "nameserver 1.0.0.1" >> $DNS_PATH
-    echo "nameserver 8.8.8.8" >> $DNS_PATH
-    echo "nameserver 8.8.4.4" >> $DNS_PATH
+    echo "nameserver 1.1.1.2" >> $DNS_PATH
+    echo "nameserver 1.0.0.2" >> $DNS_PATH
 
     green_msg "DNS Fixed Temporarily."
     echo 
@@ -138,6 +136,7 @@ fix_dns(){
 }
 
 
+# Set the server TimeZone to the VPS IP address location.
 set_timezone() {
     echo
     yellow_msg 'Setting TimeZone based on VPS IP address...'
