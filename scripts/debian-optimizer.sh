@@ -190,7 +190,7 @@ installations() {
     sleep 0.5
 
     ## Networking packages
-    sudo apt -q -y install apt-transport-https iptables iptables-persistent nftables
+    sudo apt -q -y install apt-transport-https
 
     ## System utilities
     sudo apt -q -y install apt-utils bash-completion busybox ca-certificates cron curl gnupg2 locales lsb-release nano preload screen software-properties-common ufw unzip vim wget xxd zip
@@ -213,7 +213,7 @@ installations() {
 
 # Enable packages at server boot
 enable_packages() {
-    sudo systemctl enable cron haveged nftables preload
+    sudo systemctl enable cron haveged preload
     echo 
     green_msg 'Packages Enabled Succesfully.'
     echo
