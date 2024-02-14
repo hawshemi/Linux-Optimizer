@@ -7,7 +7,7 @@
     - Check and add 127.0.1.1 and server hostname to `/etc/hosts`.
     
     *Original `hosts` file is backed up at `/etc/hosts.bak`.*
-    - Add `1.1.1.1`, `1.0.0.1`, `8.8.8.8` and `8.8.4.4` to `/etc/resolv.conf`.
+    - Add `1.1.1.2`, `1.0.0.2` nameservers to `/etc/resolv.conf`.
     
     *Original `dns` file is backed up at `/etc/resolv.conf.bak`.*
 
@@ -24,7 +24,7 @@
 2. Disable Terminal Ads _(Only on Ubuntu)_.
 
 
-3. Install XanMod LTS Kernel _(Only on Ubuntu & Debian)_:
+3. Install XanMod Kernel _(Only on Ubuntu & Debian)_:
     - Enable BBRv3.
     - CloudFlare TCP Optimizations.
     - More Details: https://xanmod.org
@@ -32,7 +32,7 @@
 
 4. Install Useful Packages:
 
-    _`apt-transport-https`_ _`apt-utils`_ _`autoconf`_ _`automake`_ _`bash-completion`_ _`bc`_ _`binutils`_ _`binutils-common`_ _`binutils-x86-64-linux-gnu`_ _`build-essential`_ _`busybox`_ _`ca-certificates`_ _`cron`_ _`curl`_ _`dialog`_ _`epel-release`_ _`gnupg2`_ _`git`_ _`haveged`_ _`htop`_ _`iptables`_ _`iptables-persistent`_ _`jq`_ _`keyring`_ _`libssl-dev`_ _`libsqlite3-dev`_ _`libtool`_ _`locales`_ _`lsb-release`_ _`make`_ _`nano`_ _`net-tools`_ _`nftables`_ _`packagekit`_ _`preload`_ _`python3`_ _`python3-pip`_ _`qrencode`_ _`socat`_ _`screen`_ _`software-properties-common`_ _`ufw`_ _`unzip`_ _`vim`_ _`wget`_ _`zip`_
+    _`apt-transport-https`_ _`apt-utils`_ _`autoconf`_ _`automake`_ _`bash-completion`_ _`bc`_ _`binutils`_ _`binutils-common`_ _`binutils-x86-64-linux-gnu`_ _`build-essential`_ _`busybox`_ _`ca-certificates`_ _`cron`_ _`curl`_ _`dialog`_ _`epel-release`_ _`gnupg2`_ _`git`_ _`haveged`_ _`htop`_ _`jq`_ _`keyring`_ _`libssl-dev`_ _`libsqlite3-dev`_ _`libtool`_ _`locales`_ _`lsb-release`_ _`make`_ _`nano`_ _`net-tools`_ _`packagekit`_ _`preload`_ _`python3`_ _`python3-pip`_ _`qrencode`_ _`socat`_ _`screen`_ _`software-properties-common`_ _`ufw`_ _`unzip`_ _`vim`_ _`wget`_ _`zip`_
 
 
 5. Enable Packages at Server Boot.
@@ -50,10 +50,16 @@
 
 
 9. Optimize the [SYSCTL](https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sysctl.conf) Configs:
+    - Optimize File System Settings.
+    - Optimize Network Core Settings.
     - Optimize `SWAP`.
-    - Optimize Network Settings.
-    - Activate `BBR` _(`BBRv3` with XanMod)_.
+    - Optimzie `TCP` Settings.
+    - Optimzie `UDP` Settings.
+    - Optimize `UNIX` Domain Sockets Settings.
+    - Optimize `Virtual memory (VM)` Settings.
+    - Optimize Network Configuration Settings.
     - Optimize the Kernel.
+    - Activate `BBR` _(`BBRv3` with XanMod)_.
 
     *Original file is backed up at `/etc/sysctl.conf.bak`.*
 
