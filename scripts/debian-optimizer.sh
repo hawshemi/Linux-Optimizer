@@ -138,7 +138,24 @@ EOF
             echo 
 
             ## Add the XanMod repository key
-            wget -qO - https://gitlab.com/afrd.gpg | sudo gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg
+            # Define a temporary file for the GPG key
+            tmp_keyring="/tmp/xanmod-archive-keyring.gpg"
+
+            # Try downloading the GPG key from the XanMod link first
+            if ! wget -qO $tmp_keyring https://dl.xanmod.org/archive.key || ! [ -s $tmp_keyring ]; then
+                # If the first attempt fails, try the GitLab link
+                if ! wget -qO $tmp_keyring https://gitlab.com/afrd.gpg || ! [ -s $tmp_keyring ]; then
+                    echo "Both attempts to download the GPG key failed or the file was empty. Exiting."
+                    exit 1
+                fi
+            fi
+
+            # If we reach this point, it means we have a non-empty GPG file
+            # Now dearmor the GPG key and move to the final location
+            sudo gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg $tmp_keyring
+
+            # Clean up the temporary file
+            rm -f $tmp_keyring
 
             ## Add the XanMod repository
             echo 'deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main' | sudo tee /etc/apt/sources.list.d/xanmod-release.list
@@ -160,8 +177,7 @@ EOF
             echo 
             sleep 2
         fi
-
-
+        
     fi
 }
 
