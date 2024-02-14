@@ -97,9 +97,6 @@ installations() {
     yellow_msg 'Installing Useful Packages... (This can take a while.)'
     echo 
     sleep 0.5
-    
-    ## Networking packages
-    sudo dnf -y install iptables iptables-services nftables
 
     ## System utilities
     sudo dnf -y install bash-completion busybox crontabs ca-certificates curl dnf-plugins-core dnf-utils gnupg2 nano screen ufw unzip vim wget zip
@@ -122,7 +119,7 @@ installations() {
 
 # Enable packages at server boot
 enable_packages() {
-    sudo systemctl enable crond.service haveged nftables
+    sudo systemctl enable crond.service haveged
     echo 
     green_msg 'Packages Enabled Succesfully.'
     echo
