@@ -104,9 +104,6 @@ installations() {
     ## Update for the EPEL
     sudo dnf -y up
 
-    ## Networking packages
-    sudo dnf -y install iptables iptables-services nftables
-
     ## System utilities
     sudo dnf -y install bash-completion ca-certificates crontabs curl dnf-plugins-core dnf-utils gnupg2 nano screen ufw unzip vim wget zip
 
@@ -128,7 +125,7 @@ installations() {
 
 # Enable packages at server boot
 enable_packages() {
-    sudo systemctl enable crond.service haveged nftables
+    sudo systemctl enable crond.service haveged
     echo 
     green_msg 'Packages Enabled Succesfully.'
     echo
