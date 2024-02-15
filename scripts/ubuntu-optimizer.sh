@@ -526,6 +526,35 @@ EOF
 }
 
 
+# Function to find the SSH port and set it in the SSH_PORT variable
+find_ssh_port() {
+    echo 
+    yellow_msg "Finding SSH port..."
+    echo 
+    
+    ## Check if the SSH configuration file exists
+    if [ -e "$SSH_PATH" ]; then
+        ## Use grep to search for the 'Port' directive in the SSH configuration file
+        SSH_PORT=$(grep -oP '^Port\s+\K\d+' "$SSH_PATH" 2>/dev/null)
+
+        if [ -n "$SSH_PORT" ]; then
+            echo 
+            green_msg "SSH port found: $SSH_PORT"
+            echo 
+            sleep 0.5
+        else
+            echo 
+            green_msg "SSH port is default 22."
+            echo 
+            SSH_PORT=22
+            sleep 0.5
+        fi
+    else
+        red_msg "SSH configuration file not found at $SSH_PATH"
+    fi
+}
+
+
 # Remove old SSH config to prevent duplicates.
 remove_old_ssh_conf() {
     ## Make a backup of the original sshd_config file
