@@ -28,7 +28,7 @@
     - Enable BBRv3.
     - CloudFlare TCP Optimizations.
     - More Details: https://xanmod.org
-
+    - **CAUTION:** Some VMs do not support kernel changes. Installing Xanmod could cause the VM to break. Please be cautious and test beforehand.
 
 4. Install Useful Packages:
 
