@@ -53,8 +53,7 @@
     - Optimize File System Settings.
     - Optimize Network Core Settings.
     - Optimize `SWAP`.
-    - Optimzie `TCP` Settings.
-    - Optimzie `UDP` Settings.
+    - Optimize `TCP` and `UDP` Settings.
     - Optimize `UNIX` Domain Sockets Settings.
     - Optimize `Virtual memory (VM)` Settings.
     - Optimize Network Configuration Settings.
