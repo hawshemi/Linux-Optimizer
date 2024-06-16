@@ -29,6 +29,7 @@
     - CloudFlare TCP Optimizations.
     - More Details: https://xanmod.org
     - **CAUTION:** Some VMs do not support kernel changes. Installing Xanmod could cause the VM to break. Please be cautious and test beforehand.
+    - **CAUTION:** Changing kernel may delete or default some GPU drivers.
 
 4. Install Useful Packages:
 
