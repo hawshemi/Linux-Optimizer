@@ -1,6 +1,11 @@
 # Linux Optimizer
 
 ## This Bash script automates the optimization of your Linux server.
+#### Notes:
+ 1. This script is designed for execution on Linux server environments, including VPS, VDS, Dedicated, and Bare Metal systems. It is not recommended for use on Linux desktop environments.
+ 2. Modifying the kernel (options 1 and 2) may result in removing or resetting some GPU drivers.
+ 3. Some VMs do not support kernel changes (options 1 and 2). Installing XanMod could cause the VM to break. Please be cautious and test beforehand.
+
 ### It performs the following tasks:
        
 0. Fix `hosts` file and DNS _(temporarily)_:
@@ -28,7 +33,6 @@
     - Enable BBRv3.
     - CloudFlare TCP Optimizations.
     - More Details: https://xanmod.org
-    - **CAUTION:** Some VMs do not support kernel changes. Installing Xanmod could cause the VM to break. Please be cautious and test beforehand.
 
 4. Install Useful Packages:
 
