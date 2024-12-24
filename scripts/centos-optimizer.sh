@@ -252,7 +252,7 @@ fs.file-max = 67108864
 ## ----------------------------------------------------------------
 
 # Specify default queuing discipline for network devices
-net.core.default_qdisc = fq_codel
+net.core.default_qdisc = fq
 
 # Configure maximum network device backlog
 net.core.netdev_max_backlog = 32768
@@ -313,7 +313,7 @@ net.ipv4.tcp_mem = 65536 1048576 33554432
 # Enable TCP MTU probing
 net.ipv4.tcp_mtu_probing = 1
 
-# Define minimum amount of data in the send buffer before TCP starts sending
+# Define the minimum amount of data in the send buffer before TCP starts sending
 net.ipv4.tcp_notsent_lowat = 32768
 
 # Specify retries for TCP socket to establish connection
