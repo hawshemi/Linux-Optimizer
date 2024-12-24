@@ -71,7 +71,7 @@
     - Disable DNS lookups for connecting clients.
     - Remove less efficient encryption ciphers.
     - Enable and Configure TCP keep-alive messages.
-    - Allow agent & TCP forwarding.
+    - Allow TCP forwarding.
     - Enable gateway ports, Tunneling and compression.
     - Enable X11 Forwarding.
 

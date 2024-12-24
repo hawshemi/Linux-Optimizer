@@ -121,7 +121,7 @@ installations() {
 enable_packages() {
     sudo systemctl enable crond.service haveged
     echo 
-    green_msg 'Packages Enabled Succesfully.'
+    green_msg 'Packages Enabled Successfully.'
     echo
     sleep 0.5
 }
@@ -220,7 +220,7 @@ sysctl_optimizations() {
         "$SYS_PATH"
 
 
-    ## Add new parameteres. Read More: https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sysctl.conf
+    ## Add new parameters. Read More: https://github.com/hawshemi/Linux-Optimizer/blob/main/files/sysctl.conf
 
 cat <<EOF >> "$SYS_PATH"
 
@@ -245,7 +245,7 @@ fs.file-max = 67108864
 ## ----------------------------------------------------------------
 
 # Specify default queuing discipline for network devices
-net.core.default_qdisc = fq_codel
+net.core.default_qdisc = fq
 
 # Configure maximum network device backlog
 net.core.netdev_max_backlog = 32768
@@ -342,13 +342,13 @@ net.ipv4.udp_mem = 65536 1048576 33554432
 ## ----------------------------------------------------------------
 
 # Enable IPv6
-net.ipv6.conf.all.disable_ipv6 = 0
+#net.ipv6.conf.all.disable_ipv6 = 0
 
 # Enable IPv6 by default
-net.ipv6.conf.default.disable_ipv6 = 0
+#net.ipv6.conf.default.disable_ipv6 = 0
 
 # Enable IPv6 on the loopback interface (lo)
-net.ipv6.conf.lo.disable_ipv6 = 0
+#net.ipv6.conf.lo.disable_ipv6 = 0
 
 
 ## UNIX domain sockets
@@ -485,9 +485,6 @@ update_sshd_conf() {
     ## Configure client keep-alive messages
     echo "ClientAliveInterval 3000" | tee -a "$SSH_PATH"
     echo "ClientAliveCountMax 100" | tee -a "$SSH_PATH"
-
-    ## Allow agent forwarding
-    echo "AllowAgentForwarding yes" | tee -a "$SSH_PATH"
 
     ## Allow TCP forwarding
     echo "AllowTcpForwarding yes" | tee -a "$SSH_PATH"
