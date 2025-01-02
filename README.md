@@ -12,7 +12,7 @@
     - Check and add 127.0.1.1 and server hostname to `/etc/hosts`.
     
     *Original `hosts` file is backed up at `/etc/hosts.bak`.*
-    - Add `1.1.1.2`, `1.0.0.2` nameservers to `/etc/resolv.conf`.
+    - Add `9.9.9.9`, `149.112.112.112` nameservers `(quad9)` to `/etc/resolv.conf`.
     
     *Original `dns` file is backed up at `/etc/resolv.conf.bak`.*
 
